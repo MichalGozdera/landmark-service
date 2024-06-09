@@ -1,4 +1,4 @@
-package eu.cokeman.cycleareastats;
+package eu.cokeman.cycleareastats.valueObject;
 
 import java.util.UUID;
 
