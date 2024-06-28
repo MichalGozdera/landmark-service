@@ -9,11 +9,18 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>model</artifactId>
+    <artifactId>bootstrap</artifactId>
+
+    <properties>
+
+    </properties>
     <dependencies>
         <dependency>
             <groupId>eu.cokeman.cycleareastats</groupId>
-            <artifactId>common-domain</artifactId>
+            <artifactId>adapter</artifactId>
+            <version>${project.version}</version>
         </dependency>
+
     </dependencies>
+
 </project>

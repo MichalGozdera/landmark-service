@@ -1,9 +1,11 @@
 package eu.cokeman.cycleareastats.port.in;
 
-import eu.cokeman.cycleareastats.Landmark;
-import eu.cokeman.cycleareastats.LandmarkID;
+
+import eu.cokeman.cycleareastats.entity.Landmark;
+import eu.cokeman.cycleareastats.valueObject.LandmarkId;
+
 
 public interface FetchLandmarkUseCase {
 
-    Landmark getLandmark(LandmarkID landmarkID);
+    Landmark findLandmark(LandmarkId landmarkId);
 }

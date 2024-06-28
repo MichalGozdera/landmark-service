@@ -1,15 +1,27 @@
 package eu.cokeman.cycleareastats.port.out.persistence;
 
-import eu.cokeman.cycleareastats.Landmark;
-import eu.cokeman.cycleareastats.LandmarkID;
 
+import eu.cokeman.cycleareastats.entity.Landmark;
+import eu.cokeman.cycleareastats.valueObject.Country;
+
+import eu.cokeman.cycleareastats.valueObject.LandmarkId;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface LandmarkRepository {
-    void save(Landmark landmark);
 
-    Optional<Landmark> findByLandmarkId(LandmarkID landmarkID);
-    void updateByLandmarkId(LandmarkID landmarkID, Landmark landmark);
+    Landmark findByLandmarkId(LandmarkId landmarkId);
 
-    void deleteByLandmarkId(LandmarkID landmarkID);
+    Landmark updateLandmark(LandmarkId landmarkId, Landmark landmark);
+
+    void deleteLandmark(LandmarkId landmarkId);
+
+    List<Landmark> findByCountry(Country country);
+
+    List<Landmark> filterLandMarks(String criteria);
+
+    LandmarkId importLandmark(Landmark landmark);
+
+
 }

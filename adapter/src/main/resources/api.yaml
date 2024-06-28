@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: landmark area API
+  description: landmark service
+  version: "1.0"
+paths:
+  /landmarks:
+    post:
+      summary: Import single landmark
+      operationId: importLandmark
+      tags:
+        - landmark
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                landmark:
+                  $ref: "#/components/schemas/Landmark"
+                geometry:
+                  type: string
+                  format: binary
+            encoding:
+              geometry:
+                # require XML Content-Type in utf-8 encoding
+                contentType: application/xml; charset=utf-8
+      responses:
+        "400":
+          description: Bad Request
+        "201":
+          description: Created
+  /landmarks/{LandmarkId}:
+    get:
+      summary: display single landmark
+      operationId: loadLandmark
+      tags:
+        - landmark
+      parameters:
+        - in: path
+          name: LandmarkId
+          required: true
+          schema:
+            type: LandmarkId
+      responses:
+        "400":
+          description: Bad Request
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Landmark"
+components:
+  schemas:
+    Landmark:
+      type: object
+      required:
+        - name
+        - geometryType
+        - category
+      properties:
+        id:
+          type: LandmarkId
+        name:
+          type: LandmarkName
+        geometryType:
+          type: LandmarkGeometryType
+        category:
+          type: LandmarkCategory
+        country:
+          type: Country
+        loadTime:
+          type: string
+          format: date-time
