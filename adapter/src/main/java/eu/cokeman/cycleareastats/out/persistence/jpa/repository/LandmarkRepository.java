@@ -1,7 +1,7 @@
 package eu.cokeman.cycleareastats.out.persistence.jpa.repository;
 
 import eu.cokeman.cycleareastats.entity.Landmark;
-import eu.cokeman.cycleareastats.mapper.LandmarkMapper;
+import eu.cokeman.cycleareastats.mapper.LandmarkJpaMapper;
 import eu.cokeman.cycleareastats.valueObject.Country;
 import eu.cokeman.cycleareastats.valueObject.LandmarkId;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class LandmarkRepository implements eu.cokeman.cycleareastats.port.out.persistence.LandmarkRepository {
 
-    LandmarkMapper mapper = LandmarkMapper.INSTANCE;
+    LandmarkJpaMapper mapper = LandmarkJpaMapper.INSTANCE;
 
     private final JpaLandmarkRepositorySpringDataRepository springDataRepository;
 

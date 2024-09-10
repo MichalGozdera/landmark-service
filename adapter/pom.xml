@@ -177,16 +177,6 @@
                             <typeMappings>
                                 <typeMapping>object=com.fasterxml.jackson.databind.JsonNode</typeMapping>
                                 <typeMapping>OffsetDateTime=Instant</typeMapping>
-
-                                <typeMapping>LandmarkId=eu.cokeman.cycleareastats.valueObject.LandmarkId</typeMapping>
-                                <typeMapping>LandmarkName=eu.cokeman.cycleareastats.valueObject.LandmarkName
-                                </typeMapping>
-                                <typeMapping>
-                                    LandmarkGeometryType=eu.cokeman.cycleareastats.valueObject.LandmarkGeometryType
-                                </typeMapping>
-                                <typeMapping>LandmarkCategory=eu.cokeman.cycleareastats.valueObject.LandmarkCategory
-                                </typeMapping>
-                                <typeMapping>Country=eu.cokeman.cycleareastats.valueObject.Country</typeMapping>
                             </typeMappings>
                             <importMappings>
                                 <importMapping>java.time.OffsetDateTime=java.time.Instant</importMapping>

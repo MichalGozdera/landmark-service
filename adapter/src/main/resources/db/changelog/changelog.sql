@@ -10,5 +10,6 @@ create table if not exists Landmark
     geometryType varchar (30),
     category varchar (50),
     loadTime timestamp,
-    country varchar (50)
+    country varchar (50),
+    metadata jsonb
 );

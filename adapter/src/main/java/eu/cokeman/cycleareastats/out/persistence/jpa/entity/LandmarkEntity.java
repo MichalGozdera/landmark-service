@@ -1,5 +1,6 @@
 package eu.cokeman.cycleareastats.out.persistence.jpa.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -18,6 +19,7 @@ public class LandmarkEntity {
     private String category;
     private Instant loadtime;
     private String country;
+    private String metadata;
 
     public UUID getid() {
         return id;
@@ -65,5 +67,13 @@ public class LandmarkEntity {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 }

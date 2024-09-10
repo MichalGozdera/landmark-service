@@ -73,3 +73,15 @@ components:
         loadTime:
           type: string
           format: date-time
+        metadata:
+          type: object
+    LandmarkId:
+      type: string
+    LandmarkName:
+      type: string
+    LandmarkGeometryType:
+      type: string
+    LandmarkCategory:
+      type: string
+    Country:
+      type: string

@@ -98,12 +98,12 @@ public interface LandmarkApi {
         produces = { "application/json" }
     )
     default ResponseEntity<LandmarkDto> loadLandmark(
-        @Parameter(name = "LandmarkId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("LandmarkId") eu.cokeman.cycleareastats.valueObject.LandmarkId landmarkId
+        @Parameter(name = "LandmarkId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("LandmarkId") String landmarkId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"country\" : \"\", \"loadTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"id\" : \"\", \"category\" : \"\", \"geometryType\" : \"\" }";
+                    String exampleString = "{ \"country\" : \"\", \"loadTime\" : \"2000-01-23T04:56:07.000+00:00\", \"metadata\" : \"{}\", \"name\" : \"\", \"id\" : \"\", \"category\" : \"\", \"geometryType\" : \"\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

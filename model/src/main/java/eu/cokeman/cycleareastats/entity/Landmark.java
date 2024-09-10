@@ -5,11 +5,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import eu.cokeman.cycleareastats.valueObject.LandmarkCategory;
-import eu.cokeman.cycleareastats.valueObject.LandmarkName;
-import eu.cokeman.cycleareastats.valueObject.LandmarkId;
-import eu.cokeman.cycleareastats.valueObject.LandmarkGeometryType;
-import eu.cokeman.cycleareastats.valueObject.Country;
+import eu.cokeman.cycleareastats.valueObject.*;
 
 
 public class Landmark extends AggregateRoot<LandmarkId> {
@@ -20,6 +16,7 @@ public class Landmark extends AggregateRoot<LandmarkId> {
     private Instant loadTime;
     private String geometry;
     private Country country;
+    private LandmarkMetadata metadata;
     private List<Landmark> landmarks;
 
     public void initLandmark() {
@@ -34,6 +31,7 @@ public class Landmark extends AggregateRoot<LandmarkId> {
         loadTime = builder.loadTime;
         geometry = builder.geometry;
         country = builder.country;
+        metadata = builder.metadata;
         landmarks = builder.landmarks;
     }
 
@@ -61,6 +59,10 @@ public class Landmark extends AggregateRoot<LandmarkId> {
         return country;
     }
 
+    public LandmarkMetadata getMetadata() {
+        return metadata;
+    }
+
     List<Landmark> getLandmarks() {
         return landmarks;
     }
@@ -74,6 +76,7 @@ public class Landmark extends AggregateRoot<LandmarkId> {
         private Instant loadTime;
         private String geometry;
         private Country country;
+        private LandmarkMetadata metadata;
         private List<Landmark> landmarks;
 
         public Builder() {
@@ -120,6 +123,11 @@ public class Landmark extends AggregateRoot<LandmarkId> {
 
         public Builder landmarks(List<Landmark> val) {
             landmarks = val;
+            return this;
+        }
+
+        public Builder metadata(LandmarkMetadata val) {
+            metadata = val;
             return this;
         }
 

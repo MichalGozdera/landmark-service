@@ -26,20 +26,22 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class LandmarkDto {
 
-  private eu.cokeman.cycleareastats.valueObject.LandmarkId id = null;
+  private String id = null;
 
-  private eu.cokeman.cycleareastats.valueObject.LandmarkName name = null;
+  private String name = null;
 
-  private eu.cokeman.cycleareastats.valueObject.LandmarkGeometryType geometryType = null;
+  private String geometryType = null;
 
-  private eu.cokeman.cycleareastats.valueObject.LandmarkCategory category = null;
+  private String category = null;
 
-  private eu.cokeman.cycleareastats.valueObject.Country country = null;
+  private String country = null;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Instant loadTime;
 
-  public LandmarkDto id(eu.cokeman.cycleareastats.valueObject.LandmarkId id) {
+  private com.fasterxml.jackson.databind.JsonNode metadata;
+
+  public LandmarkDto id(String id) {
     this.id = id;
     return this;
   }
@@ -48,18 +50,18 @@ public class LandmarkDto {
    * Get id
    * @return id
   */
-  @Valid 
+  
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public eu.cokeman.cycleareastats.valueObject.LandmarkId getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(eu.cokeman.cycleareastats.valueObject.LandmarkId id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public LandmarkDto name(eu.cokeman.cycleareastats.valueObject.LandmarkName name) {
+  public LandmarkDto name(String name) {
     this.name = name;
     return this;
   }
@@ -68,18 +70,18 @@ public class LandmarkDto {
    * Get name
    * @return name
   */
-  @NotNull @Valid 
+  @NotNull 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
-  public eu.cokeman.cycleareastats.valueObject.LandmarkName getName() {
+  public String getName() {
     return name;
   }
 
-  public void setName(eu.cokeman.cycleareastats.valueObject.LandmarkName name) {
+  public void setName(String name) {
     this.name = name;
   }
 
-  public LandmarkDto geometryType(eu.cokeman.cycleareastats.valueObject.LandmarkGeometryType geometryType) {
+  public LandmarkDto geometryType(String geometryType) {
     this.geometryType = geometryType;
     return this;
   }
@@ -88,18 +90,18 @@ public class LandmarkDto {
    * Get geometryType
    * @return geometryType
   */
-  @NotNull @Valid 
+  @NotNull 
   @Schema(name = "geometryType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("geometryType")
-  public eu.cokeman.cycleareastats.valueObject.LandmarkGeometryType getGeometryType() {
+  public String getGeometryType() {
     return geometryType;
   }
 
-  public void setGeometryType(eu.cokeman.cycleareastats.valueObject.LandmarkGeometryType geometryType) {
+  public void setGeometryType(String geometryType) {
     this.geometryType = geometryType;
   }
 
-  public LandmarkDto category(eu.cokeman.cycleareastats.valueObject.LandmarkCategory category) {
+  public LandmarkDto category(String category) {
     this.category = category;
     return this;
   }
@@ -108,18 +110,18 @@ public class LandmarkDto {
    * Get category
    * @return category
   */
-  @NotNull @Valid 
+  @NotNull 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("category")
-  public eu.cokeman.cycleareastats.valueObject.LandmarkCategory getCategory() {
+  public String getCategory() {
     return category;
   }
 
-  public void setCategory(eu.cokeman.cycleareastats.valueObject.LandmarkCategory category) {
+  public void setCategory(String category) {
     this.category = category;
   }
 
-  public LandmarkDto country(eu.cokeman.cycleareastats.valueObject.Country country) {
+  public LandmarkDto country(String country) {
     this.country = country;
     return this;
   }
@@ -128,14 +130,14 @@ public class LandmarkDto {
    * Get country
    * @return country
   */
-  @Valid 
+  
   @Schema(name = "country", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("country")
-  public eu.cokeman.cycleareastats.valueObject.Country getCountry() {
+  public String getCountry() {
     return country;
   }
 
-  public void setCountry(eu.cokeman.cycleareastats.valueObject.Country country) {
+  public void setCountry(String country) {
     this.country = country;
   }
 
@@ -159,6 +161,26 @@ public class LandmarkDto {
     this.loadTime = loadTime;
   }
 
+  public LandmarkDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+    this.metadata = metadata;
+    return this;
+  }
+
+  /**
+   * Get metadata
+   * @return metadata
+  */
+  @Valid 
+  @Schema(name = "metadata", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("metadata")
+  public com.fasterxml.jackson.databind.JsonNode getMetadata() {
+    return metadata;
+  }
+
+  public void setMetadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+    this.metadata = metadata;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -173,12 +195,13 @@ public class LandmarkDto {
         Objects.equals(this.geometryType, landmark.geometryType) &&
         Objects.equals(this.category, landmark.category) &&
         Objects.equals(this.country, landmark.country) &&
-        Objects.equals(this.loadTime, landmark.loadTime);
+        Objects.equals(this.loadTime, landmark.loadTime) &&
+        Objects.equals(this.metadata, landmark.metadata);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, geometryType, category, country, loadTime);
+    return Objects.hash(id, name, geometryType, category, country, loadTime, metadata);
   }
 
   @Override
@@ -191,6 +214,7 @@ public class LandmarkDto {
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    loadTime: ").append(toIndentedString(loadTime)).append("\n");
+    sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("}");
     return sb.toString();
   }
