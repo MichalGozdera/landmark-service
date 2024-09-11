@@ -22,6 +22,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <postgresql.version>42.7.3</postgresql.version>
         <liquibase.version>4.28.0</liquibase.version>
+        <geotools.version>32-SNAPSHOT</geotools.version>
 
     </properties>
     <repositories>
@@ -39,7 +40,20 @@
             <name>jcenter</name>
             <url>https://jcenter.bintray.com</url>
         </repository>
-
+        <repository>
+            <id>osgeo</id>
+            <name>OSGeo Release Repository</name>
+            <url>https://repo.osgeo.org/repository/release/</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </repository>
+        <repository>
+            <id>osgeo-snapshot</id>
+            <name>OSGeo Snapshot Repository</name>
+            <url>https://repo.osgeo.org/repository/snapshot/</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>false</enabled></releases>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -143,7 +157,6 @@
             <artifactId>liquibase-core</artifactId>
             <version>${liquibase.version}</version>
         </dependency>
-
 
     </dependencies>
     <build>

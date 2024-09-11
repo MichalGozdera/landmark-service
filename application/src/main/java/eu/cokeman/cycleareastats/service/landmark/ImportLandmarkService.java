@@ -16,8 +16,8 @@ public class ImportLandmarkService implements ImportLandmarkUseCase {
     }
 
     @Override
-    public LandmarkId importLandmark(Landmark landmark) {
+    public LandmarkId importLandmark(Landmark landmark, Object geometry) {
         landmark.initLandmark();
-       return landmarkRepository.importLandmark(landmark);
+       return landmarkRepository.importLandmark(landmark, geometry);
     }
 }

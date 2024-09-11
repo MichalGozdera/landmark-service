@@ -6,5 +6,5 @@ import eu.cokeman.cycleareastats.valueObject.LandmarkId;
 
 public interface ImportLandmarkUseCase {
 
-    LandmarkId importLandmark(Landmark landmark);
+    LandmarkId importLandmark(Landmark landmark, Object geometry);
 }

@@ -1,5 +1,6 @@
 package eu.cokeman.cycleareastats.in.rest;
 
+import eu.cokeman.cycleareastats.converters.kml.KmlParser;
 import eu.cokeman.cycleareastats.entity.Landmark;
 import eu.cokeman.cycleareastats.mapper.LandmarkExternalMapper;
 import eu.cokeman.cycleareastats.openapi.model.LandmarkDto;
@@ -19,24 +20,27 @@ public class LandmarkApi implements eu.cokeman.cycleareastats.openapi.api.Landma
 
     private final ImportLandmarkUseCase importLandmarkUseCase;
     private final FetchLandmarkUseCase fetchLandmarkUseCase;
+    private final KmlParser kmlParser;
     LandmarkExternalMapper mapper = LandmarkExternalMapper.INSTANCE;
 
-    public LandmarkApi(ImportLandmarkUseCase importLandmarkUseCase, FetchLandmarkUseCase fetchLandmarkUseCase) {
+    public LandmarkApi(ImportLandmarkUseCase importLandmarkUseCase, FetchLandmarkUseCase fetchLandmarkUseCase, KmlParser kmlParser) {
         this.importLandmarkUseCase = importLandmarkUseCase;
         this.fetchLandmarkUseCase = fetchLandmarkUseCase;
+        this.kmlParser = kmlParser;
     }
 
     @Override
     public ResponseEntity<Void> importLandmark(LandmarkDto landmarkDto, MultipartFile geometry) {
         Landmark landMark = mapper.mapToInternal(landmarkDto).build();
-        var result = importLandmarkUseCase.importLandmark(landMark);
+        var geometriesInternal = kmlParser.parseGpx(geometry);
+        var result = importLandmarkUseCase.importLandmark(landMark, geometriesInternal);
         return ResponseEntity.created(URI.create(result.value().toString())).build();
     }
 
     @Override
     public ResponseEntity<LandmarkDto> loadLandmark(String landmarkIdExternal) {
         LandmarkId landmarkInternalId = mapper.mapToLandmarkid(UUID.fromString(landmarkIdExternal));
-        Landmark landmark= fetchLandmarkUseCase.findLandmark(landmarkInternalId);
+        Landmark landmark = fetchLandmarkUseCase.findLandmark(landmarkInternalId);
         LandmarkDto landmarkResponse = mapper.mapToExternal(landmark);
         return ResponseEntity.ok(landmarkResponse);
     }

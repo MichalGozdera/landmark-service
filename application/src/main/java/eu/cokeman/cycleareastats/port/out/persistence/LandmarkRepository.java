@@ -21,7 +21,7 @@ public interface LandmarkRepository {
 
     List<Landmark> filterLandMarks(String criteria);
 
-    LandmarkId importLandmark(Landmark landmark);
+    LandmarkId importLandmark(Landmark landmark, Object geometry);
 
 
 }

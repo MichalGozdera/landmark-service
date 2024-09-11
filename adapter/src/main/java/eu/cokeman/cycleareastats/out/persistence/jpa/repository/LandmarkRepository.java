@@ -4,9 +4,12 @@ import eu.cokeman.cycleareastats.entity.Landmark;
 import eu.cokeman.cycleareastats.mapper.LandmarkJpaMapper;
 import eu.cokeman.cycleareastats.valueObject.Country;
 import eu.cokeman.cycleareastats.valueObject.LandmarkId;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.MultiLineString;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class LandmarkRepository implements eu.cokeman.cycleareastats.port.out.persistence.LandmarkRepository {
@@ -47,9 +50,14 @@ public class LandmarkRepository implements eu.cokeman.cycleareastats.port.out.pe
     }
 
     @Override
-    public LandmarkId importLandmark(Landmark landmark) {
-        var jpaLandmark = mapper.mapToJpa(landmark);
-        springDataRepository.save(jpaLandmark);
+    public LandmarkId importLandmark(Landmark landmark, Object geometry) {
+        List<Geometry> geometries = (List<Geometry>) geometry;
+        for(Geometry geometry1:geometries){
+            var jpaLandmark = mapper.mapToJpa(landmark);
+            jpaLandmark.setid(UUID.randomUUID());
+            jpaLandmark.setGeom(geometry1);
+            springDataRepository.save(jpaLandmark);
+        }
         return landmark.getId();
     }
 }

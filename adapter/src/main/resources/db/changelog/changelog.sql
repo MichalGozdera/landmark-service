@@ -13,3 +13,6 @@ create table if not exists Landmark
     country varchar (50),
     metadata jsonb
 );
+
+-- changeset cokeman:11_09_2024
+ALTER TABLE Landmark ADD COLUMN geom public.geometry(MultiLineString,4326);

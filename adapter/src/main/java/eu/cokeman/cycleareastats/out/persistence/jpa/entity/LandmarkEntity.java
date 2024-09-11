@@ -2,6 +2,8 @@ package eu.cokeman.cycleareastats.out.persistence.jpa.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.MultiLineString;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -20,6 +22,7 @@ public class LandmarkEntity {
     private Instant loadtime;
     private String country;
     private String metadata;
+    private Geometry geom;
 
     public UUID getid() {
         return id;
@@ -75,5 +78,13 @@ public class LandmarkEntity {
 
     public void setMetadata(String metadata) {
         this.metadata = metadata;
+    }
+
+    public Geometry getGeom() {
+        return geom;
+    }
+
+    public void setGeom(Geometry geom) {
+        this.geom = geom;
     }
 }
