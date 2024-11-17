@@ -7,16 +7,31 @@ spring:
       max-request-size: 500MB
   liquibase:
     change-log: classpath:liquibase-changelog.xml
+    defaultSchema: landmarks
   jpa:
     open-in-view: false
     show-sql: true
     hibernate:
       ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  rabbitmq:
+    host: ${MQ_HOST:localhost}
+    port: ${MQ_PORT:5672}
+    username: ${MQ_USERNAME:guest}
+    password: ${MQ_PASSWORD:guest}
+
+app:
+  queue:
+    landmark-queue: ${LANDMARK_QUEUE:landmark_queue}
+  exchange:
+    landmark-exchange: ${CYCLING_AREAS_EXCHANGE:cycling_areas_exchange}
 
 
 springdoc:
@@ -40,4 +55,13 @@ server:
 logging:
   level:
     root: info
-
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+        orm:
+          jdbc:
+            bind: TRACE

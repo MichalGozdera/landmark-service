@@ -17,10 +17,10 @@ public interface LandmarkCommonMapper {
     }
 
     default LandmarkId mapToLandmarkid(UUID source) {
-        return new LandmarkId(source);
+        return source == null ? null : new LandmarkId(source);
     }
 
     default UUID mapLandmarkIDToUUID(LandmarkId source) {
-        return source.value();
+        return source != null ? source.value() : null;
     }
 }

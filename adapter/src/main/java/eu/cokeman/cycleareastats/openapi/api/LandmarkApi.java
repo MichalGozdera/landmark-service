@@ -44,7 +44,7 @@ public interface LandmarkApi {
     }
 
     /**
-     * POST /landmarks : Import single landmark
+     * POST /landmarks : Import landmark
      *
      * @param landmark  (optional)
      * @param geometry  (optional)
@@ -53,7 +53,7 @@ public interface LandmarkApi {
      */
     @Operation(
         operationId = "importLandmark",
-        summary = "Import single landmark",
+        summary = "Import landmark",
         tags = { "landmark" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -103,7 +103,7 @@ public interface LandmarkApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"country\" : \"\", \"loadTime\" : \"2000-01-23T04:56:07.000+00:00\", \"metadata\" : \"{}\", \"name\" : \"\", \"id\" : \"\", \"category\" : \"\", \"geometryType\" : \"\" }";
+                    String exampleString = "{ \"country\" : \"CZECHIA\", \"loadTime\" : \"2000-01-23T04:56:07.000+00:00\", \"metadata\" : \"{}\", \"name\" : \"\", \"id\" : \"\", \"category\" : \"ADMINISTRATIVE_REGION\", \"geometryType\" : \"POLYGON\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

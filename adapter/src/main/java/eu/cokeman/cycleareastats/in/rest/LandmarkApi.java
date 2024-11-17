@@ -1,6 +1,5 @@
 package eu.cokeman.cycleareastats.in.rest;
 
-import eu.cokeman.cycleareastats.converters.kml.KmlParser;
 import eu.cokeman.cycleareastats.entity.Landmark;
 import eu.cokeman.cycleareastats.mapper.LandmarkExternalMapper;
 import eu.cokeman.cycleareastats.openapi.model.LandmarkDto;
@@ -16,26 +15,27 @@ import java.util.UUID;
 
 
 @RestController
+
 public class LandmarkApi implements eu.cokeman.cycleareastats.openapi.api.LandmarkApi {
 
     private final ImportLandmarkUseCase importLandmarkUseCase;
     private final FetchLandmarkUseCase fetchLandmarkUseCase;
-    private final KmlParser kmlParser;
+
     LandmarkExternalMapper mapper = LandmarkExternalMapper.INSTANCE;
 
-    public LandmarkApi(ImportLandmarkUseCase importLandmarkUseCase, FetchLandmarkUseCase fetchLandmarkUseCase, KmlParser kmlParser) {
+    public LandmarkApi(ImportLandmarkUseCase importLandmarkUseCase,  FetchLandmarkUseCase fetchLandmarkUseCase) {
         this.importLandmarkUseCase = importLandmarkUseCase;
         this.fetchLandmarkUseCase = fetchLandmarkUseCase;
-        this.kmlParser = kmlParser;
+
     }
 
     @Override
     public ResponseEntity<Void> importLandmark(LandmarkDto landmarkDto, MultipartFile geometry) {
         Landmark landMark = mapper.mapToInternal(landmarkDto).build();
-        var geometriesInternal = kmlParser.parseGpx(geometry);
-        var result = importLandmarkUseCase.importLandmark(landMark, geometriesInternal);
-        return ResponseEntity.created(URI.create(result.value().toString())).build();
+        importLandmarkUseCase.importLandmark(landMark, geometry);
+        return ResponseEntity.ok().build();
     }
+
 
     @Override
     public ResponseEntity<LandmarkDto> loadLandmark(String landmarkIdExternal) {

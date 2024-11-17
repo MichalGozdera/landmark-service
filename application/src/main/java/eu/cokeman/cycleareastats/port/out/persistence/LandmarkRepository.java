@@ -4,6 +4,7 @@ package eu.cokeman.cycleareastats.port.out.persistence;
 import eu.cokeman.cycleareastats.entity.Landmark;
 import eu.cokeman.cycleareastats.valueObject.Country;
 
+import eu.cokeman.cycleareastats.valueObject.LandmarkGeometry;
 import eu.cokeman.cycleareastats.valueObject.LandmarkId;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface LandmarkRepository {
 
     Landmark findByLandmarkId(LandmarkId landmarkId);
 
-    Landmark updateLandmark(LandmarkId landmarkId, Landmark landmark);
+    Landmark updateLandmark(Landmark landmark);
 
     void deleteLandmark(LandmarkId landmarkId);
 
@@ -21,7 +22,9 @@ public interface LandmarkRepository {
 
     List<Landmark> filterLandMarks(String criteria);
 
-    LandmarkId importLandmark(Landmark landmark, Object geometry);
+    List<Landmark> findChildren(LandmarkId landmarkId);
 
+    LandmarkId importLandmark(Landmark landmark);
 
+    LandmarkId findParent(LandmarkId landmarkId);
 }

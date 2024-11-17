@@ -6,7 +6,7 @@ info:
 paths:
   /landmarks:
     post:
-      summary: Import single landmark
+      summary: Import landmark
       operationId: importLandmark
       tags:
         - landmark
@@ -19,12 +19,7 @@ paths:
                 landmark:
                   $ref: "#/components/schemas/Landmark"
                 geometry:
-                  type: string
-                  format: binary
-            encoding:
-              geometry:
-                # require XML Content-Type in utf-8 encoding
-                contentType: application/xml; charset=utf-8
+                  $ref: "#/components/schemas/Geometry"
       responses:
         "400":
           description: Bad Request
@@ -56,9 +51,9 @@ components:
     Landmark:
       type: object
       required:
-        - name
         - geometryType
         - category
+        - country
       properties:
         id:
           type: LandmarkId
@@ -66,15 +61,20 @@ components:
           type: LandmarkName
         geometryType:
           type: LandmarkGeometryType
+          example: POLYGON
         category:
           type: LandmarkCategory
+          example: ADMINISTRATIVE_REGION
         country:
           type: Country
+          example: CZECHIA
         loadTime:
           type: string
           format: date-time
         metadata:
           type: object
+        parent:
+          type: LandmarkId
     LandmarkId:
       type: string
     LandmarkName:
@@ -85,3 +85,6 @@ components:
       type: string
     Country:
       type: string
+    Geometry:
+      type: string
+      format: binary

@@ -1,9 +1,7 @@
 --liquibase formatted sql
 
 -- changeset cokeman:23_06_2024
-create schema if not exists Landmarks;
-
-create table if not exists Landmark
+create table if not exists landmark
 (
     landmarkId UUID   primary key,
     name varchar (255) not null,
@@ -15,4 +13,7 @@ create table if not exists Landmark
 );
 
 -- changeset cokeman:11_09_2024
-ALTER TABLE Landmark ADD COLUMN geom public.geometry(MultiLineString,4326);
+ALTER TABLE landmark ADD COLUMN geometry public.geometry(GEOMETRY,4326);
+
+-- changeset cokeman:27_10_2024
+ALTER TABLE landmark ADD COLUMN parent UUID;

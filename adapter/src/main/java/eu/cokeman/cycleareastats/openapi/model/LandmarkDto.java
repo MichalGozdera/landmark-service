@@ -70,8 +70,8 @@ public class LandmarkDto {
    * Get name
    * @return name
   */
-  @NotNull 
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -91,7 +91,7 @@ public class LandmarkDto {
    * @return geometryType
   */
   @NotNull 
-  @Schema(name = "geometryType", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "geometryType", example = "POLYGON", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("geometryType")
   public String getGeometryType() {
     return geometryType;
@@ -111,7 +111,7 @@ public class LandmarkDto {
    * @return category
   */
   @NotNull 
-  @Schema(name = "category", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "category", example = "ADMINISTRATIVE_REGION", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("category")
   public String getCategory() {
     return category;
@@ -130,8 +130,8 @@ public class LandmarkDto {
    * Get country
    * @return country
   */
-  
-  @Schema(name = "country", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull 
+  @Schema(name = "country", example = "CZECHIA", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("country")
   public String getCountry() {
     return country;

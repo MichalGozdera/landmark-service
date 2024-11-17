@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.cokeman.cycleareastats.entity.Landmark;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.LandmarkEntity;
 import eu.cokeman.cycleareastats.valueObject.LandmarkMetadata;
+import org.locationtech.jts.geom.Geometry;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.io.Serializable;
 
 @Mapper
 public interface LandmarkJpaMapper extends LandmarkCommonMapper {
@@ -28,7 +31,10 @@ public interface LandmarkJpaMapper extends LandmarkCommonMapper {
 
     default LandmarkMetadata convertJpaToLandmarkMetadata(String source) throws JsonProcessingException {
        return new ObjectMapper().readValue(source, LandmarkMetadata.class);
+    }
 
+    default Geometry convertJpaToLandmarkMetadata(Serializable source) throws JsonProcessingException {
+        return (Geometry) source;
     }
 
 }

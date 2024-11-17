@@ -1,7 +1,9 @@
 package eu.cokeman.cycleareastats.entity;
 
 
+import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,25 +16,27 @@ public class Landmark extends AggregateRoot<LandmarkId> {
     private LandmarkGeometryType geometryType;
     private LandmarkCategory category;
     private Instant loadTime;
-    private String geometry;
+    private Serializable geometry;
     private Country country;
     private LandmarkMetadata metadata;
-    private List<Landmark> landmarks;
-
-    public void initLandmark() {
-        this.setId(new LandmarkId(UUID.randomUUID()));
-    }
+    private LocalDate validto;
+    private LandmarkId parent;
 
     private Landmark(Builder builder) {
         super.setId(builder.id);
-        geometryType = builder.geometryType;
         name = builder.name;
+        geometryType = builder.geometryType;
         category = builder.category;
         loadTime = builder.loadTime;
         geometry = builder.geometry;
         country = builder.country;
         metadata = builder.metadata;
-        landmarks = builder.landmarks;
+        parent = builder.parent;
+    }
+
+    public void initLandmark() {
+        this.setId(new LandmarkId(UUID.randomUUID()));
+        this.loadTime=Instant.now();
     }
 
     public LandmarkGeometryType getGeometryType() {
@@ -51,7 +55,7 @@ public class Landmark extends AggregateRoot<LandmarkId> {
         return loadTime;
     }
 
-    public String getGeometry() {
+    public Serializable getGeometry() {
         return geometry;
     }
 
@@ -63,21 +67,35 @@ public class Landmark extends AggregateRoot<LandmarkId> {
         return metadata;
     }
 
-    List<Landmark> getLandmarks() {
-        return landmarks;
+    public void  addDataFromImportedGeometry (LandmarkName name, Serializable geometry) {
+        this.geometry = geometry;
+        this.name = name;
     }
 
+    public LandmarkId getParent() {
+        return parent;
+    }
+
+    LocalDate getValidto() {
+        return validto;
+    }
+
+    public void setParent(LandmarkId parent) {
+        this.parent = parent;
+    }
 
     public static final class Builder {
+
         private LandmarkId id;
-        private LandmarkGeometryType geometryType;
         private LandmarkName name;
+        private LandmarkGeometryType geometryType;
         private LandmarkCategory category;
         private Instant loadTime;
-        private String geometry;
+        private Serializable geometry;
         private Country country;
         private LandmarkMetadata metadata;
-        private List<Landmark> landmarks;
+        private LocalDate validTo;
+        private LandmarkId parent;
 
         public Builder() {
         }
@@ -91,13 +109,13 @@ public class Landmark extends AggregateRoot<LandmarkId> {
             return this;
         }
 
-        public Builder geometryType(LandmarkGeometryType val) {
-            geometryType = val;
+        public Builder name(LandmarkName val) {
+            name = val;
             return this;
         }
 
-        public Builder name(LandmarkName val) {
-            name = val;
+        public Builder geometryType(LandmarkGeometryType val) {
+            geometryType = val;
             return this;
         }
 
@@ -107,11 +125,11 @@ public class Landmark extends AggregateRoot<LandmarkId> {
         }
 
         public Builder loadTime(Instant val) {
-            loadTime = Instant.now();
+            loadTime = val;
             return this;
         }
 
-        public Builder geometry(String val) {
+        public Builder geometry(Serializable val) {
             geometry = val;
             return this;
         }
@@ -121,13 +139,18 @@ public class Landmark extends AggregateRoot<LandmarkId> {
             return this;
         }
 
-        public Builder landmarks(List<Landmark> val) {
-            landmarks = val;
+        public Builder metadata(LandmarkMetadata val) {
+            metadata = val;
             return this;
         }
 
-        public Builder metadata(LandmarkMetadata val) {
-            metadata = val;
+        public Builder validTo(LocalDate validTo) {
+            validTo = validTo;
+            return this;
+        }
+
+        public Builder parent(LandmarkId parent) {
+            parent = parent;
             return this;
         }
 

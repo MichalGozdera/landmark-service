@@ -1,15 +1,18 @@
 package eu.cokeman.cycleareastats.out.persistence.jpa.entity;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import jakarta.persistence.*;
+import eu.cokeman.cycleareastats.valueObject.LandmarkId;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.ColumnTransformer;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.MultiLineString;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "landmark", schema="geo")
+@Table(name = "landmark", schema = "landmarks")
 public class LandmarkEntity {
 
 
@@ -21,8 +24,10 @@ public class LandmarkEntity {
     private String category;
     private Instant loadtime;
     private String country;
+    @ColumnTransformer(write = "?::jsonb")
     private String metadata;
-    private Geometry geom;
+    private Geometry geometry;
+    private UUID parent;
 
     public UUID getid() {
         return id;
@@ -80,11 +85,19 @@ public class LandmarkEntity {
         this.metadata = metadata;
     }
 
-    public Geometry getGeom() {
-        return geom;
+    public Geometry getGeometry() {
+        return geometry;
     }
 
-    public void setGeom(Geometry geom) {
-        this.geom = geom;
+    public void setGeometry(Geometry geom) {
+        this.geometry = geom;
+    }
+
+    public UUID getParent() {
+        return parent;
+    }
+
+    public void setParent(UUID parent) {
+        this.parent = parent;
     }
 }

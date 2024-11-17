@@ -4,5 +4,5 @@ import eu.cokeman.cycleareastats.entity.Landmark;
 import eu.cokeman.cycleareastats.valueObject.LandmarkId;
 
 public interface UpdateLandmarkUseCase {
-    Landmark updateLandmark(LandmarkId landmarkId, Landmark landmark);
+    Landmark updateLandmark(Landmark landmark);
 }

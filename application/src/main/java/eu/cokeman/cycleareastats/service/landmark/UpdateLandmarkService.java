@@ -13,7 +13,7 @@ public class UpdateLandmarkService implements UpdateLandmarkUseCase {
     }
 
     @Override
-    public Landmark updateLandmark(LandmarkId landmarkId, Landmark landmark) {
-       return landmarkRepository.updateLandmark(landmarkId, landmark);
+    public Landmark updateLandmark(Landmark landmark) {
+       return landmarkRepository.updateLandmark(landmark);
     }
 }

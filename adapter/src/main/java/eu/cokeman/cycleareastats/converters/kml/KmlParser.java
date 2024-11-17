@@ -1,5 +1,9 @@
 package eu.cokeman.cycleareastats.converters.kml;
 
+import eu.cokeman.cycleareastats.port.in.ConvertLandmarkGeometryUseCase;
+import eu.cokeman.cycleareastats.valueObject.LandmarkGeometry;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateSequenceFactory;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.kml.KMLReader;
@@ -24,19 +28,19 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Component
-public class KmlParser {
+public class KmlParser implements ConvertLandmarkGeometryUseCase {
 
 
-    public List<Geometry> parseGpx(MultipartFile geometry) {
+    @Override
+    public Set<LandmarkGeometry> convertToLandmarksGeometries(Object geometry) {
         DocumentBuilder builder = null;
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(geometry.getResource().getContentAsString(StandardCharsets.UTF_8))));
+            Document doc = builder.parse(new InputSource(new StringReader(((MultipartFile)geometry).getResource().getContentAsString(StandardCharsets.UTF_8))));
             doc.getDocumentElement().normalize();
             return processPlacemarks(doc.getElementsByTagName("Placemark"));
         } catch (ParserConfigurationException e) {
@@ -48,15 +52,20 @@ public class KmlParser {
         }
     }
 
-    private List<Geometry> processPlacemarks(NodeList placemarks) {
-        List<Geometry> geometries = new ArrayList<>();
+    private Set<LandmarkGeometry> processPlacemarks(NodeList placemarks) {
+        Set<LandmarkGeometry> geometries = new HashSet<>();
         for (int i = 0; i < placemarks.getLength(); i++) {
             var children = placemarks.item(i).getChildNodes();
+            String name = "";
             for (int j = 0; j < children.getLength(); j++) {
+
+                if (children.item(j).getNodeName().equals("name")) {
+                    name = children.item(j).getTextContent();
+                }
                 if (children.item(j).getNodeName().equals("MultiGeometry")) {
                     try {
                         KMLReader reader = new KMLReader();
-                        geometries.add(reader.read(getString(children.item(j))));
+                        geometries.add(new LandmarkGeometry(name,convert2D(reader.read(getString(children.item(j))))));
                     } catch (TransformerException e) {
                         throw new RuntimeException(e);
                     } catch (ParseException e) {
@@ -68,8 +77,16 @@ public class KmlParser {
         return geometries;
     }
 
+    private Geometry convert2D(Geometry geometry){
 
-    private static String getString(Node node) throws javax.xml.transform.TransformerException {
+        for(Coordinate c : geometry.getCoordinates()){
+            c.setCoordinate(new Coordinate(c.x, c.y));
+        }
+        return geometry;
+    }
+
+
+    private static String getString(Node node) throws TransformerException {
         StringWriter sw = new StringWriter();
         Transformer t = TransformerFactory.newInstance().newTransformer();
         t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
