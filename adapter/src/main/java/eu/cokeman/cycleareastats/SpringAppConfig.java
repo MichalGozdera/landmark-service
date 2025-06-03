@@ -1,18 +1,26 @@
 package eu.cokeman.cycleareastats;
 
 import eu.cokeman.cycleareastats.converters.kml.KmlParser;
-import eu.cokeman.cycleareastats.port.in.ConvertLandmarkGeometryUseCase;
-import eu.cokeman.cycleareastats.port.in.FetchLandmarkUseCase;
-import eu.cokeman.cycleareastats.port.in.ImportLandmarkUseCase;
-import eu.cokeman.cycleareastats.port.out.persistence.LandmarkRepository;
+import eu.cokeman.cycleareastats.port.in.administrativearea.*;
+import eu.cokeman.cycleareastats.port.in.administrativelevel.CreateAdministrativeLevelUseCase;
+import eu.cokeman.cycleareastats.port.in.administrativelevel.DeleteAdministrativeLevelUseCase;
+import eu.cokeman.cycleareastats.port.in.administrativelevel.FetchAdministrativeLevelUseCase;
+import eu.cokeman.cycleareastats.port.in.administrativelevel.UpdateAdministrativeLevelUseCase;
+import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
 
-import eu.cokeman.cycleareastats.port.out.publishing.LandmarkPublisher;
-import eu.cokeman.cycleareastats.service.landmark.FetchLandmarkService;
-import eu.cokeman.cycleareastats.service.landmark.ImportLandmarkService;
+import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
+import eu.cokeman.cycleareastats.port.out.publishing.AdministrativeAreaPublisher;
+import eu.cokeman.cycleareastats.service.area.DeleteAdministrativeAreaService;
+import eu.cokeman.cycleareastats.service.area.FetchAdministrativeAreaService;
+import eu.cokeman.cycleareastats.service.area.ImportAdministrativeAreaService;
+import eu.cokeman.cycleareastats.service.area.UpdateAdministrativeAreaService;
+import eu.cokeman.cycleareastats.service.level.CreateAdministrativeLevelService;
+import eu.cokeman.cycleareastats.service.level.DeleteAdministrativeLevelService;
+import eu.cokeman.cycleareastats.service.level.FetchAdministrativeLevelService;
+import eu.cokeman.cycleareastats.service.level.UpdateAdministrativeLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Spring application configuration, making Spring beans from services defined in application
@@ -26,27 +34,57 @@ public class SpringAppConfig {
 
 
     @Autowired
-    LandmarkRepository landmarkRepository;
+    AdministrativeAreaRepository administrativeAreaRepository;
 
     @Autowired
-    LandmarkPublisher publisher;
+    AdministrativeLevelRepository administrativeLevelRepository;
+
+    @Autowired
+    AdministrativeAreaPublisher publisher;
 
 
     @Bean
-    FetchLandmarkUseCase fetchLandmarkUseCase() {
-        return new FetchLandmarkService(landmarkRepository);
+    FetchAdministrativeAreaUseCase fetchLandmarkUseCase() {
+        return new FetchAdministrativeAreaService(administrativeAreaRepository);
     }
 
     @Bean
-    ConvertLandmarkGeometryUseCase convertLandmarkGeometryUseCase() {
+    UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase() {
+        return new UpdateAdministrativeAreaService(administrativeAreaRepository);
+    }
+
+    @Bean
+    DeleteAdministrativeAreaUseCase deleteAdministrativeLevelUseCase() {
+        return new DeleteAdministrativeAreaService(administrativeAreaRepository);
+    }
+
+    @Bean
+    ConvertAdministrativeAreaGeometryUseCase convertLandmarkGeometryUseCase() {
         return new KmlParser();
     }
 
     @Bean
-    ImportLandmarkUseCase importLandmarkUseCase() {
-        return new ImportLandmarkService(landmarkRepository, publisher, convertLandmarkGeometryUseCase());
+    ImportAdministrativeAreaUseCase importLandmarkUseCase() {
+        return new ImportAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertLandmarkGeometryUseCase());
     }
 
+    @Bean
+    CreateAdministrativeLevelUseCase createAdministrativeLevelUseCase() {
+        return new CreateAdministrativeLevelService(administrativeLevelRepository);
+    }
 
-    //todo add services
+    @Bean
+    FetchAdministrativeLevelUseCase fetchLevelUseCase() {
+        return new FetchAdministrativeLevelService(administrativeLevelRepository);
+    }
+
+    @Bean
+    UpdateAdministrativeLevelUseCase updateLevelUseCase() {
+        return new UpdateAdministrativeLevelService(administrativeLevelRepository);
+    }
+
+    @Bean
+    DeleteAdministrativeLevelUseCase deleteLevelUseCase() {
+        return new DeleteAdministrativeLevelService(administrativeLevelRepository);
+    }
 }

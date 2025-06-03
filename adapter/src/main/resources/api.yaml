@@ -4,20 +4,20 @@ info:
   description: landmark service
   version: "1.0"
 paths:
-  /landmarks:
+  /administrative-areas:
     post:
-      summary: Import landmark
-      operationId: importLandmark
+      summary: Import areas
+      operationId: importAdministrativeAreas
       tags:
-        - landmark
+        - administrativeArea
       requestBody:
         content:
           multipart/form-data:
             schema:
               type: object
               properties:
-                landmark:
-                  $ref: "#/components/schemas/Landmark"
+                level:
+                  $ref: "#/components/schemas/AdministrativeLevel"
                 geometry:
                   $ref: "#/components/schemas/Geometry"
       responses:
@@ -25,18 +25,18 @@ paths:
           description: Bad Request
         "201":
           description: Created
-  /landmarks/{LandmarkId}:
+  /administrative-areas/{AdministrativeAreaId}:
     get:
-      summary: display single landmark
-      operationId: loadLandmark
+      summary: display single administrative area
+      operationId: loadAdministrativeArea
       tags:
-        - landmark
+        - administrativeArea
       parameters:
         - in: path
-          name: LandmarkId
+          name: AdministrativeAreaId
           required: true
           schema:
-            type: LandmarkId
+            type: AdministrativeAreaId
       responses:
         "400":
           description: Bad Request
@@ -45,44 +45,198 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Landmark"
+                $ref: "#/components/schemas/AdministrativeArea"
+    put:
+      summary: update single administrative area
+      operationId: updateAdministrativeArea
+      tags:
+        - administrativeArea
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdministrativeArea"
+        required: true
+      parameters:
+        - in: path
+          name: AdministrativeAreaId
+          required: true
+          schema:
+            type: AdministrativeAreaId
+      responses:
+        "400":
+          description: Bad Request
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdministrativeArea"
+    delete:
+      summary: delete single administrative area
+      operationId: deleteAdministrativeArea
+      tags:
+        - administrativeArea
+      parameters:
+        - in: path
+          name: AdministrativeAreaId
+          required: true
+          schema:
+            type: AdministrativeAreaId
+      responses:
+        "400":
+          description: Bad Request
+        "204":
+          description: OK
+  /administrative-levels:
+    post:
+      summary: Create level
+      operationId: createAdministrativeLevel
+      tags:
+        - administrativeLevel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdministrativeLevel"
+        required: true
+      responses:
+        "400":
+          description: Bad Request
+        "201":
+          description: Created
+  /administrative-levels/{AdministrativeLevelId}:
+    get:
+      summary: display single administrative level
+      operationId: loadAdministrativeLevel
+      tags:
+        - administrativeLevel
+      parameters:
+        - in: path
+          name: AdministrativeLevelId
+          required: true
+          schema:
+            type: AdministrativeLevelId
+      responses:
+        "400":
+          description: Bad Request
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdministrativeLevel"
+    put:
+      summary: update single administrative level
+      operationId: updateAdministrativeLevel
+      tags:
+        - administrativeLevel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdministrativeLevel"
+        required: true
+      parameters:
+        - in: path
+          name: AdministrativeLevelId
+          required: true
+          schema:
+            type: AdministrativeLevelId
+      responses:
+        "400":
+          description: Bad Request
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdministrativeLevel"
+    delete:
+      summary: delete single administrative level
+      operationId: deleteAdministrativeLevel
+      tags:
+        - administrativeLevel
+      parameters:
+        - in: path
+          name: AdministrativeLevelId
+          required: true
+          schema:
+            type: AdministrativeLevelId
+      responses:
+        "400":
+          description: Bad Request
+        "204":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdministrativeLevel"
 components:
   schemas:
-    Landmark:
+    AdministrativeAreasImportRequest:
       type: object
       required:
-        - geometryType
-        - category
-        - country
+        - level
+      properties:
+        level:
+          $ref: "#/components/schemas/AdministrativeLevel"
+    AdministrativeArea:
+      type: object
+      required:
+        - name
+        - level
       properties:
         id:
-          type: LandmarkId
+          type: AdministrativeAreaId
         name:
           type: LandmarkName
-        geometryType:
-          type: LandmarkGeometryType
-          example: POLYGON
-        category:
-          type: LandmarkCategory
-          example: ADMINISTRATIVE_REGION
-        country:
-          type: Country
-          example: CZECHIA
-        loadTime:
+        createTime:
           type: string
           format: date-time
-        metadata:
-          type: object
+        updateTime:
+          type: string
+          format: date-time
+        level:
+          $ref: "#/components/schemas/AdministrativeLevel"
         parent:
-          type: LandmarkId
-    LandmarkId:
+          type: AdministrativeAreaId
+        geometry:
+          type: Geometry
+        geometrySimplified:
+          type: string
+    AdministrativeLevel:
+      type: object
+      required:
+        - order
+        - country
+        - name
+      properties:
+        id:
+          type: AdministrativeLevelId
+        name:
+          type: LevelName
+        createTime:
+          type: string
+          format: date-time
+        updateTime:
+          type: string
+          format: date-time
+        country:
+          type: Country
+        order:
+          type: LevelOrder
+    AdministrativeAreaId:
+      type: string
+    AdministrativeLevelId:
       type: string
     LandmarkName:
       type: string
-    LandmarkGeometryType:
+    LevelName:
       type: string
-    LandmarkCategory:
-      type: string
+    LevelOrder:
+      type: integer
+      format: int32
     Country:
       type: string
     Geometry:

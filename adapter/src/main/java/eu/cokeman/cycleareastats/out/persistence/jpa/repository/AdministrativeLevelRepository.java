@@ -1,0 +1,76 @@
+package eu.cokeman.cycleareastats.out.persistence.jpa.repository;
+
+import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
+import eu.cokeman.cycleareastats.mapper.level.AdministrativeLevelJpaMapper;
+import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeLevelEntity;
+import eu.cokeman.cycleareastats.out.persistence.jpa.entity.BaseJpaEntity;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
+import eu.cokeman.cycleareastats.valueObject.Country;
+import eu.cokeman.cycleareastats.valueObject.LevelName;
+import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public class AdministrativeLevelRepository implements eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository {
+
+    private static final Logger log = LoggerFactory.getLogger(AdministrativeLevelRepository.class);
+    AdministrativeLevelJpaMapper mapper = AdministrativeLevelJpaMapper.INSTANCE;
+
+    private final JpaAdministrativeLevelRepositorySpringDataRepository springDataRepository;
+
+    public AdministrativeLevelRepository(JpaAdministrativeLevelRepositorySpringDataRepository springDataRepository) {
+        this.springDataRepository = springDataRepository;
+    }
+
+
+    @Override
+    public AdministrativeLevel findByAdministrativeLevelId(AdministrativeLevelId administrativeLevelId) {
+        var entity = springDataRepository.findById(administrativeLevelId.value());
+        return mapper.mapJpaToInternal(entity.get()).build();
+
+    }
+
+    @Override
+    public AdministrativeLevel updateLevel(AdministrativeLevelId levelId, AdministrativeLevel level) {
+
+        var jpaLevel = springDataRepository.findById(levelId.value()).orElseThrow(EntityNotFoundException::new);
+        AdministrativeLevelEntity newJpa = mapper.mapToJpa(level);
+        BeanUtils.copyProperties(newJpa, jpaLevel, BaseJpaEntity.getNullPropertyNames(newJpa));
+        var updatedJPA = springDataRepository.saveAndFlush(jpaLevel);
+        var result = mapper.mapJpaToInternal(updatedJPA).build();
+
+        return result;
+    }
+
+    @Override
+    public void deleteLevel(AdministrativeLevelId administrativeLevelId) {
+        springDataRepository.deleteById(administrativeLevelId.value());
+    }
+
+    @Override
+    public Optional<AdministrativeLevel> findByCountryAndName(Country country, LevelName name) {
+        return springDataRepository.
+                findByCountryAndName(country.name(), name.name())
+                .map(r -> mapper.mapJpaToInternal(r).build());
+    }
+
+
+    @Override
+    public List<AdministrativeLevel> filterAdministrativeLevels(String criteria) {
+        return List.of();
+    }
+
+    @Override
+    public AdministrativeLevelId createLevel(AdministrativeLevel administrativeLevel) {
+        var jpaLevel = mapper.mapToJpa(administrativeLevel);
+        var newID = springDataRepository.save(jpaLevel).getId();
+
+        return new AdministrativeLevelId(newID);
+    }
+}

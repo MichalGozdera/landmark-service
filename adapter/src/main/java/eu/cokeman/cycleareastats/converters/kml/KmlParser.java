@@ -1,10 +1,11 @@
 package eu.cokeman.cycleareastats.converters.kml;
 
-import eu.cokeman.cycleareastats.port.in.ConvertLandmarkGeometryUseCase;
-import eu.cokeman.cycleareastats.valueObject.LandmarkGeometry;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.CoordinateSequenceFactory;
-import org.locationtech.jts.geom.Geometry;
+import com.axiomalaska.polylineencoder.PolylineEncoder;
+import com.axiomalaska.polylineencoder.UnsupportedGeometryTypeException;
+import eu.cokeman.cycleareastats.port.in.administrativearea.ConvertAdministrativeAreaGeometryUseCase;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaGeometry;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.kml.KMLReader;
 import org.springframework.stereotype.Component;
@@ -28,19 +29,22 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Component
-public class KmlParser implements ConvertLandmarkGeometryUseCase {
+public class KmlParser implements ConvertAdministrativeAreaGeometryUseCase {
 
 
     @Override
-    public Set<LandmarkGeometry> convertToLandmarksGeometries(Object geometry) {
+    public Set<AdministrativeAreaGeometry> convertToLandmarksGeometries(Object geometry) {
         DocumentBuilder builder = null;
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(((MultipartFile)geometry).getResource().getContentAsString(StandardCharsets.UTF_8))));
+            Document doc = builder.parse(new InputSource(new StringReader(((MultipartFile) geometry).getResource().getContentAsString(StandardCharsets.UTF_8))));
             doc.getDocumentElement().normalize();
             return processPlacemarks(doc.getElementsByTagName("Placemark"));
         } catch (ParserConfigurationException e) {
@@ -52,8 +56,8 @@ public class KmlParser implements ConvertLandmarkGeometryUseCase {
         }
     }
 
-    private Set<LandmarkGeometry> processPlacemarks(NodeList placemarks) {
-        Set<LandmarkGeometry> geometries = new HashSet<>();
+    private Set<AdministrativeAreaGeometry> processPlacemarks(NodeList placemarks) {
+        Set<AdministrativeAreaGeometry> geometries = new HashSet<>();
         for (int i = 0; i < placemarks.getLength(); i++) {
             var children = placemarks.item(i).getChildNodes();
             String name = "";
@@ -65,7 +69,7 @@ public class KmlParser implements ConvertLandmarkGeometryUseCase {
                 if (children.item(j).getNodeName().equals("MultiGeometry")) {
                     try {
                         KMLReader reader = new KMLReader();
-                        geometries.add(new LandmarkGeometry(name,convert2D(reader.read(getString(children.item(j))))));
+                        geometries.add(new AdministrativeAreaGeometry(name, convert2D(reader.read(getString(children.item(j))))));
                     } catch (TransformerException e) {
                         throw new RuntimeException(e);
                     } catch (ParseException e) {
@@ -77,12 +81,38 @@ public class KmlParser implements ConvertLandmarkGeometryUseCase {
         return geometries;
     }
 
-    private Geometry convert2D(Geometry geometry){
+    private Geometry convert2D(Geometry geometry) {
 
-        for(Coordinate c : geometry.getCoordinates()){
-            c.setCoordinate(new Coordinate(c.x, c.y));
+        var newGeom = tranferToMultipolygon(geometry);
+        return newGeom;
+    }
+
+    private Geometry tranferToMultipolygon(Geometry geometry) {
+        var numGeometries = geometry.getNumGeometries();
+        Polygon[] result = new Polygon[numGeometries];
+        for (int i = 0; i < numGeometries; i++) {
+            Geometry gem = geometry.getGeometryN(i);
+            Coordinate[] coords = gem.getCoordinates();
+            Coordinate[] cords4d = new Coordinate[coords.length];
+            for (int j = 0; j < coords.length; j++) {
+                cords4d[j] = new Coordinate(coords[j].getX(), coords[j].getY());
+            }
+
+            // Check if the LineString is closed; if not, close it by adding the first coordinate at the end
+            if (!coords[0].equals2D(cords4d[cords4d.length - 1])) {
+                Coordinate[] closedCoords = new Coordinate[cords4d.length + 1];
+                System.arraycopy(cords4d, 0, closedCoords, 0, cords4d.length);
+                closedCoords[closedCoords.length - 1] = closedCoords[0];
+                cords4d = closedCoords;
+            }
+            // Create a LinearRing from the coordinates
+            LinearRing shell = geometry.getFactory().createLinearRing(cords4d);
+
+            // Create the polygon with no holes (null for holes)
+            result[i] = geometry.getFactory().createPolygon(shell, null);
         }
-        return geometry;
+        MultiPolygon mp = new MultiPolygon(result, geometry.getFactory());
+        return mp;
     }
 
 
@@ -93,6 +123,64 @@ public class KmlParser implements ConvertLandmarkGeometryUseCase {
         t.setOutputProperty(OutputKeys.INDENT, "yes");
         t.transform(new DOMSource(node), new StreamResult(sw));
         return sw.toString();
+    }
+
+    public List<String> getGeometriesSimplified(Object geometry) {
+        Geometry geometryCasted = (Geometry) ((AdministrativeAreaGeometry) geometry).geometryData();
+        switch (geometryCasted.getGeometryType()) {
+            case "MultiPolygon" -> {
+                return processMultiPolygon((MultiPolygon) geometryCasted);
+            }
+            default -> throw new IllegalArgumentException();
+        }
+    }
+
+    private List<String> processMultiPolygon(MultiPolygon geometryCasted) {
+        var parts = geometryCasted.getNumGeometries();
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < parts; i++) {
+            Polygon part = (Polygon) geometryCasted.getGeometryN(i);
+            MultiLineString ms = polygonToMultiLineString(part, geometryCasted.getFactory());
+            var newlines = processMultilineString(ms);
+            result.addAll(newlines);
+        }
+        return result;
+    }
+
+    private MultiLineString polygonToMultiLineString(Polygon polygon, GeometryFactory geometryFactory) {
+        int totalRings = 1 + polygon.getNumInteriorRing();
+        LineString[] lineStrings = new LineString[totalRings];
+
+        // Exterior ring
+        lineStrings[0] = polygon.getExteriorRing();
+
+        // Interior rings (holes)
+        for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
+            lineStrings[i + 1] = polygon.getInteriorRingN(i);
+        }
+
+        return geometryFactory.createMultiLineString(lineStrings);
+    }
+
+
+    private List<String> processMultilineString(MultiLineString geometryCasted) {
+        var parts = geometryCasted.getNumGeometries();
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < parts; i++) {
+            result.add(parseLineString((LinearRing) geometryCasted.getGeometryN(i)));
+        }
+        return result;
+    }
+
+    private String parseLineString(LinearRing ring) {
+        try {
+            GeometryFactory factory = ring.getFactory();
+            var line = factory.createLineString(ring.getCoordinateSequence());
+            var encoded = PolylineEncoder.encode(line).getPoints();
+            return encoded.replace("\\", "\\\\");
+        } catch (UnsupportedGeometryTypeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

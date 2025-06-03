@@ -5,17 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>eu.cokeman.cycleareastats</groupId>
-        <artifactId>landmark.service</artifactId>
+        <artifactId>administrativeArea.service</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>adapter</artifactId>
 
     <properties>
-        <springboot.version>3.3.0</springboot.version>
+        <springboot.version>3.5.0</springboot.version>
         <springdoc.openapi.starter.webmvc.ui.version>2.5.0</springdoc.openapi.starter.webmvc.ui.version>
-        <hibernate.spatial.version>6.5.2.Final</hibernate.spatial.version>
-        <gpx.parser.version>1.13</gpx.parser.version>
+        <hibernate.spatial.version>7.0.0.Final</hibernate.spatial.version>
         <testcontainers.version>1.19.8</testcontainers.version>
         <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
@@ -23,6 +22,7 @@
         <postgresql.version>42.7.3</postgresql.version>
         <jackson.version>2.17.1</jackson.version>
         <liquibase.version>4.28.0</liquibase.version>
+        <jpx.version>3.2.1</jpx.version>
 
     </properties>
     <repositories>
@@ -39,6 +39,11 @@
             <id>jcenter</id>
             <name>jcenter</name>
             <url>https://jcenter.bintray.com</url>
+        </repository>
+        <repository>
+            <id>geotools</id>
+            <name>geotools</name>
+            <url>https://repo.osgeo.org/repository/geotools-releases/</url>
         </repository>
         <repository>
             <id>axiom_public_releases</id>
@@ -85,11 +90,10 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>${springboot.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>me.himanshusoni.gpxparser</groupId>
-            <artifactId>gpx-parser</artifactId>
-            <version>${gpx.parser.version}</version>
+            <groupId>io.jenetics</groupId>
+            <artifactId>jpx</artifactId>
+            <version>${jpx.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -115,18 +119,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
-            <version>3.3.5</version>
+            <version>${springboot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-spatial</artifactId>
             <version>${hibernate.spatial.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>postgresql</artifactId>
-                    <groupId>postgresql</groupId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.spatial.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
