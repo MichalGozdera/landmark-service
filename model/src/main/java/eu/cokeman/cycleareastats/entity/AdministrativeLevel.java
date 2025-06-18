@@ -1,7 +1,6 @@
 package eu.cokeman.cycleareastats.entity;
 
 import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
-import eu.cokeman.cycleareastats.valueObject.Country;
 import eu.cokeman.cycleareastats.valueObject.LevelName;
 import eu.cokeman.cycleareastats.valueObject.LevelOrder;
 

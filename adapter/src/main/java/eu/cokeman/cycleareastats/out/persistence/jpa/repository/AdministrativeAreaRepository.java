@@ -4,9 +4,8 @@ import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.mapper.area.AdministrativeAreaJpaMapper;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeAreaEntity;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.BaseJpaEntity;
-import eu.cokeman.cycleareastats.out.persistence.jpa.entity.GeometrySimplifiedEntity;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
-import eu.cokeman.cycleareastats.valueObject.Country;
+import eu.cokeman.cycleareastats.entity.Country;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,10 +74,6 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
     public AdministrativeAreaId importLandmark(AdministrativeArea administrativeArea) {
 
         var jpaLandmark = mapper.mapToJpa(administrativeArea);
-        var geometriesSimplified = mapper.convertInternalGeometriesSimplifiedToJpa(administrativeArea.getGeometriesSimplified());
-        for(GeometrySimplifiedEntity entity: geometriesSimplified){
-            jpaLandmark.addGeometrySimplified(entity);
-        }
 
         springDataRepository.save(jpaLandmark);
 

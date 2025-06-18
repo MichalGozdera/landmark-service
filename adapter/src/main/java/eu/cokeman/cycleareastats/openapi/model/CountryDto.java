@@ -19,16 +19,16 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * AdministrativeLevelDto
+ * CountryDto
  */
 
-@JsonTypeName("AdministrativeLevel")
+@JsonTypeName("Country")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdministrativeLevelDto {
+public class CountryDto {
 
   private Integer id = null;
 
-  private String name = null;
+  private String name;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Instant createTime;
@@ -36,11 +36,7 @@ public class AdministrativeLevelDto {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Instant updateTime;
 
-  private String country = null;
-
-  private Integer order = null;
-
-  public AdministrativeLevelDto id(Integer id) {
+  public CountryDto id(Integer id) {
     this.id = id;
     return this;
   }
@@ -60,7 +56,7 @@ public class AdministrativeLevelDto {
     this.id = id;
   }
 
-  public AdministrativeLevelDto name(String name) {
+  public CountryDto name(String name) {
     this.name = name;
     return this;
   }
@@ -69,8 +65,8 @@ public class AdministrativeLevelDto {
    * Get name
    * @return name
   */
-  @NotNull 
-  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -80,7 +76,7 @@ public class AdministrativeLevelDto {
     this.name = name;
   }
 
-  public AdministrativeLevelDto createTime(Instant createTime) {
+  public CountryDto createTime(Instant createTime) {
     this.createTime = createTime;
     return this;
   }
@@ -100,7 +96,7 @@ public class AdministrativeLevelDto {
     this.createTime = createTime;
   }
 
-  public AdministrativeLevelDto updateTime(Instant updateTime) {
+  public CountryDto updateTime(Instant updateTime) {
     this.updateTime = updateTime;
     return this;
   }
@@ -120,46 +116,6 @@ public class AdministrativeLevelDto {
     this.updateTime = updateTime;
   }
 
-  public AdministrativeLevelDto country(String country) {
-    this.country = country;
-    return this;
-  }
-
-  /**
-   * Get country
-   * @return country
-  */
-  @NotNull 
-  @Schema(name = "country", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("country")
-  public String getCountry() {
-    return country;
-  }
-
-  public void setCountry(String country) {
-    this.country = country;
-  }
-
-  public AdministrativeLevelDto order(Integer order) {
-    this.order = order;
-    return this;
-  }
-
-  /**
-   * Get order
-   * @return order
-  */
-  @NotNull 
-  @Schema(name = "order", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("order")
-  public Integer getOrder() {
-    return order;
-  }
-
-  public void setOrder(Integer order) {
-    this.order = order;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -168,30 +124,26 @@ public class AdministrativeLevelDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdministrativeLevelDto administrativeLevel = (AdministrativeLevelDto) o;
-    return Objects.equals(this.id, administrativeLevel.id) &&
-        Objects.equals(this.name, administrativeLevel.name) &&
-        Objects.equals(this.createTime, administrativeLevel.createTime) &&
-        Objects.equals(this.updateTime, administrativeLevel.updateTime) &&
-        Objects.equals(this.country, administrativeLevel.country) &&
-        Objects.equals(this.order, administrativeLevel.order);
+    CountryDto country = (CountryDto) o;
+    return Objects.equals(this.id, country.id) &&
+        Objects.equals(this.name, country.name) &&
+        Objects.equals(this.createTime, country.createTime) &&
+        Objects.equals(this.updateTime, country.updateTime);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, createTime, updateTime, country, order);
+    return Objects.hash(id, name, createTime, updateTime);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdministrativeLevelDto {\n");
+    sb.append("class CountryDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    createTime: ").append(toIndentedString(createTime)).append("\n");
     sb.append("    updateTime: ").append(toIndentedString(updateTime)).append("\n");
-    sb.append("    country: ").append(toIndentedString(country)).append("\n");
-    sb.append("    order: ").append(toIndentedString(order)).append("\n");
     sb.append("}");
     return sb.toString();
   }

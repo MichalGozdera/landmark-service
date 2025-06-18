@@ -6,14 +6,21 @@ import eu.cokeman.cycleareastats.port.in.administrativelevel.CreateAdministrativ
 import eu.cokeman.cycleareastats.port.in.administrativelevel.DeleteAdministrativeLevelUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.FetchAdministrativeLevelUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.UpdateAdministrativeLevelUseCase;
+import eu.cokeman.cycleareastats.port.in.country.CreateCountryUseCase;
+import eu.cokeman.cycleareastats.port.in.country.DeleteCountryUseCase;
+import eu.cokeman.cycleareastats.port.in.country.FetchCountryUseCase;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
 
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
+import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
 import eu.cokeman.cycleareastats.port.out.publishing.AdministrativeAreaPublisher;
 import eu.cokeman.cycleareastats.service.area.DeleteAdministrativeAreaService;
 import eu.cokeman.cycleareastats.service.area.FetchAdministrativeAreaService;
 import eu.cokeman.cycleareastats.service.area.ImportAdministrativeAreaService;
 import eu.cokeman.cycleareastats.service.area.UpdateAdministrativeAreaService;
+import eu.cokeman.cycleareastats.service.country.CreateCountryService;
+import eu.cokeman.cycleareastats.service.country.DeleteCountryService;
+import eu.cokeman.cycleareastats.service.country.FetchCountryService;
 import eu.cokeman.cycleareastats.service.level.CreateAdministrativeLevelService;
 import eu.cokeman.cycleareastats.service.level.DeleteAdministrativeLevelService;
 import eu.cokeman.cycleareastats.service.level.FetchAdministrativeLevelService;
@@ -38,6 +45,9 @@ public class SpringAppConfig {
 
     @Autowired
     AdministrativeLevelRepository administrativeLevelRepository;
+
+    @Autowired
+    CountryRepository countryRepository;
 
     @Autowired
     AdministrativeAreaPublisher publisher;
@@ -70,7 +80,7 @@ public class SpringAppConfig {
 
     @Bean
     CreateAdministrativeLevelUseCase createAdministrativeLevelUseCase() {
-        return new CreateAdministrativeLevelService(administrativeLevelRepository);
+        return new CreateAdministrativeLevelService(administrativeLevelRepository, countryRepository);
     }
 
     @Bean
@@ -87,4 +97,20 @@ public class SpringAppConfig {
     DeleteAdministrativeLevelUseCase deleteLevelUseCase() {
         return new DeleteAdministrativeLevelService(administrativeLevelRepository);
     }
+
+    @Bean
+    CreateCountryUseCase createCountryUseCase() {
+        return new CreateCountryService(countryRepository);
+    }
+
+    @Bean
+    FetchCountryUseCase fetchCountryUseCase() {
+        return new FetchCountryService(countryRepository);
+    }
+
+    @Bean
+    DeleteCountryUseCase deleteCountryUseCase() {
+        return new DeleteCountryService(countryRepository);
+    }
+
 }

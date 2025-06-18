@@ -3,7 +3,7 @@ package eu.cokeman.cycleareastats.port.out.persistence;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
-import eu.cokeman.cycleareastats.valueObject.Country;
+import eu.cokeman.cycleareastats.entity.Country;
 import eu.cokeman.cycleareastats.valueObject.LevelName;
 
 import java.util.List;

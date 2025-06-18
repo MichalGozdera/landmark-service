@@ -65,7 +65,7 @@ public interface AdministrativeAreaApi {
         value = "/administrative-areas/{AdministrativeAreaId}"
     )
     default ResponseEntity<Void> deleteAdministrativeArea(
-        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") String administrativeAreaId
+        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") Integer administrativeAreaId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -127,12 +127,12 @@ public interface AdministrativeAreaApi {
         produces = { "application/json" }
     )
     default ResponseEntity<AdministrativeAreaDto> loadAdministrativeArea(
-        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") String administrativeAreaId
+        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") Integer administrativeAreaId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"parent\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"geometrySimplified\" : \"geometrySimplified\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"\", \"id\" : \"\" }";
+                    String exampleString = "{ \"parent\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"\", \"id\" : \"\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -169,13 +169,13 @@ public interface AdministrativeAreaApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<AdministrativeAreaDto> updateAdministrativeArea(
-        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") String administrativeAreaId,
+        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") Integer administrativeAreaId,
         @Parameter(name = "AdministrativeAreaDto", description = "", required = true) @Valid @RequestBody AdministrativeAreaDto administrativeAreaDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"parent\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"geometrySimplified\" : \"geometrySimplified\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"\", \"id\" : \"\" }";
+                    String exampleString = "{ \"parent\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"\", \"id\" : \"\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

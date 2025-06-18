@@ -2,7 +2,7 @@ package eu.cokeman.cycleareastats.port.out.persistence;
 
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
-import eu.cokeman.cycleareastats.valueObject.Country;
+import eu.cokeman.cycleareastats.entity.Country;
 
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
 

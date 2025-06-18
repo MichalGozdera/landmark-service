@@ -20,11 +20,11 @@ public interface AdministrativeAreaCommonMapper {
     }
 
 
-    default AdministrativeAreaId mapToAdmAreaId(UUID source) {
+    default AdministrativeAreaId mapToAdmAreaId(Integer source) {
         return source == null ? null : new AdministrativeAreaId(source);
     }
 
-    default UUID mapAdministrativeAreaIDToUUID(AdministrativeAreaId source) {
+    default Integer mapAdministrativeAreaIDToInteger(AdministrativeAreaId source) {
         return source != null ? source.value() : null;
     }
 }

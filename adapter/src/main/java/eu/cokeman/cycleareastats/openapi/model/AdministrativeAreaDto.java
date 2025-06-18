@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdministrativeAreaDto {
 
-  private String id = null;
+  private Integer id = null;
 
   private String name = null;
 
@@ -39,13 +39,11 @@ public class AdministrativeAreaDto {
 
   private AdministrativeLevelDto level;
 
-  private String parent = null;
+  private Integer parent = null;
 
   private org.springframework.core.io.Resource geometry = null;
 
-  private String geometrySimplified;
-
-  public AdministrativeAreaDto id(String id) {
+  public AdministrativeAreaDto id(Integer id) {
     this.id = id;
     return this;
   }
@@ -57,11 +55,11 @@ public class AdministrativeAreaDto {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public String getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -145,7 +143,7 @@ public class AdministrativeAreaDto {
     this.level = level;
   }
 
-  public AdministrativeAreaDto parent(String parent) {
+  public AdministrativeAreaDto parent(Integer parent) {
     this.parent = parent;
     return this;
   }
@@ -157,11 +155,11 @@ public class AdministrativeAreaDto {
   
   @Schema(name = "parent", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parent")
-  public String getParent() {
+  public Integer getParent() {
     return parent;
   }
 
-  public void setParent(String parent) {
+  public void setParent(Integer parent) {
     this.parent = parent;
   }
 
@@ -185,26 +183,6 @@ public class AdministrativeAreaDto {
     this.geometry = geometry;
   }
 
-  public AdministrativeAreaDto geometrySimplified(String geometrySimplified) {
-    this.geometrySimplified = geometrySimplified;
-    return this;
-  }
-
-  /**
-   * Get geometrySimplified
-   * @return geometrySimplified
-  */
-  
-  @Schema(name = "geometrySimplified", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("geometrySimplified")
-  public String getGeometrySimplified() {
-    return geometrySimplified;
-  }
-
-  public void setGeometrySimplified(String geometrySimplified) {
-    this.geometrySimplified = geometrySimplified;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -220,13 +198,12 @@ public class AdministrativeAreaDto {
         Objects.equals(this.updateTime, administrativeArea.updateTime) &&
         Objects.equals(this.level, administrativeArea.level) &&
         Objects.equals(this.parent, administrativeArea.parent) &&
-        Objects.equals(this.geometry, administrativeArea.geometry) &&
-        Objects.equals(this.geometrySimplified, administrativeArea.geometrySimplified);
+        Objects.equals(this.geometry, administrativeArea.geometry);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, createTime, updateTime, level, parent, geometry, geometrySimplified);
+    return Objects.hash(id, name, createTime, updateTime, level, parent, geometry);
   }
 
   @Override
@@ -240,7 +217,6 @@ public class AdministrativeAreaDto {
     sb.append("    level: ").append(toIndentedString(level)).append("\n");
     sb.append("    parent: ").append(toIndentedString(parent)).append("\n");
     sb.append("    geometry: ").append(toIndentedString(geometry)).append("\n");
-    sb.append("    geometrySimplified: ").append(toIndentedString(geometrySimplified)).append("\n");
     sb.append("}");
     return sb.toString();
   }

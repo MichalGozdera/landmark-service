@@ -1,6 +1,9 @@
 eu/cokeman/cycleareastats/openapi/api/AdministrativeAreaApi.java
 eu/cokeman/cycleareastats/openapi/api/AdministrativeLevelApi.java
 eu/cokeman/cycleareastats/openapi/api/ApiUtil.java
+eu/cokeman/cycleareastats/openapi/api/CountryApi.java
 eu/cokeman/cycleareastats/openapi/model/AdministrativeAreaDto.java
 eu/cokeman/cycleareastats/openapi/model/AdministrativeAreasImportRequestDto.java
 eu/cokeman/cycleareastats/openapi/model/AdministrativeLevelDto.java
+eu/cokeman/cycleareastats/openapi/model/CountryDto.java
+eu/cokeman/cycleareastats/openapi/model/CountryRequestDto.java

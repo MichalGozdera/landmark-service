@@ -3,6 +3,7 @@ package eu.cokeman.cycleareastats.in.message;
 import com.rabbitmq.client.Channel;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ImportAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -26,7 +27,7 @@ public class RabbitMQLandmarkListener {
     public void receiveMessage(Message event) {
 
         var msg = new String(event.getBody());
-        AdministrativeAreaId administrativeAreaId = new AdministrativeAreaId(UUID.fromString(msg));
+        AdministrativeAreaId administrativeAreaId = new AdministrativeAreaId(Integer.valueOf(msg));
         log.info("Processing landmark with ID {}", administrativeAreaId.value());
 
         //    importAdministrativeAreaUseCase.processSubunit(administrativeAreaId);

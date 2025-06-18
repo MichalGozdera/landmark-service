@@ -1,7 +1,7 @@
 package eu.cokeman.cycleareastats.port.in.administrativearea;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
-import eu.cokeman.cycleareastats.valueObject.Country;
+import eu.cokeman.cycleareastats.entity.Country;
 
 import java.util.List;
 

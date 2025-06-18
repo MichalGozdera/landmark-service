@@ -172,6 +172,74 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AdministrativeLevel"
+  /countries:
+    get:
+      summary: Pobierz listę krajów
+      operationId: getCountries
+      tags:
+        - country
+      responses:
+        '200':
+          description: Lista krajów
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Country'
+    post:
+      summary: Dodaj kraj
+      operationId: createCountry
+      tags:
+        - country
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryRequest'
+      responses:
+        '201':
+          description: Utworzono kraj
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+  /countries/{id}:
+    get:
+      summary: Pobierz kraj po ID
+      operationId: getCountryById
+      tags:
+        - country
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Szczegóły kraju
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+        '404':
+          description: Nie znaleziono kraju
+    delete:
+      summary: Usuń kraj
+      operationId: deleteCountry
+      tags:
+        - country
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Usunięto kraj
 components:
   schemas:
     AdministrativeAreasImportRequest:
@@ -203,8 +271,6 @@ components:
           type: AdministrativeAreaId
         geometry:
           type: Geometry
-        geometrySimplified:
-          type: string
     AdministrativeLevel:
       type: object
       required:
@@ -223,22 +289,44 @@ components:
           type: string
           format: date-time
         country:
-          type: Country
+          type: CountryName
         order:
           type: LevelOrder
     AdministrativeAreaId:
-      type: string
+      type: integer
     AdministrativeLevelId:
-      type: string
+      type: integer
+    CountryId:
+      type: integer
     LandmarkName:
       type: string
     LevelName:
       type: string
+    CountryName:
+      type: string
     LevelOrder:
       type: integer
       format: int32
-    Country:
-      type: string
     Geometry:
       type: string
       format: binary
+    Country:
+      type: object
+      properties:
+        id:
+          type: CountryId
+        name:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+        updateTime:
+          type: string
+          format: date-time
+    CountryRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string

@@ -18,16 +18,12 @@ public class AdministrativeAreaEntity extends BaseJpaEntity{
 
 
     @Id
-    @Column(name = "uuid")
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
 
-    @ColumnTransformer(write = "?::jsonb")
-    private String metadata;
     private Geometry geometry;
-    private UUID parent;
-    @OneToMany(mappedBy = "area_id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GeometrySimplifiedEntity> geometriesSimplified = new ArrayList<>();
+    private Integer parent;
 
     @JoinColumn(name = "level_id")
     @OneToOne
@@ -37,16 +33,24 @@ public class AdministrativeAreaEntity extends BaseJpaEntity{
         return level;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getParent() {
+        return parent;
+    }
+
+    public void setParent(Integer parent) {
+        this.parent = parent;
+    }
+
     public void setLevel(AdministrativeLevelEntity level) {
         this.level = level;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID id) {
-        this.uuid = id;
     }
 
     public String getName() {
@@ -57,15 +61,6 @@ public class AdministrativeAreaEntity extends BaseJpaEntity{
         this.name = name;
     }
 
-
-    public String getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(String metadata) {
-        this.metadata = metadata;
-    }
-
     public Geometry getGeometry() {
         return geometry;
     }
@@ -74,28 +69,7 @@ public class AdministrativeAreaEntity extends BaseJpaEntity{
         this.geometry = geom;
     }
 
-    public UUID getParent() {
-        return parent;
-    }
 
-    public void setParent(UUID parent) {
-        this.parent = parent;
-    }
 
-    public void addGeometrySimplified(GeometrySimplifiedEntity geometrySimplified) {
-        geometriesSimplified.add(geometrySimplified);
-        geometrySimplified.setArea_id(this);
-    }
 
-    public void removeGeometrySimplified(GeometrySimplifiedEntity geometrySimplified) {
-        geometriesSimplified.remove(geometrySimplified);
-    }
-
-    public List<GeometrySimplifiedEntity> getGeometriesSimplified() {
-        return geometriesSimplified;
-    }
-
-    public void setGeometriesSimplified(List<GeometrySimplifiedEntity> geometriesSimplified) {
-        this.geometriesSimplified = geometriesSimplified;
-    }
 }

@@ -10,6 +10,7 @@ import eu.cokeman.cycleareastats.port.in.administrativearea.FetchAdministrativeA
 import eu.cokeman.cycleareastats.port.in.administrativearea.ImportAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,16 +50,16 @@ public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.
 
 
     @Override
-    public ResponseEntity<AdministrativeAreaDto> loadAdministrativeArea(String areaIdExternal) {
-        AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(UUID.fromString(areaIdExternal));
+    public ResponseEntity<AdministrativeAreaDto> loadAdministrativeArea(Integer areaIdExternal) {
+        AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(areaIdExternal);
         AdministrativeArea administrativeArea = fetchAdministrativeAreaUseCase.findArea(areaInternalId);
         AdministrativeAreaDto areaResponse = areaMapper.mapToExternal(administrativeArea);
         return ResponseEntity.ok(areaResponse);
     }
 
     @Override
-    public ResponseEntity<AdministrativeAreaDto> updateAdministrativeArea(String administrativeAreaId, AdministrativeAreaDto administrativeAreaDto) {
-        AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(UUID.fromString(administrativeAreaId));
+    public ResponseEntity<AdministrativeAreaDto> updateAdministrativeArea(Integer administrativeAreaId, AdministrativeAreaDto administrativeAreaDto) {
+        AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(administrativeAreaId);
         AdministrativeArea area = areaMapper.mapToInternal(administrativeAreaDto).build();
         AdministrativeArea updatedArea = updateAdministrativeAreaUseCase.updateAdministrativeArea(areaInternalId, area);
         var updatedAreaDto = areaMapper.mapToExternal(updatedArea);
@@ -66,8 +67,8 @@ public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.
     }
 
     @Override
-    public ResponseEntity<Void> deleteAdministrativeArea(String administrativeAreaId) {
-        AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(UUID.fromString(administrativeAreaId));
+    public ResponseEntity<Void> deleteAdministrativeArea(Integer administrativeAreaId) {
+        AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(administrativeAreaId);
         deleteAdministrativeAreaUseCase.deleteAdministrativeArea(areaInternalId);
         return ResponseEntity.ok().build();
     }

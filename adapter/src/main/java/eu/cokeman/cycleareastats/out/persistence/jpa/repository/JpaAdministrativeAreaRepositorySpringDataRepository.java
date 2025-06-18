@@ -11,6 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface JpaAdministrativeAreaRepositorySpringDataRepository extends JpaRepository<AdministrativeAreaEntity, UUID> {
+public interface JpaAdministrativeAreaRepositorySpringDataRepository extends JpaRepository<AdministrativeAreaEntity, Integer> {
 
   }

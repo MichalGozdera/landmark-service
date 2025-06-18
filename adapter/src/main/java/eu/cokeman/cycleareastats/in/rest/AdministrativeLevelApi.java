@@ -49,22 +49,22 @@ public class AdministrativeLevelApi implements eu.cokeman.cycleareastats.openapi
 
 
     @Override
-    public ResponseEntity<AdministrativeLevelDto> loadAdministrativeLevel(String levelId) {
-        AdministrativeLevel level = fetchAdministrativeLevelUseCase.findLevel(new AdministrativeLevelId(Integer.valueOf(levelId)));
+    public ResponseEntity<AdministrativeLevelDto> loadAdministrativeLevel(Integer levelId) {
+        AdministrativeLevel level = fetchAdministrativeLevelUseCase.findLevel(new AdministrativeLevelId(levelId));
         var levelResponse = mapper.mapToExternal(level);
         return ResponseEntity.ok(levelResponse);
     }
 
     @Override
-    public ResponseEntity<AdministrativeLevelDto> deleteAdministrativeLevel(String administrativeLevelId) {
-        AdministrativeLevelId areaInternalId = new AdministrativeLevelId(Integer.valueOf(administrativeLevelId));
+    public ResponseEntity<AdministrativeLevelDto> deleteAdministrativeLevel(Integer administrativeLevelId) {
+        AdministrativeLevelId areaInternalId = new AdministrativeLevelId(administrativeLevelId);
         deleteAdministrativeLevelUseCase.deleteAdministrativeLevel(areaInternalId);
         return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<AdministrativeLevelDto> updateAdministrativeLevel(String administrativeLevelId, AdministrativeLevelDto administrativeLevelDto) {
-        AdministrativeLevelId areaInternalId = new AdministrativeLevelId(Integer.valueOf(administrativeLevelId));
+    public ResponseEntity<AdministrativeLevelDto> updateAdministrativeLevel(Integer administrativeLevelId, AdministrativeLevelDto administrativeLevelDto) {
+        AdministrativeLevelId areaInternalId = new AdministrativeLevelId(administrativeLevelId);
         AdministrativeLevel level = mapper.mapToInternal(administrativeLevelDto).build();
         AdministrativeLevel updatedLevel = updateAdministrativeLevelUseCase.updateAdministrativeLevel(areaInternalId, level);
         var updatedLevelDto = mapper.mapToExternal(updatedLevel);

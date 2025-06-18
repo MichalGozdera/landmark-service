@@ -96,7 +96,7 @@ public interface AdministrativeLevelApi {
         produces = { "application/json" }
     )
     default ResponseEntity<AdministrativeLevelDto> deleteAdministrativeLevel(
-        @Parameter(name = "AdministrativeLevelId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeLevelId") String administrativeLevelId
+        @Parameter(name = "AdministrativeLevelId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeLevelId") Integer administrativeLevelId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -136,7 +136,7 @@ public interface AdministrativeLevelApi {
         produces = { "application/json" }
     )
     default ResponseEntity<AdministrativeLevelDto> loadAdministrativeLevel(
-        @Parameter(name = "AdministrativeLevelId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeLevelId") String administrativeLevelId
+        @Parameter(name = "AdministrativeLevelId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeLevelId") Integer administrativeLevelId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -178,7 +178,7 @@ public interface AdministrativeLevelApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<AdministrativeLevelDto> updateAdministrativeLevel(
-        @Parameter(name = "AdministrativeLevelId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeLevelId") String administrativeLevelId,
+        @Parameter(name = "AdministrativeLevelId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeLevelId") Integer administrativeLevelId,
         @Parameter(name = "AdministrativeLevelDto", description = "", required = true) @Valid @RequestBody AdministrativeLevelDto administrativeLevelDto
     ) {
         getRequest().ifPresent(request -> {

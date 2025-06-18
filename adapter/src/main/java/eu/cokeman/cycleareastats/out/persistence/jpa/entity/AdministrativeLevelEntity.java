@@ -14,11 +14,12 @@ public class AdministrativeLevelEntity extends BaseJpaEntity {
 
 
     @Id
-    @SequenceGenerator(name = "admin_level_seq", sequenceName = "administrative_level_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_level_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private String country;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country", referencedColumnName = "id")
+    private CountryEntity country;
     @Column(name = "level_order")
     private Integer order;
 
@@ -38,11 +39,11 @@ public class AdministrativeLevelEntity extends BaseJpaEntity {
         this.name = name;
     }
 
-    public String getCountry() {
+    public CountryEntity getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(CountryEntity country) {
         this.country = country;
     }
 

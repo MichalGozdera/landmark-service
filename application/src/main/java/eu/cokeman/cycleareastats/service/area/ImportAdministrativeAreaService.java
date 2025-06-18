@@ -54,8 +54,7 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
     }
 
     private AdministrativeAreaId importSingleArea(AdministrativeLevel level, AdministrativeAreaGeometry geometryData) {
-        var administrativeArea = AdministrativeArea.Builder.builder().level(level).build();
-        administrativeArea.initLandmark();
+        var administrativeArea = AdministrativeArea.builder().level(level).build();
         administrativeArea = bindLevel(level, administrativeArea);
         administrativeArea = bindDataFromGeometry(geometryData, administrativeArea);
         return areaRepository.importLandmark(administrativeArea);
@@ -69,7 +68,6 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
         administrativeArea = administrativeArea.toBuilder()
                 .name(new AreaName(geometryData.name()))
                 .geometry(geometryData.geometryData())
-                .geometriesSimplified(geometriesSimplified)
                 .build();
         return administrativeArea;
     }

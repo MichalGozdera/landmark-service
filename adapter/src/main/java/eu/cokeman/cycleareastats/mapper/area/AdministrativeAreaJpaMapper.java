@@ -7,7 +7,6 @@ import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.mapper.level.AdministrativeLevelJpaMapper;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeAreaEntity;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeLevelEntity;
-import eu.cokeman.cycleareastats.out.persistence.jpa.entity.GeometrySimplifiedEntity;
 import eu.cokeman.cycleareastats.valueObject.LandmarkMetadata;
 import org.locationtech.jts.geom.Geometry;
 import org.mapstruct.Mapper;
@@ -22,13 +21,8 @@ public interface AdministrativeAreaJpaMapper extends AdministrativeAreaCommonMap
 
     public static AdministrativeAreaJpaMapper INSTANCE = Mappers.getMapper(AdministrativeAreaJpaMapper.class);
 
-
-    @Mapping(target = "uuid", source = "id")
-    @Mapping(target = "geometriesSimplified", ignore = true)
     AdministrativeAreaEntity mapToJpa(AdministrativeArea administrativeArea);
 
-    @Mapping(target = "id", source = "uuid")
-    @Mapping(target = "geometriesSimplified", ignore = true)
     AdministrativeArea.Builder mapJpaToInternal(AdministrativeAreaEntity administrativeAreaEntity);
 
     default AdministrativeLevelEntity mapToJpa(AdministrativeLevel level) {
@@ -39,29 +33,8 @@ public interface AdministrativeAreaJpaMapper extends AdministrativeAreaCommonMap
         return AdministrativeLevelJpaMapper.INSTANCE.mapJpaToInternal(level).build();
     }
 
-    default String convertLandmarkMetadataToJpa(LandmarkMetadata metadata) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(metadata);
-    }
-
-    default LandmarkMetadata convertJpaToLandmarkMetadata(String source) throws JsonProcessingException {
-        return new ObjectMapper().readValue(source, LandmarkMetadata.class);
-    }
-
-    default Geometry convertJpaToLandmarkMetadata(Serializable source) throws JsonProcessingException {
+    default Geometry convertJpaToJtsMode(Serializable source)  {
         return (Geometry) source;
-    }
-
-    default List<String> convertJpaGeometriesSimplifiedToInternal(List<GeometrySimplifiedEntity> jpa) {
-        return jpa.stream().map(r -> r.getLine()).toList();
-    }
-
-    default List<GeometrySimplifiedEntity> convertInternalGeometriesSimplifiedToJpa(List<String> internal) {
-        return internal.stream().map(r -> {
-            var newEntity = new GeometrySimplifiedEntity();
-            newEntity.setLine(r);
-            return newEntity;
-        }).toList();
     }
 
 }

@@ -4,8 +4,9 @@ import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.mapper.level.AdministrativeLevelJpaMapper;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeLevelEntity;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.BaseJpaEntity;
+import eu.cokeman.cycleareastats.out.persistence.jpa.entity.CountryEntity;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
-import eu.cokeman.cycleareastats.valueObject.Country;
+import eu.cokeman.cycleareastats.entity.Country;
 import eu.cokeman.cycleareastats.valueObject.LevelName;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -22,16 +23,18 @@ public class AdministrativeLevelRepository implements eu.cokeman.cycleareastats.
     private static final Logger log = LoggerFactory.getLogger(AdministrativeLevelRepository.class);
     AdministrativeLevelJpaMapper mapper = AdministrativeLevelJpaMapper.INSTANCE;
 
-    private final JpaAdministrativeLevelRepositorySpringDataRepository springDataRepository;
+    private final JpaAdministrativeLevelRepositorySpringDataRepository levelSpringDataRepository;
+    private final JpaCountryRepositorySpringDataRepository countrySpringDataRepository;
 
-    public AdministrativeLevelRepository(JpaAdministrativeLevelRepositorySpringDataRepository springDataRepository) {
-        this.springDataRepository = springDataRepository;
+    public AdministrativeLevelRepository(JpaAdministrativeLevelRepositorySpringDataRepository springDataRepository, JpaCountryRepositorySpringDataRepository countrySpringDataRepository) {
+        this.levelSpringDataRepository = springDataRepository;
+        this.countrySpringDataRepository = countrySpringDataRepository;
     }
 
 
     @Override
     public AdministrativeLevel findByAdministrativeLevelId(AdministrativeLevelId administrativeLevelId) {
-        var entity = springDataRepository.findById(administrativeLevelId.value());
+        var entity = levelSpringDataRepository.findById(administrativeLevelId.value());
         return mapper.mapJpaToInternal(entity.get()).build();
 
     }
@@ -39,10 +42,10 @@ public class AdministrativeLevelRepository implements eu.cokeman.cycleareastats.
     @Override
     public AdministrativeLevel updateLevel(AdministrativeLevelId levelId, AdministrativeLevel level) {
 
-        var jpaLevel = springDataRepository.findById(levelId.value()).orElseThrow(EntityNotFoundException::new);
+        var jpaLevel = levelSpringDataRepository.findById(levelId.value()).orElseThrow(EntityNotFoundException::new);
         AdministrativeLevelEntity newJpa = mapper.mapToJpa(level);
         BeanUtils.copyProperties(newJpa, jpaLevel, BaseJpaEntity.getNullPropertyNames(newJpa));
-        var updatedJPA = springDataRepository.saveAndFlush(jpaLevel);
+        var updatedJPA = levelSpringDataRepository.saveAndFlush(jpaLevel);
         var result = mapper.mapJpaToInternal(updatedJPA).build();
 
         return result;
@@ -50,16 +53,18 @@ public class AdministrativeLevelRepository implements eu.cokeman.cycleareastats.
 
     @Override
     public void deleteLevel(AdministrativeLevelId administrativeLevelId) {
-        springDataRepository.deleteById(administrativeLevelId.value());
+        levelSpringDataRepository.deleteById(administrativeLevelId.value());
     }
 
     @Override
     public Optional<AdministrativeLevel> findByCountryAndName(Country country, LevelName name) {
-        return springDataRepository.
-                findByCountryAndName(country.name(), name.name())
-                .map(r -> mapper.mapJpaToInternal(r).build());
+        CountryEntity countryEntity = countrySpringDataRepository.findByName(country.getName());
+        if (countryEntity == null) {
+            return Optional.empty();
+        }
+        var foundEntity = levelSpringDataRepository.findByCountryAndName(countryEntity, name.name());
+        return foundEntity.map(entity -> mapper.mapJpaToInternal(entity).build());
     }
-
 
     @Override
     public List<AdministrativeLevel> filterAdministrativeLevels(String criteria) {
@@ -69,7 +74,7 @@ public class AdministrativeLevelRepository implements eu.cokeman.cycleareastats.
     @Override
     public AdministrativeLevelId createLevel(AdministrativeLevel administrativeLevel) {
         var jpaLevel = mapper.mapToJpa(administrativeLevel);
-        var newID = springDataRepository.save(jpaLevel).getId();
+        var newID = levelSpringDataRepository.save(jpaLevel).getId();
 
         return new AdministrativeLevelId(newID);
     }
