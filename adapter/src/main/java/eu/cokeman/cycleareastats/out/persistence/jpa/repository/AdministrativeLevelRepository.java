@@ -24,11 +24,9 @@ public class AdministrativeLevelRepository implements eu.cokeman.cycleareastats.
     AdministrativeLevelJpaMapper mapper = AdministrativeLevelJpaMapper.INSTANCE;
 
     private final JpaAdministrativeLevelRepositorySpringDataRepository levelSpringDataRepository;
-    private final JpaCountryRepositorySpringDataRepository countrySpringDataRepository;
 
     public AdministrativeLevelRepository(JpaAdministrativeLevelRepositorySpringDataRepository springDataRepository, JpaCountryRepositorySpringDataRepository countrySpringDataRepository) {
         this.levelSpringDataRepository = springDataRepository;
-        this.countrySpringDataRepository = countrySpringDataRepository;
     }
 
 
@@ -58,11 +56,7 @@ public class AdministrativeLevelRepository implements eu.cokeman.cycleareastats.
 
     @Override
     public Optional<AdministrativeLevel> findByCountryAndName(Country country, LevelName name) {
-        CountryEntity countryEntity = countrySpringDataRepository.findByName(country.getName());
-        if (countryEntity == null) {
-            return Optional.empty();
-        }
-        var foundEntity = levelSpringDataRepository.findByCountryAndName(countryEntity, name.name());
+        var foundEntity = levelSpringDataRepository.findByCountry_NameAndName(country.getName(), name.name());
         return foundEntity.map(entity -> mapper.mapJpaToInternal(entity).build());
     }
 

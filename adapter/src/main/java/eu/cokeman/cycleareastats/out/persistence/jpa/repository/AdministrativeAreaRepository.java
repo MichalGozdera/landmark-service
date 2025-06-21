@@ -75,8 +75,8 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
 
         var jpaLandmark = mapper.mapToJpa(administrativeArea);
 
-        springDataRepository.save(jpaLandmark);
+        var generatedEntity = springDataRepository.save(jpaLandmark);
 
-        return administrativeArea.getId();
+        return new AdministrativeAreaId(generatedEntity.getId());
     }
 }

@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS administrative_area (
     create_time TIMESTAMP,
     update_time TIMESTAMP,
     level_id INTEGER,
+    metadata JSONB,
     parent INTEGER
 );
 

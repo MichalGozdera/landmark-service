@@ -6,7 +6,7 @@
 package eu.cokeman.cycleareastats.openapi.api;
 
 import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaDto;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelDto;
+import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreasImportRequestDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -75,7 +75,7 @@ public interface AdministrativeAreaApi {
     /**
      * POST /administrative-areas : Import areas
      *
-     * @param level  (optional)
+     * @param request  (optional)
      * @param geometry  (optional)
      * @return Bad Request (status code 400)
      *         or Created (status code 201)
@@ -95,7 +95,7 @@ public interface AdministrativeAreaApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<Void> importAdministrativeAreas(
-        @Parameter(name = "level", description = "") @Valid @RequestPart(value = "level", required = false) AdministrativeLevelDto level,
+        @Parameter(name = "request", description = "") @Valid @RequestPart(value = "request", required = false) AdministrativeAreasImportRequestDto request,
         @Parameter(name = "geometry", description = "") @RequestPart(value = "geometry", required = false) MultipartFile geometry
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -132,7 +132,7 @@ public interface AdministrativeAreaApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"parent\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"\", \"id\" : \"\" }";
+                    String exampleString = "{ \"parent\" : \"\", \"metadata\" : \"{}\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"\", \"id\" : \"\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -175,7 +175,7 @@ public interface AdministrativeAreaApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"parent\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"\", \"id\" : \"\" }";
+                    String exampleString = "{ \"parent\" : \"\", \"metadata\" : \"{}\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"\", \"id\" : \"\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

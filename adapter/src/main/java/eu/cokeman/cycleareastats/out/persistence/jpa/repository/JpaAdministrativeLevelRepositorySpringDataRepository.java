@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface JpaAdministrativeLevelRepositorySpringDataRepository extends JpaRepository<AdministrativeLevelEntity, Integer> {
 
-    Optional<AdministrativeLevelEntity> findByCountryAndName(CountryEntity country, String name);
+    Optional<AdministrativeLevelEntity> findByCountry_NameAndName(String country_name, String name);
 
 }
 

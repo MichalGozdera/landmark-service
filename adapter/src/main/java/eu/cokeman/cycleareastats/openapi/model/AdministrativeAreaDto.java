@@ -43,6 +43,8 @@ public class AdministrativeAreaDto {
 
   private org.springframework.core.io.Resource geometry = null;
 
+  private com.fasterxml.jackson.databind.JsonNode metadata;
+
   public AdministrativeAreaDto id(Integer id) {
     this.id = id;
     return this;
@@ -183,6 +185,26 @@ public class AdministrativeAreaDto {
     this.geometry = geometry;
   }
 
+  public AdministrativeAreaDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+    this.metadata = metadata;
+    return this;
+  }
+
+  /**
+   * Get metadata
+   * @return metadata
+  */
+  @Valid 
+  @Schema(name = "metadata", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("metadata")
+  public com.fasterxml.jackson.databind.JsonNode getMetadata() {
+    return metadata;
+  }
+
+  public void setMetadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+    this.metadata = metadata;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -198,12 +220,13 @@ public class AdministrativeAreaDto {
         Objects.equals(this.updateTime, administrativeArea.updateTime) &&
         Objects.equals(this.level, administrativeArea.level) &&
         Objects.equals(this.parent, administrativeArea.parent) &&
-        Objects.equals(this.geometry, administrativeArea.geometry);
+        Objects.equals(this.geometry, administrativeArea.geometry) &&
+        Objects.equals(this.metadata, administrativeArea.metadata);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, createTime, updateTime, level, parent, geometry);
+    return Objects.hash(id, name, createTime, updateTime, level, parent, geometry, metadata);
   }
 
   @Override
@@ -217,6 +240,7 @@ public class AdministrativeAreaDto {
     sb.append("    level: ").append(toIndentedString(level)).append("\n");
     sb.append("    parent: ").append(toIndentedString(parent)).append("\n");
     sb.append("    geometry: ").append(toIndentedString(geometry)).append("\n");
+    sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("}");
     return sb.toString();
   }

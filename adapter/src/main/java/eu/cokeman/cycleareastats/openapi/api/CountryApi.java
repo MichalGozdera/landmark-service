@@ -45,17 +45,17 @@ public interface CountryApi {
     }
 
     /**
-     * POST /countries : Dodaj kraj
+     * POST /countries : add country
      *
      * @param countryRequestDto  (required)
-     * @return Utworzono kraj (status code 201)
+     * @return country created (status code 201)
      */
     @Operation(
         operationId = "createCountry",
-        summary = "Dodaj kraj",
+        summary = "add country",
         tags = { "country" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Utworzono kraj", content = {
+            @ApiResponse(responseCode = "201", description = "country created", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = CountryDto.class))
             })
         }
@@ -84,17 +84,17 @@ public interface CountryApi {
 
 
     /**
-     * DELETE /countries/{id} : Usuń kraj
+     * DELETE /countries/{id} : delete country
      *
      * @param id  (required)
-     * @return Usunięto kraj (status code 204)
+     * @return country deleted (status code 204)
      */
     @Operation(
         operationId = "deleteCountry",
-        summary = "Usuń kraj",
+        summary = "delete country",
         tags = { "country" },
         responses = {
-            @ApiResponse(responseCode = "204", description = "Usunięto kraj")
+            @ApiResponse(responseCode = "204", description = "country deleted")
         }
     )
     @RequestMapping(
@@ -110,16 +110,16 @@ public interface CountryApi {
 
 
     /**
-     * GET /countries : Pobierz listę krajów
+     * GET /countries : fetch countries
      *
-     * @return Lista krajów (status code 200)
+     * @return list of countries (status code 200)
      */
     @Operation(
         operationId = "getCountries",
-        summary = "Pobierz listę krajów",
+        summary = "fetch countries",
         tags = { "country" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Lista krajów", content = {
+            @ApiResponse(responseCode = "200", description = "list of countries", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CountryDto.class)))
             })
         }
@@ -147,21 +147,21 @@ public interface CountryApi {
 
 
     /**
-     * GET /countries/{id} : Pobierz kraj po ID
+     * GET /countries/{id} : fetch country by ID
      *
      * @param id  (required)
-     * @return Szczegóły kraju (status code 200)
-     *         or Nie znaleziono kraju (status code 404)
+     * @return country desccription (status code 200)
+     *         or country not found (status code 404)
      */
     @Operation(
         operationId = "getCountryById",
-        summary = "Pobierz kraj po ID",
+        summary = "fetch country by ID",
         tags = { "country" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Szczegóły kraju", content = {
+            @ApiResponse(responseCode = "200", description = "country desccription", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = CountryDto.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Nie znaleziono kraju")
+            @ApiResponse(responseCode = "404", description = "country not found")
         }
     )
     @RequestMapping(

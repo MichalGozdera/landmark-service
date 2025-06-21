@@ -2,15 +2,13 @@ package eu.cokeman.cycleareastats.service.area;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
+import eu.cokeman.cycleareastats.exception.LevelNotFoundException;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ConvertAdministrativeAreaGeometryUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ImportAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
 import eu.cokeman.cycleareastats.port.out.publishing.AdministrativeAreaPublisher;
-import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaGeometry;
-import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
-import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
-import eu.cokeman.cycleareastats.valueObject.AreaName;
+import eu.cokeman.cycleareastats.valueObject.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -47,14 +45,14 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
     }
 
     @Override
-    public void importAdministrativeAreas(AdministrativeLevel level, Object geometry) {
+    public void importAdministrativeAreas(AdministrativeLevel level, LandmarkMetadata metadata, Object geometry) {
         var geometriesConverted = converter.convertToLandmarksGeometries(geometry);
-        var ids = geometriesConverted.stream().map(administrativeAreaGeometry -> importSingleArea(level, administrativeAreaGeometry)).toList();
+        var ids = geometriesConverted.stream().map(administrativeAreaGeometry -> importSingleArea(level, metadata, administrativeAreaGeometry)).toList();
         ids.stream().forEach(id -> publisher.publish(id));
     }
 
-    private AdministrativeAreaId importSingleArea(AdministrativeLevel level, AdministrativeAreaGeometry geometryData) {
-        var administrativeArea = AdministrativeArea.builder().level(level).build();
+    private AdministrativeAreaId importSingleArea(AdministrativeLevel level, LandmarkMetadata metadata, AdministrativeAreaGeometry geometryData) {
+        var administrativeArea = AdministrativeArea.builder().metadata(metadata).level(level).build();
         administrativeArea = bindLevel(level, administrativeArea);
         administrativeArea = bindDataFromGeometry(geometryData, administrativeArea);
         return areaRepository.importLandmark(administrativeArea);
@@ -73,7 +71,8 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
     }
 
     private AdministrativeArea bindLevel(AdministrativeLevel level, AdministrativeArea administrativeArea) {
-        var matchingLevelId = levelRepository.findByCountryAndName(level.getCountry(), level.getName()).orElseThrow().getId();
+        var matchingLevelId = levelRepository.findByCountryAndName(level.getCountry(), level.getName())
+                .orElseThrow(LevelNotFoundException::new).getId();
         administrativeArea = administrativeArea.toBuilder()
                 .level(administrativeArea.getLevel().toBuilder().id(matchingLevelId).build()).build();
         return administrativeArea;

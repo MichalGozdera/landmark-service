@@ -33,6 +33,15 @@ public interface AdministrativeAreaJpaMapper extends AdministrativeAreaCommonMap
         return AdministrativeLevelJpaMapper.INSTANCE.mapJpaToInternal(level).build();
     }
 
+    default String convertLandmarkMetadataToJpa(LandmarkMetadata metadata) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(metadata);
+    }
+
+    default LandmarkMetadata convertJpaToLandmarkMetadata(String source) throws JsonProcessingException {
+        return new ObjectMapper().readValue(source, LandmarkMetadata.class);
+    }
+
     default Geometry convertJpaToJtsMode(Serializable source)  {
         return (Geometry) source;
     }

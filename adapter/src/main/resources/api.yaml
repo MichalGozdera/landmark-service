@@ -16,8 +16,8 @@ paths:
             schema:
               type: object
               properties:
-                level:
-                  $ref: "#/components/schemas/AdministrativeLevel"
+                request:
+                  $ref: "#/components/schemas/AdministrativeAreasImportRequest"
                 geometry:
                   $ref: "#/components/schemas/Geometry"
       responses:
@@ -174,13 +174,13 @@ paths:
                 $ref: "#/components/schemas/AdministrativeLevel"
   /countries:
     get:
-      summary: Pobierz listę krajów
+      summary: fetch countries
       operationId: getCountries
       tags:
         - country
       responses:
         '200':
-          description: Lista krajów
+          description: list of countries
           content:
             application/json:
               schema:
@@ -188,7 +188,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Country'
     post:
-      summary: Dodaj kraj
+      summary: add country
       operationId: createCountry
       tags:
         - country
@@ -200,14 +200,14 @@ paths:
               $ref: '#/components/schemas/CountryRequest'
       responses:
         '201':
-          description: Utworzono kraj
+          description: country created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Country'
   /countries/{id}:
     get:
-      summary: Pobierz kraj po ID
+      summary: fetch country by ID
       operationId: getCountryById
       tags:
         - country
@@ -219,15 +219,15 @@ paths:
             type: integer
       responses:
         '200':
-          description: Szczegóły kraju
+          description: country desccription
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Country'
         '404':
-          description: Nie znaleziono kraju
+          description: country not found
     delete:
-      summary: Usuń kraj
+      summary: delete country
       operationId: deleteCountry
       tags:
         - country
@@ -239,7 +239,7 @@ paths:
             type: integer
       responses:
         '204':
-          description: Usunięto kraj
+          description: country deleted
 components:
   schemas:
     AdministrativeAreasImportRequest:
@@ -249,6 +249,8 @@ components:
       properties:
         level:
           $ref: "#/components/schemas/AdministrativeLevel"
+        metadata:
+          $ref: "#/components/schemas/LandmarkMetadata"
     AdministrativeArea:
       type: object
       required:
@@ -271,6 +273,8 @@ components:
           type: AdministrativeAreaId
         geometry:
           type: Geometry
+        metadata:
+          $ref: "#/components/schemas/LandmarkMetadata"
     AdministrativeLevel:
       type: object
       required:
@@ -330,3 +334,5 @@ components:
       properties:
         name:
           type: string
+    LandmarkMetadata:
+      type: object

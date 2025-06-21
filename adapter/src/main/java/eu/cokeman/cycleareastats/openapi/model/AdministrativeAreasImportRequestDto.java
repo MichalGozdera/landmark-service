@@ -26,6 +26,8 @@ public class AdministrativeAreasImportRequestDto {
 
   private AdministrativeLevelDto level;
 
+  private com.fasterxml.jackson.databind.JsonNode metadata;
+
   public AdministrativeAreasImportRequestDto level(AdministrativeLevelDto level) {
     this.level = level;
     return this;
@@ -46,6 +48,26 @@ public class AdministrativeAreasImportRequestDto {
     this.level = level;
   }
 
+  public AdministrativeAreasImportRequestDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+    this.metadata = metadata;
+    return this;
+  }
+
+  /**
+   * Get metadata
+   * @return metadata
+  */
+  @Valid 
+  @Schema(name = "metadata", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("metadata")
+  public com.fasterxml.jackson.databind.JsonNode getMetadata() {
+    return metadata;
+  }
+
+  public void setMetadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+    this.metadata = metadata;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -55,12 +77,13 @@ public class AdministrativeAreasImportRequestDto {
       return false;
     }
     AdministrativeAreasImportRequestDto administrativeAreasImportRequest = (AdministrativeAreasImportRequestDto) o;
-    return Objects.equals(this.level, administrativeAreasImportRequest.level);
+    return Objects.equals(this.level, administrativeAreasImportRequest.level) &&
+        Objects.equals(this.metadata, administrativeAreasImportRequest.metadata);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(level);
+    return Objects.hash(level, metadata);
   }
 
   @Override
@@ -68,6 +91,7 @@ public class AdministrativeAreasImportRequestDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdministrativeAreasImportRequestDto {\n");
     sb.append("    level: ").append(toIndentedString(level)).append("\n");
+    sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -45,4 +45,14 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
         }
         return AdministrativeLevelExternalMapper.INSTANCE.mapToExternal(level);
     }
+
+    default LandmarkMetadata mapJsonToLandmarkMetadata(JsonNode source)  {
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap map = mapper.convertValue(source, HashMap.class);
+        return new LandmarkMetadata(map);
+    }
+
+    default JsonNode mapLandmarkMetadataToJson(LandmarkMetadata source)  {
+        return new ObjectMapper().convertValue(source, JsonNode.class);
+    }
     }

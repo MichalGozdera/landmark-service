@@ -10,6 +10,7 @@ import eu.cokeman.cycleareastats.port.in.administrativearea.FetchAdministrativeA
 import eu.cokeman.cycleareastats.port.in.administrativearea.ImportAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import eu.cokeman.cycleareastats.valueObject.LandmarkMetadata;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,9 +43,10 @@ public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.
     }
 
     @Override
-    public ResponseEntity<Void> importAdministrativeAreas(AdministrativeLevelDto levelDto, MultipartFile geometry) {
-        AdministrativeLevel level = levelMapper.mapToInternal(levelDto).build();
-        importAdministrativeAreaUseCase.importAdministrativeAreas(level, geometry);
+    public ResponseEntity<Void> importAdministrativeAreas(AdministrativeAreasImportRequestDto requestDto, MultipartFile geometry) {
+        AdministrativeLevel level = levelMapper.mapToInternal(requestDto.getLevel()).build();
+        LandmarkMetadata metadata = areaMapper.mapJsonToLandmarkMetadata(requestDto.getMetadata());
+        importAdministrativeAreaUseCase.importAdministrativeAreas(level, metadata, geometry);
         return ResponseEntity.ok().build();
     }
 

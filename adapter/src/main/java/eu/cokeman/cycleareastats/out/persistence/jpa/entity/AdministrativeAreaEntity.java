@@ -22,6 +22,8 @@ public class AdministrativeAreaEntity extends BaseJpaEntity{
     private Integer id;
     private String name;
 
+    @ColumnTransformer(write = "?::jsonb")
+    private String metadata;
     private Geometry geometry;
     private Integer parent;
 
@@ -67,6 +69,14 @@ public class AdministrativeAreaEntity extends BaseJpaEntity{
 
     public void setGeometry(Geometry geom) {
         this.geometry = geom;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 
 
