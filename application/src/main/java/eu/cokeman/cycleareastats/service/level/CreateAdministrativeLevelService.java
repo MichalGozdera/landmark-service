@@ -9,23 +9,17 @@ import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
 public class CreateAdministrativeLevelService implements CreateAdministrativeLevelUseCase {
 
     private final AdministrativeLevelRepository levelRepository;
-    private final CountryRepository countryRepository;
+    private final LevelCountryBinder countryBinder;
 
     public CreateAdministrativeLevelService(AdministrativeLevelRepository levelRepository, CountryRepository countryRepository) {
         this.levelRepository = levelRepository;
-        this.countryRepository = countryRepository;
+        this.countryBinder = new LevelCountryBinder(countryRepository);
     }
 
     @Override
     public void createLevel(AdministrativeLevel administrativeLevel) {
-        administrativeLevel = bindCountry(administrativeLevel);
+        administrativeLevel = countryBinder.bindCountryId(administrativeLevel);
         this.levelRepository.createLevel(administrativeLevel);
     }
 
-    private AdministrativeLevel bindCountry(AdministrativeLevel level) {
-        var matchingCountryId = countryRepository.findByName(level.getCountry().getName()).orElseThrow().getId();
-        AdministrativeLevel updatedLevel = level.toBuilder()
-                .country(level.getCountry().toBuilder().id(matchingCountryId).build()).build();
-        return updatedLevel;
-    }
 }

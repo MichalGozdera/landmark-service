@@ -8,4 +8,6 @@ import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
 public interface FetchAdministrativeAreaUseCase {
 
     AdministrativeArea findArea(AdministrativeAreaId administrativeAreaId);
+
+    AdministrativeArea findSimpleArea(AdministrativeAreaId administrativeAreaId);
 }

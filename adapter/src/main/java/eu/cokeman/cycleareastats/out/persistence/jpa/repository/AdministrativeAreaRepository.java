@@ -21,14 +21,24 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
     AdministrativeAreaJpaMapper mapper = AdministrativeAreaJpaMapper.INSTANCE;
 
     private final JpaAdministrativeAreaRepositorySpringDataRepository springDataRepository;
+    private final JpaAdministrativeAreaSimpleRepositorySpringDataRepository springSimpleDataRepository;
 
-    public AdministrativeAreaRepository(JpaAdministrativeAreaRepositorySpringDataRepository springDataRepository) {
+    public AdministrativeAreaRepository(JpaAdministrativeAreaRepositorySpringDataRepository springDataRepository,
+                                        JpaAdministrativeAreaSimpleRepositorySpringDataRepository simpleRepositorySpringDataRepository) {
         this.springDataRepository = springDataRepository;
+        this.springSimpleDataRepository = simpleRepositorySpringDataRepository;
     }
 
     @Override
     public AdministrativeArea findByAdministrativeAreaId(AdministrativeAreaId administrativeAreaId) {
         var jpaLandmark = springDataRepository.findById(administrativeAreaId.value());
+        AdministrativeArea administrativeArea = mapper.mapJpaToInternal(jpaLandmark.orElseThrow()).build();
+        return administrativeArea;
+    }
+
+    @Override
+    public AdministrativeArea findSimpleByAdministrativeAreaId(AdministrativeAreaId administrativeAreaId) {
+        var jpaLandmark = springSimpleDataRepository.findById(administrativeAreaId.value());
         AdministrativeArea administrativeArea = mapper.mapJpaToInternal(jpaLandmark.orElseThrow()).build();
         return administrativeArea;
     }

@@ -17,15 +17,15 @@ import java.util.List;
 public class ImportAdministrativeAreaService implements ImportAdministrativeAreaUseCase {
 
     private final AdministrativeAreaRepository areaRepository;
-    private final AdministrativeLevelRepository levelRepository;
     private final AdministrativeAreaPublisher publisher;
     private final ConvertAdministrativeAreaGeometryUseCase converter;
+    private final AreaLevelBinder levelBinder;
 
     public ImportAdministrativeAreaService(AdministrativeAreaRepository areaRepository, AdministrativeLevelRepository levelRepository, AdministrativeAreaPublisher publisher, ConvertAdministrativeAreaGeometryUseCase converter) {
         this.areaRepository = areaRepository;
-        this.levelRepository = levelRepository;
         this.publisher = publisher;
         this.converter = converter;
+        this.levelBinder=new AreaLevelBinder(levelRepository);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
 
     private AdministrativeAreaId importSingleArea(AdministrativeLevel level, LandmarkMetadata metadata, AdministrativeAreaGeometry geometryData) {
         var administrativeArea = AdministrativeArea.builder().metadata(metadata).level(level).build();
-        administrativeArea = bindLevel(level, administrativeArea);
+        administrativeArea = levelBinder.bindLevelId(level, administrativeArea);
         administrativeArea = bindDataFromGeometry(geometryData, administrativeArea);
         return areaRepository.importLandmark(administrativeArea);
     }
@@ -70,11 +70,5 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
         return administrativeArea;
     }
 
-    private AdministrativeArea bindLevel(AdministrativeLevel level, AdministrativeArea administrativeArea) {
-        var matchingLevelId = levelRepository.findByCountryAndName(level.getCountry(), level.getName())
-                .orElseThrow(LevelNotFoundException::new).getId();
-        administrativeArea = administrativeArea.toBuilder()
-                .level(administrativeArea.getLevel().toBuilder().id(matchingLevelId).build()).build();
-        return administrativeArea;
-    }
+
 }

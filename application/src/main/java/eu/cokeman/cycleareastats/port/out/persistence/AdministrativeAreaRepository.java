@@ -12,6 +12,8 @@ public interface AdministrativeAreaRepository {
 
     AdministrativeArea findByAdministrativeAreaId(AdministrativeAreaId administrativeAreaId);
 
+    AdministrativeArea findSimpleByAdministrativeAreaId(AdministrativeAreaId administrativeAreaId);
+
     AdministrativeArea updateAdministrativeArea(AdministrativeAreaId areaId, AdministrativeArea administrativeArea);
 
     void deleteAdministrativeArea(AdministrativeAreaId administrativeAreaId);

@@ -11,7 +11,6 @@ import eu.cokeman.cycleareastats.port.in.administrativearea.ImportAdministrative
 import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
 import eu.cokeman.cycleareastats.valueObject.LandmarkMetadata;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,5 +72,12 @@ public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.
         AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(administrativeAreaId);
         deleteAdministrativeAreaUseCase.deleteAdministrativeArea(areaInternalId);
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<AdministrativeAreaDto> loadAdministrativeAreaSimple(Integer id) {
+        var simpleArea = fetchAdministrativeAreaUseCase.findSimpleArea(areaMapper.mapToAdmAreaId(id));
+        AdministrativeAreaDto dto = areaMapper.mapToExternal(simpleArea);
+        return ResponseEntity.ok(dto);
     }
 }

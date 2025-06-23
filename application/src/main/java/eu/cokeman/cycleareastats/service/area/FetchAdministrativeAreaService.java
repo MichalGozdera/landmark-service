@@ -17,4 +17,9 @@ public class FetchAdministrativeAreaService implements FetchAdministrativeAreaUs
     public AdministrativeArea findArea(AdministrativeAreaId administrativeAreaId) {
         return administrativeAreaRepository.findByAdministrativeAreaId(administrativeAreaId);
     }
+
+    @Override
+    public AdministrativeArea findSimpleArea(AdministrativeAreaId administrativeAreaId) {
+        return administrativeAreaRepository.findSimpleByAdministrativeAreaId(administrativeAreaId);
+    }
 }

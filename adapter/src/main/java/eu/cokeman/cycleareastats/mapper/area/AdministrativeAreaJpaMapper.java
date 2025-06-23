@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.mapper.level.AdministrativeLevelJpaMapper;
+import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeAreaBaseEntity;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeAreaEntity;
+import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeAreaSimpleEntity;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeLevelEntity;
 import eu.cokeman.cycleareastats.valueObject.LandmarkMetadata;
 import org.locationtech.jts.geom.Geometry;
@@ -23,7 +25,7 @@ public interface AdministrativeAreaJpaMapper extends AdministrativeAreaCommonMap
 
     AdministrativeAreaEntity mapToJpa(AdministrativeArea administrativeArea);
 
-    AdministrativeArea.Builder mapJpaToInternal(AdministrativeAreaEntity administrativeAreaEntity);
+    AdministrativeArea.Builder mapJpaToInternal(AdministrativeAreaBaseEntity administrativeAreaEntity);
 
     default AdministrativeLevelEntity mapToJpa(AdministrativeLevel level) {
         return AdministrativeLevelJpaMapper.INSTANCE.mapToJpa(level);

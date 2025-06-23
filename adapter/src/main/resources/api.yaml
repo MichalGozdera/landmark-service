@@ -4,7 +4,7 @@ info:
   description: landmark service
   version: "1.0"
 paths:
-  /administrative-areas:
+  /administrative-areas-bulk:
     post:
       summary: Import areas
       operationId: importAdministrativeAreas
@@ -20,6 +20,27 @@ paths:
                   $ref: "#/components/schemas/AdministrativeAreasImportRequest"
                 geometry:
                   $ref: "#/components/schemas/Geometry"
+      responses:
+        "400":
+          description: Bad Request
+        "201":
+          description: Created
+  /administrative-areas:
+    post:
+      summary: Create area
+      operationId: createAdministrativeArea
+      tags:
+        - administrativeArea
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request:
+                  $ref: "#/components/schemas/AdministrativeAreasImportRequest"
+                geometry:
+                  type: object
       responses:
         "400":
           description: Bad Request
@@ -88,6 +109,27 @@ paths:
           description: Bad Request
         "204":
           description: OK
+  /administrative-areas/{id}/simple:
+    get:
+      summary: display single administrative area (bez geometrii)
+      operationId: loadAdministrativeAreaSimple
+      tags:
+        - administrativeArea
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "400":
+          description: Bad Request
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdministrativeArea"
   /administrative-levels:
     post:
       summary: Create level

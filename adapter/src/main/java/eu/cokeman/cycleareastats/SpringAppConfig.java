@@ -14,10 +14,7 @@ import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaReposito
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
 import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
 import eu.cokeman.cycleareastats.port.out.publishing.AdministrativeAreaPublisher;
-import eu.cokeman.cycleareastats.service.area.DeleteAdministrativeAreaService;
-import eu.cokeman.cycleareastats.service.area.FetchAdministrativeAreaService;
-import eu.cokeman.cycleareastats.service.area.ImportAdministrativeAreaService;
-import eu.cokeman.cycleareastats.service.area.UpdateAdministrativeAreaService;
+import eu.cokeman.cycleareastats.service.area.*;
 import eu.cokeman.cycleareastats.service.country.CreateCountryService;
 import eu.cokeman.cycleareastats.service.country.DeleteCountryService;
 import eu.cokeman.cycleareastats.service.country.FetchCountryService;
@@ -60,7 +57,7 @@ public class SpringAppConfig {
 
     @Bean
     UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase() {
-        return new UpdateAdministrativeAreaService(administrativeAreaRepository);
+        return new UpdateAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository);
     }
 
     @Bean
@@ -72,6 +69,7 @@ public class SpringAppConfig {
     ConvertAdministrativeAreaGeometryUseCase convertLandmarkGeometryUseCase() {
         return new KmlParser();
     }
+
 
     @Bean
     ImportAdministrativeAreaUseCase importLandmarkUseCase() {
@@ -90,7 +88,7 @@ public class SpringAppConfig {
 
     @Bean
     UpdateAdministrativeLevelUseCase updateLevelUseCase() {
-        return new UpdateAdministrativeLevelService(administrativeLevelRepository);
+        return new UpdateAdministrativeLevelService(administrativeLevelRepository, countryRepository);
     }
 
     @Bean
