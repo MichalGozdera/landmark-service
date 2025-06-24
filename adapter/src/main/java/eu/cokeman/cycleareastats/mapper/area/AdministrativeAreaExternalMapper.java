@@ -9,6 +9,10 @@ import eu.cokeman.cycleareastats.mapper.level.AdministrativeLevelExternalMapper;
 import eu.cokeman.cycleareastats.openapi.model.*;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeLevelEntity;
 import eu.cokeman.cycleareastats.valueObject.LandmarkMetadata;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.geojson.GeoJsonReader;
+import org.locationtech.jts.io.geojson.GeoJsonWriter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -25,10 +29,8 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
 
     public static AdministrativeAreaExternalMapper INSTANCE = Mappers.getMapper(AdministrativeAreaExternalMapper.class);
 
-    @Mapping(target = "geometry", ignore = true)
     AdministrativeArea.Builder mapToInternal(AdministrativeAreaDto areasDto);
 
-    @Mapping(target = "geometry", ignore = true)
     AdministrativeAreaDto mapToExternal(AdministrativeArea administrativeArea);
 
 
@@ -46,13 +48,33 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
         return AdministrativeLevelExternalMapper.INSTANCE.mapToExternal(level);
     }
 
-    default LandmarkMetadata mapJsonToLandmarkMetadata(JsonNode source)  {
+    default Serializable toInternalGeometry(String external) {
+        GeoJsonReader reader = new GeoJsonReader();
+        try {
+            return reader.read(external);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    default String toExternalGeometry(Serializable internal) {
+        if (internal == null) {
+            return null;
+        }
+        GeoJsonWriter writer = new GeoJsonWriter();
+        return writer.write((Geometry) internal);
+    }
+
+    default LandmarkMetadata mapJsonToLandmarkMetadata(JsonNode source) {
+        if (source == null) {
+            return null;
+        }
         ObjectMapper mapper = new ObjectMapper();
         HashMap map = mapper.convertValue(source, HashMap.class);
         return new LandmarkMetadata(map);
     }
 
-    default JsonNode mapLandmarkMetadataToJson(LandmarkMetadata source)  {
+    default JsonNode mapLandmarkMetadataToJson(LandmarkMetadata source) {
         return new ObjectMapper().convertValue(source, JsonNode.class);
     }
-    }
+}

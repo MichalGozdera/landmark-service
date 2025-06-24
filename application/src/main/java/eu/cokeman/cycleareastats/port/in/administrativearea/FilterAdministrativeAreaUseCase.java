@@ -6,6 +6,8 @@ import eu.cokeman.cycleareastats.entity.Country;
 import java.util.List;
 
 public interface FilterAdministrativeAreaUseCase {
-
-    List<AdministrativeArea> filterByCountry(Country country);
+    List<AdministrativeArea> findByLevelAndCountry(String levelName, String countryName);
+    List<AdministrativeArea> findByMetadataContains(String metadataQuery);
+    List<AdministrativeArea> findSimpleByLevelAndCountry(String levelName, String countryName);
+    List<AdministrativeArea> findSimpleByMetadataContains(String metadataQuery);
 }

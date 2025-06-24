@@ -7,6 +7,7 @@ import eu.cokeman.cycleareastats.mapper.level.AdministrativeLevelExternalMapper;
 import eu.cokeman.cycleareastats.openapi.model.*;
 import eu.cokeman.cycleareastats.port.in.administrativearea.DeleteAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativearea.FetchAdministrativeAreaUseCase;
+import eu.cokeman.cycleareastats.port.in.administrativearea.FilterAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ImportAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
@@ -15,38 +16,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 
 @RestController
-
 public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.api.AdministrativeAreaApi {
 
-    private final ImportAdministrativeAreaUseCase importAdministrativeAreaUseCase;
     private final FetchAdministrativeAreaUseCase fetchAdministrativeAreaUseCase;
     private final UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase;
     private final DeleteAdministrativeAreaUseCase deleteAdministrativeAreaUseCase;
+    private final FilterAdministrativeAreaUseCase filterAdministrativeAreaUseCase;
 
     AdministrativeAreaExternalMapper areaMapper = AdministrativeAreaExternalMapper.INSTANCE;
-    AdministrativeLevelExternalMapper levelMapper = AdministrativeLevelExternalMapper.INSTANCE;
 
-    public AdministrativeAreaApi(ImportAdministrativeAreaUseCase importAdministrativeAreaUseCase
-            , FetchAdministrativeAreaUseCase fetchAdministrativeAreaUseCase,
-                                 UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase,
-                                 DeleteAdministrativeAreaUseCase deleteAdministrativeAreaUseCase) {
-        this.importAdministrativeAreaUseCase = importAdministrativeAreaUseCase;
+    public AdministrativeAreaApi(
+            FetchAdministrativeAreaUseCase fetchAdministrativeAreaUseCase,
+            UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase,
+            DeleteAdministrativeAreaUseCase deleteAdministrativeAreaUseCase,
+            FilterAdministrativeAreaUseCase filterAdministrativeAreaUseCase) {
         this.fetchAdministrativeAreaUseCase = fetchAdministrativeAreaUseCase;
         this.updateAdministrativeAreaUseCase = updateAdministrativeAreaUseCase;
         this.deleteAdministrativeAreaUseCase = deleteAdministrativeAreaUseCase;
+        this.filterAdministrativeAreaUseCase = filterAdministrativeAreaUseCase;
 
-    }
-
-    @Override
-    public ResponseEntity<Void> importAdministrativeAreas(AdministrativeAreasImportRequestDto requestDto, MultipartFile geometry) {
-        AdministrativeLevel level = levelMapper.mapToInternal(requestDto.getLevel()).build();
-        LandmarkMetadata metadata = areaMapper.mapJsonToLandmarkMetadata(requestDto.getMetadata());
-        importAdministrativeAreaUseCase.importAdministrativeAreas(level, metadata, geometry);
-        return ResponseEntity.ok().build();
     }
 
 
@@ -74,10 +67,20 @@ public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.
         return ResponseEntity.ok().build();
     }
 
+
     @Override
-    public ResponseEntity<AdministrativeAreaDto> loadAdministrativeAreaSimple(Integer id) {
-        var simpleArea = fetchAdministrativeAreaUseCase.findSimpleArea(areaMapper.mapToAdmAreaId(id));
-        AdministrativeAreaDto dto = areaMapper.mapToExternal(simpleArea);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByLevelAndCountry(String levelName, String countryName) {
+        var areas = filterAdministrativeAreaUseCase.findByLevelAndCountry(levelName, countryName);
+        var dtos = areas.stream().map(areaMapper::mapToExternal).toList();
+        return ResponseEntity.ok(dtos);
     }
+
+    @Override
+    public ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByMetadata(String metadataQuery) {
+        var areas = filterAdministrativeAreaUseCase.findByMetadataContains(metadataQuery);
+        var dtos = areas.stream().map(areaMapper::mapToExternal).toList();
+        return ResponseEntity.ok(dtos);
+    }
+
+
 }

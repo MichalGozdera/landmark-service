@@ -6,7 +6,6 @@
 package eu.cokeman.cycleareastats.openapi.api;
 
 import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaDto;
-import eu.cokeman.cycleareastats.openapi.model.CreateAdministrativeAreaRequestDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,93 +36,36 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Controller
-@Tag(name = "administrativeArea", description = "the administrativeArea API")
-public interface AdministrativeAreaApi {
+@Tag(name = "administrativeAreaSimple", description = "the administrativeAreaSimple API")
+public interface AdministrativeAreaSimpleApi {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
     /**
-     * POST /administrative-areas : Create area
-     *
-     * @param createAdministrativeAreaRequestDto  (optional)
-     * @return Bad Request (status code 400)
-     *         or Created (status code 201)
-     */
-    @Operation(
-        operationId = "createAdministrativeArea",
-        summary = "Create area",
-        tags = { "administrativeArea" },
-        responses = {
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "201", description = "Created")
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/administrative-areas",
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<Void> createAdministrativeArea(
-        @Parameter(name = "CreateAdministrativeAreaRequestDto", description = "") @Valid @RequestBody(required = false) CreateAdministrativeAreaRequestDto createAdministrativeAreaRequestDto
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    /**
-     * DELETE /administrative-areas/{AdministrativeAreaId} : delete single administrative area
-     *
-     * @param administrativeAreaId  (required)
-     * @return Bad Request (status code 400)
-     *         or  (status code 204)
-     */
-    @Operation(
-        operationId = "deleteAdministrativeArea",
-        summary = "delete single administrative area",
-        tags = { "administrativeArea" },
-        responses = {
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "204", description = "")
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.DELETE,
-        value = "/administrative-areas/{AdministrativeAreaId}"
-    )
-    default ResponseEntity<Void> deleteAdministrativeArea(
-        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") Integer administrativeAreaId
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    /**
-     * GET /administrative-areas/by-level-country : Get administrative areas by level and country name
+     * GET /administrative-areas/by-level-country/simple : Get administrative areas by level and country name (simple, without geometry)
      *
      * @param levelName  (required)
      * @param countryName  (required)
-     * @return List of administrative areas (status code 200)
+     * @return List of administrative areas (without geometry) (status code 200)
      */
     @Operation(
-        operationId = "getAdministrativeAreasByLevelAndCountry",
-        summary = "Get administrative areas by level and country name",
-        tags = { "administrativeArea" },
+        operationId = "getAdministrativeAreasByLevelAndCountrySimple",
+        summary = "Get administrative areas by level and country name (simple, without geometry)",
+        tags = { "administrativeAreaSimple" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "List of administrative areas", content = {
+            @ApiResponse(responseCode = "200", description = "List of administrative areas (without geometry)", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AdministrativeAreaDto.class)))
             })
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/administrative-areas/by-level-country",
+        value = "/administrative-areas/by-level-country/simple",
         produces = { "application/json" }
     )
-    default ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByLevelAndCountry(
+    default ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByLevelAndCountrySimple(
         @NotNull @Parameter(name = "levelName", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "levelName", required = true) String levelName,
         @NotNull @Parameter(name = "countryName", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "countryName", required = true) String countryName
     ) {
@@ -142,27 +84,27 @@ public interface AdministrativeAreaApi {
 
 
     /**
-     * GET /administrative-areas/by-metadata : Get administrative areas by metadata query
+     * GET /administrative-areas/by-metadata/simple : Get administrative areas by metadata query (simple, without geometry)
      *
      * @param metadataQuery  (required)
-     * @return List of administrative areas (status code 200)
+     * @return List of administrative areas (without geometry) (status code 200)
      */
     @Operation(
-        operationId = "getAdministrativeAreasByMetadata",
-        summary = "Get administrative areas by metadata query",
-        tags = { "administrativeArea" },
+        operationId = "getAdministrativeAreasByMetadataSimple",
+        summary = "Get administrative areas by metadata query (simple, without geometry)",
+        tags = { "administrativeAreaSimple" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "List of administrative areas", content = {
+            @ApiResponse(responseCode = "200", description = "List of administrative areas (without geometry)", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AdministrativeAreaDto.class)))
             })
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/administrative-areas/by-metadata",
+        value = "/administrative-areas/by-metadata/simple",
         produces = { "application/json" }
     )
-    default ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByMetadata(
+    default ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByMetadataSimple(
         @NotNull @Parameter(name = "metadataQuery", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "metadataQuery", required = true) String metadataQuery
     ) {
         getRequest().ifPresent(request -> {
@@ -180,16 +122,16 @@ public interface AdministrativeAreaApi {
 
 
     /**
-     * GET /administrative-areas/{AdministrativeAreaId} : display single administrative area
+     * GET /administrative-areas/{id}/simple : display single administrative area (bez geometrii)
      *
-     * @param administrativeAreaId  (required)
+     * @param id  (required)
      * @return Bad Request (status code 400)
      *         or OK (status code 200)
      */
     @Operation(
-        operationId = "loadAdministrativeArea",
-        summary = "display single administrative area",
-        tags = { "administrativeArea" },
+        operationId = "loadAdministrativeAreaSimple",
+        summary = "display single administrative area (bez geometrii)",
+        tags = { "administrativeAreaSimple" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -199,54 +141,11 @@ public interface AdministrativeAreaApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/administrative-areas/{AdministrativeAreaId}",
+        value = "/administrative-areas/{id}/simple",
         produces = { "application/json" }
     )
-    default ResponseEntity<AdministrativeAreaDto> loadAdministrativeArea(
-        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") Integer administrativeAreaId
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"parent\" : \"\", \"metadata\" : \"{}\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"level\" : { \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }, \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"geometry\" : \"geometry\", \"id\" : \"\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    /**
-     * PUT /administrative-areas/{AdministrativeAreaId} : update single administrative area
-     *
-     * @param administrativeAreaId  (required)
-     * @param administrativeAreaDto  (required)
-     * @return Bad Request (status code 400)
-     *         or OK (status code 200)
-     */
-    @Operation(
-        operationId = "updateAdministrativeArea",
-        summary = "update single administrative area",
-        tags = { "administrativeArea" },
-        responses = {
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = AdministrativeAreaDto.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.PUT,
-        value = "/administrative-areas/{AdministrativeAreaId}",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<AdministrativeAreaDto> updateAdministrativeArea(
-        @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") Integer administrativeAreaId,
-        @Parameter(name = "AdministrativeAreaDto", description = "", required = true) @Valid @RequestBody AdministrativeAreaDto administrativeAreaDto
+    default ResponseEntity<AdministrativeAreaDto> loadAdministrativeAreaSimple(
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

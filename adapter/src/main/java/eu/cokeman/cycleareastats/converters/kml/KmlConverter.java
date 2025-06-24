@@ -5,9 +5,9 @@ import com.axiomalaska.polylineencoder.UnsupportedGeometryTypeException;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ConvertAdministrativeAreaGeometryUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaGeometry;
 import org.locationtech.jts.geom.*;
-import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.kml.KMLReader;
+import org.locationtech.jts.io.kml.KMLWriter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
@@ -36,7 +36,28 @@ import java.util.Set;
 
 
 @Component
-public class KmlParser implements ConvertAdministrativeAreaGeometryUseCase {
+public class KmlConverter implements ConvertAdministrativeAreaGeometryUseCase {
+
+
+    public String convertToKml(List<AdministrativeAreaGeometry> geometries) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        sb.append("<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
+        sb.append("<Document>\n");
+        KMLWriter kmlWriter = new KMLWriter();
+        kmlWriter.setMaximumCoordinatesPerLine(Integer.MAX_VALUE);
+        for (AdministrativeAreaGeometry geometry : geometries) {
+            if (geometry.geometryData() != null) {
+                sb.append("<Placemark>\n");
+                sb.append("<name>").append(geometry.name()).append("</name>\n");
+                String kmlGeometry = kmlWriter.write((Geometry) geometry.geometryData());
+                sb.append(kmlGeometry).append("\n");
+                sb.append("</Placemark>\n");
+            }
+        }
+        sb.append("</Document>\n</kml>");
+        return sb.toString();
+    }
 
 
     @Override

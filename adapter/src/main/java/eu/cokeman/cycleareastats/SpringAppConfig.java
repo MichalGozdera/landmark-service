@@ -1,6 +1,6 @@
 package eu.cokeman.cycleareastats;
 
-import eu.cokeman.cycleareastats.converters.kml.KmlParser;
+import eu.cokeman.cycleareastats.converters.kml.KmlConverter;
 import eu.cokeman.cycleareastats.port.in.administrativearea.*;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.CreateAdministrativeLevelUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.DeleteAdministrativeLevelUseCase;
@@ -67,13 +67,23 @@ public class SpringAppConfig {
 
     @Bean
     ConvertAdministrativeAreaGeometryUseCase convertLandmarkGeometryUseCase() {
-        return new KmlParser();
+        return new KmlConverter();
     }
 
 
     @Bean
     ImportAdministrativeAreaUseCase importLandmarkUseCase() {
         return new ImportAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertLandmarkGeometryUseCase());
+    }
+
+    @Bean
+    ExportAdministrativeAreaUseCase exportLandmarkUseCase() {
+        return new ExportAdministrativeAreaService(administrativeAreaRepository, convertLandmarkGeometryUseCase());
+    }
+
+    @Bean
+    FilterAdministrativeAreaUseCase filterAreaUseCase() {
+        return new FilterAdministrativeAreaService(administrativeAreaRepository);
     }
 
     @Bean
@@ -95,6 +105,7 @@ public class SpringAppConfig {
     DeleteAdministrativeLevelUseCase deleteLevelUseCase() {
         return new DeleteAdministrativeLevelService(administrativeLevelRepository);
     }
+
 
     @Bean
     CreateCountryUseCase createCountryUseCase() {

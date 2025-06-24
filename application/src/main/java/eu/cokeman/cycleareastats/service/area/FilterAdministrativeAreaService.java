@@ -16,7 +16,23 @@ public class FilterAdministrativeAreaService implements FilterAdministrativeArea
     }
 
     @Override
-    public List<AdministrativeArea> filterByCountry(Country country) {
-      return administrativeAreaRepository.findByCountry(country);
+    public List<AdministrativeArea> findByLevelAndCountry(String levelName, String countryName) {
+        return administrativeAreaRepository.findByLevelAndCountry(levelName, countryName);
     }
+
+    @Override
+    public List<AdministrativeArea> findByMetadataContains(String metadataQuery) {
+        return administrativeAreaRepository.findByMetadataContains(metadataQuery);
+    }
+
+    @Override
+    public List<AdministrativeArea> findSimpleByLevelAndCountry(String levelName, String countryName) {
+        return administrativeAreaRepository.findSimpleByLevelAndCountry(levelName, countryName);
+    }
+
+    @Override
+    public List<AdministrativeArea> findSimpleByMetadataContains(String metadataQuery) {
+        return administrativeAreaRepository.findSimpleByMetadataContains(metadataQuery);
+    }
+
 }

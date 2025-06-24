@@ -18,7 +18,9 @@ public class UpdateAdministrativeAreaService implements UpdateAdministrativeArea
 
     @Override
     public AdministrativeArea updateAdministrativeArea(AdministrativeAreaId areaId, AdministrativeArea administrativeArea) {
-        administrativeArea = levelBinder.bindLevelId(administrativeArea.getLevel(), administrativeArea);
+        if(administrativeArea.getLevel()!=null){
+            administrativeArea = levelBinder.bindLevelId(administrativeArea.getLevel(), administrativeArea);
+        }
         return administrativeAreaRepository.updateAdministrativeArea(areaId, administrativeArea);
     }
 }

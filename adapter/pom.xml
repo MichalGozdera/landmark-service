@@ -12,9 +12,9 @@
     <artifactId>adapter</artifactId>
 
     <properties>
-        <springboot.version>3.5.0</springboot.version>
+        <springboot.version>3.5.3</springboot.version>
         <springdoc.openapi.starter.webmvc.ui.version>2.5.0</springdoc.openapi.starter.webmvc.ui.version>
-        <hibernate.spatial.version>7.0.0.Final</hibernate.spatial.version>
+        <hibernate.spatial.version>6.4.4.Final</hibernate.spatial.version>
         <testcontainers.version>1.19.8</testcontainers.version>
         <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
@@ -23,6 +23,8 @@
         <jackson.version>2.17.1</jackson.version>
         <liquibase.version>4.28.0</liquibase.version>
         <jpx.version>3.2.1</jpx.version>
+        <polyline-encoder.version>0.2</polyline-encoder.version>
+        <jts-common.version>1.20.0</jts-common.version>
 
     </properties>
     <repositories>
@@ -127,11 +129,6 @@
             <version>${hibernate.spatial.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.spatial.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
             <version>${testcontainers.version}</version>
@@ -140,7 +137,12 @@
         <dependency>
             <groupId>com.axiomalaska</groupId>
             <artifactId>polyline-encoder</artifactId>
-            <version>0.2</version>
+            <version>${polyline-encoder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.locationtech.jts.io</groupId>
+            <artifactId>jts-io-common</artifactId>
+            <version>${jts-common.version}</version>
         </dependency>
 
 

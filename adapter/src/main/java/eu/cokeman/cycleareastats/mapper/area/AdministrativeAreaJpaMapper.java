@@ -25,7 +25,8 @@ public interface AdministrativeAreaJpaMapper extends AdministrativeAreaCommonMap
 
     AdministrativeAreaEntity mapToJpa(AdministrativeArea administrativeArea);
 
-    AdministrativeArea.Builder mapJpaToInternal(AdministrativeAreaBaseEntity administrativeAreaEntity);
+    AdministrativeArea.Builder mapJpaToInternal(AdministrativeAreaEntity administrativeAreaEntity);
+    AdministrativeArea.Builder mapSimpleJpaToInternal(AdministrativeAreaSimpleEntity administrativeAreaEntity);
 
     default AdministrativeLevelEntity mapToJpa(AdministrativeLevel level) {
         return AdministrativeLevelJpaMapper.INSTANCE.mapToJpa(level);

@@ -41,7 +41,7 @@ public class AdministrativeAreaDto {
 
   private Integer parent = null;
 
-  private org.springframework.core.io.Resource geometry = null;
+  private String geometry;
 
   private com.fasterxml.jackson.databind.JsonNode metadata;
 
@@ -165,7 +165,7 @@ public class AdministrativeAreaDto {
     this.parent = parent;
   }
 
-  public AdministrativeAreaDto geometry(org.springframework.core.io.Resource geometry) {
+  public AdministrativeAreaDto geometry(String geometry) {
     this.geometry = geometry;
     return this;
   }
@@ -174,14 +174,14 @@ public class AdministrativeAreaDto {
    * Get geometry
    * @return geometry
   */
-  @Valid 
+  
   @Schema(name = "geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("geometry")
-  public org.springframework.core.io.Resource getGeometry() {
+  public String getGeometry() {
     return geometry;
   }
 
-  public void setGeometry(org.springframework.core.io.Resource geometry) {
+  public void setGeometry(String geometry) {
     this.geometry = geometry;
   }
 

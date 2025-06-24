@@ -13,4 +13,8 @@ import java.util.UUID;
 @Repository
 public interface JpaAdministrativeAreaRepositorySpringDataRepository extends JpaRepository<AdministrativeAreaEntity, Integer> {
 
+    List<AdministrativeAreaEntity> findByLevel_NameAndLevel_Country_Name(String levelName,  String countryName);
+
+    @Query(value = "SELECT * FROM administrative_area WHERE metadata::text ILIKE %:metadataQuery%", nativeQuery = true)
+    List<AdministrativeAreaEntity> findByMetadataContaining(@Param("metadataQuery") String metadataQuery);
   }

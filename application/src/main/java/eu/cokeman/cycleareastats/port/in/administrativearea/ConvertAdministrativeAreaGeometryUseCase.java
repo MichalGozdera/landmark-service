@@ -11,4 +11,6 @@ public interface ConvertAdministrativeAreaGeometryUseCase {
     Set<AdministrativeAreaGeometry> convertToLandmarksGeometries(Object geometry);
 
     List<String> getGeometriesSimplified(Object geometry);
+
+    String convertToKml(List<AdministrativeAreaGeometry> geometries);
 }

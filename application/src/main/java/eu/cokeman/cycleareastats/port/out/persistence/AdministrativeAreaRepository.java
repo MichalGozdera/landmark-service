@@ -18,13 +18,15 @@ public interface AdministrativeAreaRepository {
 
     void deleteAdministrativeArea(AdministrativeAreaId administrativeAreaId);
 
-    List<AdministrativeArea> findByCountry(Country country);
-
-    List<AdministrativeArea> filterAdministrativeAreas(String criteria);
-
-    List<AdministrativeArea> findSubUnits(AdministrativeAreaId administrativeAreaId);
-
     AdministrativeAreaId importLandmark(AdministrativeArea administrativeArea);
 
-    AdministrativeAreaId findParent(AdministrativeAreaId administrativeAreaId);
+    List<AdministrativeArea> findByLevelAndCountry(String levelName, String countryName);
+
+    List<AdministrativeArea> findByMetadataContains(String metadataQuery);
+
+    List<AdministrativeArea> findSimpleByLevelAndCountry(String levelName, String countryName);
+
+    List<AdministrativeArea> findSimpleByMetadataContains(String metadataQuery);
+
+
 }

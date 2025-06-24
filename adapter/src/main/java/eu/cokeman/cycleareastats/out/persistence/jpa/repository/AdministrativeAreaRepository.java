@@ -1,6 +1,7 @@
 package eu.cokeman.cycleareastats.out.persistence.jpa.repository;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
+import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.mapper.area.AdministrativeAreaJpaMapper;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.AdministrativeAreaEntity;
 import eu.cokeman.cycleareastats.out.persistence.jpa.entity.BaseJpaEntity;
@@ -39,15 +40,10 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
     @Override
     public AdministrativeArea findSimpleByAdministrativeAreaId(AdministrativeAreaId administrativeAreaId) {
         var jpaLandmark = springSimpleDataRepository.findById(administrativeAreaId.value());
-        AdministrativeArea administrativeArea = mapper.mapJpaToInternal(jpaLandmark.orElseThrow()).build();
+        AdministrativeArea administrativeArea = mapper.mapSimpleJpaToInternal(jpaLandmark.orElseThrow()).build();
         return administrativeArea;
     }
 
-    @Override
-    public List<AdministrativeArea> findSubUnits(AdministrativeAreaId administrativeAreaId) {
-
-        return null;
-    }
 
     @Override
     public AdministrativeArea updateAdministrativeArea(AdministrativeAreaId areaId, AdministrativeArea administrativeArea) {
@@ -64,21 +60,6 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
         springDataRepository.deleteById(administrativeAreaId.value());
     }
 
-    @Override
-    public AdministrativeAreaId findParent(AdministrativeAreaId administrativeAreaId) {
-
-        return null;
-    }
-
-    @Override
-    public List<AdministrativeArea> findByCountry(Country country) {
-        return List.of();
-    }
-
-    @Override
-    public List<AdministrativeArea> filterAdministrativeAreas(String criteria) {
-        return List.of();
-    }
 
     @Override
     public AdministrativeAreaId importLandmark(AdministrativeArea administrativeArea) {
@@ -88,5 +69,29 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
         var generatedEntity = springDataRepository.save(jpaLandmark);
 
         return new AdministrativeAreaId(generatedEntity.getId());
+    }
+
+    @Override
+    public List<AdministrativeArea> findByLevelAndCountry(String levelName, String countryName) {
+        var entities = springDataRepository.findByLevel_NameAndLevel_Country_Name(levelName, countryName);
+        return entities.stream().map(e -> mapper.mapJpaToInternal(e).build()).toList();
+    }
+
+    @Override
+    public List<AdministrativeArea> findByMetadataContains(String metadataQuery) {
+        var entities = springDataRepository.findByMetadataContaining(metadataQuery);
+        return entities.stream().map(e -> mapper.mapJpaToInternal(e).build()).toList();
+    }
+
+    @Override
+    public List<AdministrativeArea> findSimpleByLevelAndCountry(String levelName, String countryName) {
+        var entities = springSimpleDataRepository.findByLevel_NameAndLevel_Country_Name(levelName, countryName);
+        return entities.stream().map(e -> mapper.mapSimpleJpaToInternal(e).build()).toList();
+    }
+
+    @Override
+    public List<AdministrativeArea> findSimpleByMetadataContains(String metadataQuery) {
+        var entities = springSimpleDataRepository.findByMetadataContaining(metadataQuery);
+        return entities.stream().map(e -> mapper.mapSimpleJpaToInternal(e).build()).toList();
     }
 }
