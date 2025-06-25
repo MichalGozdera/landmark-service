@@ -85,28 +85,16 @@ public interface AdministrativeLevelApi {
         tags = { "administrativeLevel" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "204", description = "OK", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = AdministrativeLevelDto.class))
-            })
+            @ApiResponse(responseCode = "204", description = "OK")
         }
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/administrative-levels/{AdministrativeLevelId}",
-        produces = { "application/json" }
+        value = "/administrative-levels/{AdministrativeLevelId}"
     )
-    default ResponseEntity<AdministrativeLevelDto> deleteAdministrativeLevel(
+    default ResponseEntity<Void> deleteAdministrativeLevel(
         @Parameter(name = "AdministrativeLevelId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeLevelId") Integer administrativeLevelId
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"country\" : \"\", \"createTime\" : \"2000-01-23T04:56:07.000+00:00\", \"name\" : \"\", \"updateTime\" : \"2000-01-23T04:56:07.000+00:00\", \"id\" : \"\", \"order\" : \"\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

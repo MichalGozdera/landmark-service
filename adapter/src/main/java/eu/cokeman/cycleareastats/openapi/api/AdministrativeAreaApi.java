@@ -5,7 +5,8 @@
  */
 package eu.cokeman.cycleareastats.openapi.api;
 
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaDto;
+import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaRequestDto;
+import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaResponseDto;
 import eu.cokeman.cycleareastats.openapi.model.CreateAdministrativeAreaRequestDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -114,7 +115,7 @@ public interface AdministrativeAreaApi {
         tags = { "administrativeArea" },
         responses = {
             @ApiResponse(responseCode = "200", description = "List of administrative areas", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AdministrativeAreaDto.class)))
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AdministrativeAreaResponseDto.class)))
             })
         }
     )
@@ -123,7 +124,7 @@ public interface AdministrativeAreaApi {
         value = "/administrative-areas/by-level-country",
         produces = { "application/json" }
     )
-    default ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByLevelAndCountry(
+    default ResponseEntity<List<AdministrativeAreaResponseDto>> getAdministrativeAreasByLevelAndCountry(
         @NotNull @Parameter(name = "levelName", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "levelName", required = true) String levelName,
         @NotNull @Parameter(name = "countryName", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "countryName", required = true) String countryName
     ) {
@@ -153,7 +154,7 @@ public interface AdministrativeAreaApi {
         tags = { "administrativeArea" },
         responses = {
             @ApiResponse(responseCode = "200", description = "List of administrative areas", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AdministrativeAreaDto.class)))
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AdministrativeAreaResponseDto.class)))
             })
         }
     )
@@ -162,7 +163,7 @@ public interface AdministrativeAreaApi {
         value = "/administrative-areas/by-metadata",
         produces = { "application/json" }
     )
-    default ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByMetadata(
+    default ResponseEntity<List<AdministrativeAreaResponseDto>> getAdministrativeAreasByMetadata(
         @NotNull @Parameter(name = "metadataQuery", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "metadataQuery", required = true) String metadataQuery
     ) {
         getRequest().ifPresent(request -> {
@@ -193,7 +194,7 @@ public interface AdministrativeAreaApi {
         responses = {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = AdministrativeAreaDto.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = AdministrativeAreaResponseDto.class))
             })
         }
     )
@@ -202,7 +203,7 @@ public interface AdministrativeAreaApi {
         value = "/administrative-areas/{AdministrativeAreaId}",
         produces = { "application/json" }
     )
-    default ResponseEntity<AdministrativeAreaDto> loadAdministrativeArea(
+    default ResponseEntity<AdministrativeAreaResponseDto> loadAdministrativeArea(
         @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") Integer administrativeAreaId
     ) {
         getRequest().ifPresent(request -> {
@@ -223,7 +224,7 @@ public interface AdministrativeAreaApi {
      * PUT /administrative-areas/{AdministrativeAreaId} : update single administrative area
      *
      * @param administrativeAreaId  (required)
-     * @param administrativeAreaDto  (required)
+     * @param administrativeAreaRequestDto  (required)
      * @return Bad Request (status code 400)
      *         or OK (status code 200)
      */
@@ -234,7 +235,7 @@ public interface AdministrativeAreaApi {
         responses = {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = AdministrativeAreaDto.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = AdministrativeAreaResponseDto.class))
             })
         }
     )
@@ -244,9 +245,9 @@ public interface AdministrativeAreaApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<AdministrativeAreaDto> updateAdministrativeArea(
+    default ResponseEntity<AdministrativeAreaResponseDto> updateAdministrativeArea(
         @Parameter(name = "AdministrativeAreaId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("AdministrativeAreaId") Integer administrativeAreaId,
-        @Parameter(name = "AdministrativeAreaDto", description = "", required = true) @Valid @RequestBody AdministrativeAreaDto administrativeAreaDto
+        @Parameter(name = "AdministrativeAreaRequestDto", description = "", required = true) @Valid @RequestBody AdministrativeAreaRequestDto administrativeAreaRequestDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

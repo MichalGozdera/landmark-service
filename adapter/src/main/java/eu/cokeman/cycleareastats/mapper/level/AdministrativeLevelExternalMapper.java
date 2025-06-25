@@ -3,6 +3,7 @@ package eu.cokeman.cycleareastats.mapper.level;
 import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.entity.Country;
 import eu.cokeman.cycleareastats.mapper.country.CountryExternalMapper;
+import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelBasicDto;
 import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelDto;
 import eu.cokeman.cycleareastats.openapi.model.CountryDto;
 import org.mapstruct.Mapper;
@@ -15,6 +16,9 @@ public interface AdministrativeLevelExternalMapper extends AdministrativeLevelCo
     public static AdministrativeLevelExternalMapper INSTANCE = Mappers.getMapper(AdministrativeLevelExternalMapper.class);
 
     AdministrativeLevel.Builder mapToInternal(AdministrativeLevelDto levelDto);
+
+    AdministrativeLevel.Builder mapLevelBasicToInternal(AdministrativeLevelBasicDto dto);
+
 
     @Mapping(target = "country", source = "country.name")
     AdministrativeLevelDto mapToExternal(AdministrativeLevel level);

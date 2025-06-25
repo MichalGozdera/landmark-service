@@ -20,12 +20,12 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * AdministrativeAreaDto
+ * AdministrativeAreaResponseDto
  */
 
-@JsonTypeName("AdministrativeArea")
+@JsonTypeName("AdministrativeAreaResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdministrativeAreaDto {
+public class AdministrativeAreaResponseDto {
 
   private Integer id = null;
 
@@ -45,7 +45,7 @@ public class AdministrativeAreaDto {
 
   private com.fasterxml.jackson.databind.JsonNode metadata;
 
-  public AdministrativeAreaDto id(Integer id) {
+  public AdministrativeAreaResponseDto id(Integer id) {
     this.id = id;
     return this;
   }
@@ -65,7 +65,7 @@ public class AdministrativeAreaDto {
     this.id = id;
   }
 
-  public AdministrativeAreaDto name(String name) {
+  public AdministrativeAreaResponseDto name(String name) {
     this.name = name;
     return this;
   }
@@ -85,7 +85,7 @@ public class AdministrativeAreaDto {
     this.name = name;
   }
 
-  public AdministrativeAreaDto createTime(Instant createTime) {
+  public AdministrativeAreaResponseDto createTime(Instant createTime) {
     this.createTime = createTime;
     return this;
   }
@@ -105,7 +105,7 @@ public class AdministrativeAreaDto {
     this.createTime = createTime;
   }
 
-  public AdministrativeAreaDto updateTime(Instant updateTime) {
+  public AdministrativeAreaResponseDto updateTime(Instant updateTime) {
     this.updateTime = updateTime;
     return this;
   }
@@ -125,7 +125,7 @@ public class AdministrativeAreaDto {
     this.updateTime = updateTime;
   }
 
-  public AdministrativeAreaDto level(AdministrativeLevelDto level) {
+  public AdministrativeAreaResponseDto level(AdministrativeLevelDto level) {
     this.level = level;
     return this;
   }
@@ -134,8 +134,8 @@ public class AdministrativeAreaDto {
    * Get level
    * @return level
   */
-  @NotNull @Valid 
-  @Schema(name = "level", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Valid 
+  @Schema(name = "level", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("level")
   public AdministrativeLevelDto getLevel() {
     return level;
@@ -145,7 +145,7 @@ public class AdministrativeAreaDto {
     this.level = level;
   }
 
-  public AdministrativeAreaDto parent(Integer parent) {
+  public AdministrativeAreaResponseDto parent(Integer parent) {
     this.parent = parent;
     return this;
   }
@@ -165,7 +165,7 @@ public class AdministrativeAreaDto {
     this.parent = parent;
   }
 
-  public AdministrativeAreaDto geometry(String geometry) {
+  public AdministrativeAreaResponseDto geometry(String geometry) {
     this.geometry = geometry;
     return this;
   }
@@ -185,7 +185,7 @@ public class AdministrativeAreaDto {
     this.geometry = geometry;
   }
 
-  public AdministrativeAreaDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+  public AdministrativeAreaResponseDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
     this.metadata = metadata;
     return this;
   }
@@ -213,15 +213,15 @@ public class AdministrativeAreaDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdministrativeAreaDto administrativeArea = (AdministrativeAreaDto) o;
-    return Objects.equals(this.id, administrativeArea.id) &&
-        Objects.equals(this.name, administrativeArea.name) &&
-        Objects.equals(this.createTime, administrativeArea.createTime) &&
-        Objects.equals(this.updateTime, administrativeArea.updateTime) &&
-        Objects.equals(this.level, administrativeArea.level) &&
-        Objects.equals(this.parent, administrativeArea.parent) &&
-        Objects.equals(this.geometry, administrativeArea.geometry) &&
-        Objects.equals(this.metadata, administrativeArea.metadata);
+    AdministrativeAreaResponseDto administrativeAreaResponse = (AdministrativeAreaResponseDto) o;
+    return Objects.equals(this.id, administrativeAreaResponse.id) &&
+        Objects.equals(this.name, administrativeAreaResponse.name) &&
+        Objects.equals(this.createTime, administrativeAreaResponse.createTime) &&
+        Objects.equals(this.updateTime, administrativeAreaResponse.updateTime) &&
+        Objects.equals(this.level, administrativeAreaResponse.level) &&
+        Objects.equals(this.parent, administrativeAreaResponse.parent) &&
+        Objects.equals(this.geometry, administrativeAreaResponse.geometry) &&
+        Objects.equals(this.metadata, administrativeAreaResponse.metadata);
   }
 
   @Override
@@ -232,7 +232,7 @@ public class AdministrativeAreaDto {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdministrativeAreaDto {\n");
+    sb.append("class AdministrativeAreaResponseDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    createTime: ").append(toIndentedString(createTime)).append("\n");

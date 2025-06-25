@@ -26,6 +26,7 @@ public interface AdministrativeAreaJpaMapper extends AdministrativeAreaCommonMap
     AdministrativeAreaEntity mapToJpa(AdministrativeArea administrativeArea);
 
     AdministrativeArea.Builder mapJpaToInternal(AdministrativeAreaEntity administrativeAreaEntity);
+
     AdministrativeArea.Builder mapSimpleJpaToInternal(AdministrativeAreaSimpleEntity administrativeAreaEntity);
 
     default AdministrativeLevelEntity mapToJpa(AdministrativeLevel level) {
@@ -33,19 +34,28 @@ public interface AdministrativeAreaJpaMapper extends AdministrativeAreaCommonMap
     }
 
     default AdministrativeLevel mapLevelJpaToInternal(AdministrativeLevelEntity level) {
+        if (level == null) {
+            return null;
+        }
         return AdministrativeLevelJpaMapper.INSTANCE.mapJpaToInternal(level).build();
     }
 
     default String convertLandmarkMetadataToJpa(LandmarkMetadata metadata) throws JsonProcessingException {
+        if (metadata == null) {
+            return null;
+        }
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(metadata);
     }
 
     default LandmarkMetadata convertJpaToLandmarkMetadata(String source) throws JsonProcessingException {
+        if (source == null) {
+            return null;
+        }
         return new ObjectMapper().readValue(source, LandmarkMetadata.class);
     }
 
-    default Geometry convertJpaToJtsMode(Serializable source)  {
+    default Geometry convertJpaToJtsMode(Serializable source) {
         return (Geometry) source;
     }
 

@@ -14,12 +14,15 @@ public class AreaLevelBinder {
     }
 
 
-    AdministrativeArea bindLevelId(AdministrativeLevel level, AdministrativeArea administrativeArea) {
-        var matchingLevelId = levelRepository.findByCountryAndName(level.getCountry(), level.getName())
+    AdministrativeArea bindLevelData(AdministrativeLevel level, AdministrativeArea administrativeArea) {
+        var matchingLevel= levelRepository.findByCountryAndName(level.getCountry(), level.getName())
                 .orElseThrow(() -> new LevelNotFoundException(
-                        String.format("Level with name %s and country %s not found", level.getCountry().getName(), level.getName().name()))).getId();
+                        String.format("Level with name %s and country %s not found", level.getCountry().getName(), level.getName().name())));
         administrativeArea = administrativeArea.toBuilder()
-                .level(administrativeArea.getLevel().toBuilder().id(matchingLevelId).build()).build();
+                .level(administrativeArea.getLevel().toBuilder()
+                        .id(matchingLevel.getId())
+                        .order(matchingLevel.getOrder())
+                        .build()).build();
         return administrativeArea;
     }
 }

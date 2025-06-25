@@ -17,18 +17,42 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * AdministrativeAreasImportRequestDto
+ * AdministrativeAreaRequestDto
  */
 
-@JsonTypeName("AdministrativeAreasImportRequest")
+@JsonTypeName("AdministrativeAreaRequest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdministrativeAreasImportRequestDto {
+public class AdministrativeAreaRequestDto {
+
+  private String name = null;
 
   private AdministrativeLevelBasicDto level;
 
+  private String geometry;
+
   private com.fasterxml.jackson.databind.JsonNode metadata;
 
-  public AdministrativeAreasImportRequestDto level(AdministrativeLevelBasicDto level) {
+  public AdministrativeAreaRequestDto name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+  */
+  @NotNull 
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public AdministrativeAreaRequestDto level(AdministrativeLevelBasicDto level) {
     this.level = level;
     return this;
   }
@@ -48,7 +72,27 @@ public class AdministrativeAreasImportRequestDto {
     this.level = level;
   }
 
-  public AdministrativeAreasImportRequestDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+  public AdministrativeAreaRequestDto geometry(String geometry) {
+    this.geometry = geometry;
+    return this;
+  }
+
+  /**
+   * Get geometry
+   * @return geometry
+  */
+  
+  @Schema(name = "geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("geometry")
+  public String getGeometry() {
+    return geometry;
+  }
+
+  public void setGeometry(String geometry) {
+    this.geometry = geometry;
+  }
+
+  public AdministrativeAreaRequestDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
     this.metadata = metadata;
     return this;
   }
@@ -76,21 +120,25 @@ public class AdministrativeAreasImportRequestDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdministrativeAreasImportRequestDto administrativeAreasImportRequest = (AdministrativeAreasImportRequestDto) o;
-    return Objects.equals(this.level, administrativeAreasImportRequest.level) &&
-        Objects.equals(this.metadata, administrativeAreasImportRequest.metadata);
+    AdministrativeAreaRequestDto administrativeAreaRequest = (AdministrativeAreaRequestDto) o;
+    return Objects.equals(this.name, administrativeAreaRequest.name) &&
+        Objects.equals(this.level, administrativeAreaRequest.level) &&
+        Objects.equals(this.geometry, administrativeAreaRequest.geometry) &&
+        Objects.equals(this.metadata, administrativeAreaRequest.metadata);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(level, metadata);
+    return Objects.hash(name, level, geometry, metadata);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdministrativeAreasImportRequestDto {\n");
+    sb.append("class AdministrativeAreaRequestDto {\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    level: ").append(toIndentedString(level)).append("\n");
+    sb.append("    geometry: ").append(toIndentedString(geometry)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("}");
     return sb.toString();

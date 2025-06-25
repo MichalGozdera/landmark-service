@@ -1,21 +1,17 @@
 package eu.cokeman.cycleareastats.in.rest;
 
-import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.mapper.level.AdministrativeLevelExternalMapper;
 import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelDto;
-import eu.cokeman.cycleareastats.port.in.administrativearea.DeleteAdministrativeAreaUseCase;
-import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.CreateAdministrativeLevelUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.DeleteAdministrativeLevelUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.FetchAdministrativeLevelUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.UpdateAdministrativeLevelUseCase;
-import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
+import jakarta.validation.Valid;
+import org.geolatte.geom.V;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 
 @RestController
@@ -56,7 +52,7 @@ public class AdministrativeLevelApi implements eu.cokeman.cycleareastats.openapi
     }
 
     @Override
-    public ResponseEntity<AdministrativeLevelDto> deleteAdministrativeLevel(Integer administrativeLevelId) {
+    public ResponseEntity<Void> deleteAdministrativeLevel(Integer administrativeLevelId) {
         AdministrativeLevelId areaInternalId = new AdministrativeLevelId(administrativeLevelId);
         deleteAdministrativeLevelUseCase.deleteAdministrativeLevel(areaInternalId);
         return ResponseEntity.ok().build();

@@ -42,7 +42,10 @@ public class AdministrativeAreaImportExportApi implements eu.cokeman.cycleareast
         if (filename == null || !filename.toLowerCase().endsWith(".kml")) {
             return ResponseEntity.badRequest().header("X-Error-Message", "File must have .kml extension").build();
         }
-        AdministrativeLevel level = levelMapper.mapToInternal(requestDto.getLevel()).build();
+        AdministrativeLevel level = null;
+        if (requestDto.getLevel() != null) {
+            level = levelMapper.mapLevelBasicToInternal(requestDto.getLevel()).build();
+        }
         LandmarkMetadata metadata = areaMapper.mapJsonToLandmarkMetadata(requestDto.getMetadata());
         importAdministrativeAreaUseCase.importAdministrativeAreas(level, metadata, geometry);
         return ResponseEntity.ok().build();

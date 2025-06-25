@@ -29,17 +29,18 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
 
     public static AdministrativeAreaExternalMapper INSTANCE = Mappers.getMapper(AdministrativeAreaExternalMapper.class);
 
-    AdministrativeArea.Builder mapToInternal(AdministrativeAreaDto areasDto);
+    AdministrativeArea.Builder mapToInternal(AdministrativeAreaRequestDto areasDto);
 
-    AdministrativeAreaDto mapToExternal(AdministrativeArea administrativeArea);
+    AdministrativeAreaResponseDto mapToExternal(AdministrativeArea administrativeArea);
 
 
-    default AdministrativeLevel mapLevelToInternal(AdministrativeLevelDto dto) {
-        if (dto == null) {
+    default AdministrativeLevel mapLevelToInternal(AdministrativeLevelBasicDto level) {
+        if (level == null) {
             return null;
         }
-        return AdministrativeLevelExternalMapper.INSTANCE.mapToInternal(dto).build();
+        return AdministrativeLevelExternalMapper.INSTANCE.mapLevelBasicToInternal(level).build();
     }
+
 
     default AdministrativeLevelDto mapLevelToExternal(AdministrativeLevel level) {
         if (level == null) {
@@ -49,6 +50,9 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
     }
 
     default Serializable toInternalGeometry(String external) {
+        if (external == null) {
+            return null;
+        }
         GeoJsonReader reader = new GeoJsonReader();
         try {
             return reader.read(external);
@@ -75,6 +79,9 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
     }
 
     default JsonNode mapLandmarkMetadataToJson(LandmarkMetadata source) {
+        if (source == null) {
+            return null;
+        }
         return new ObjectMapper().convertValue(source, JsonNode.class);
     }
 }

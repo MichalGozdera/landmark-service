@@ -1,7 +1,7 @@
 package eu.cokeman.cycleareastats.in.rest;
 
 import eu.cokeman.cycleareastats.mapper.area.AdministrativeAreaExternalMapper;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaDto;
+import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaResponseDto;
 import eu.cokeman.cycleareastats.port.in.administrativearea.FetchAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativearea.FilterAdministrativeAreaUseCase;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +22,21 @@ public class AdministrativeAreaSimpleApi implements eu.cokeman.cycleareastats.op
     }
 
     @Override
-    public ResponseEntity<AdministrativeAreaDto> loadAdministrativeAreaSimple(Integer id) {
+    public ResponseEntity<AdministrativeAreaResponseDto> loadAdministrativeAreaSimple(Integer id) {
         var simpleArea = fetchAdministrativeAreaUseCase.findSimpleArea(areaMapper.mapToAdmAreaId(id));
-        AdministrativeAreaDto dto = areaMapper.mapToExternal(simpleArea);
+        AdministrativeAreaResponseDto dto = areaMapper.mapToExternal(simpleArea);
         return ResponseEntity.ok(dto);
     }
 
     @Override
-    public ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByLevelAndCountrySimple(String levelName, String countryName) {
+    public ResponseEntity<List<AdministrativeAreaResponseDto>> getAdministrativeAreasByLevelAndCountrySimple(String levelName, String countryName) {
         var areas = filterAdministrativeAreaUseCase.findSimpleByLevelAndCountry(levelName, countryName);
         var dtos = areas.stream().map(areaMapper::mapToExternal).toList();
         return ResponseEntity.ok(dtos);
     }
 
     @Override
-    public ResponseEntity<List<AdministrativeAreaDto>> getAdministrativeAreasByMetadataSimple(String metadataQuery) {
+    public ResponseEntity<List<AdministrativeAreaResponseDto>> getAdministrativeAreasByMetadataSimple(String metadataQuery) {
         var areas = filterAdministrativeAreaUseCase.findSimpleByMetadataContains(metadataQuery);
         var dtos = areas.stream().map(areaMapper::mapToExternal).toList();
         return ResponseEntity.ok(dtos);

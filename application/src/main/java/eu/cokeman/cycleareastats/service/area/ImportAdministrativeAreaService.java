@@ -53,7 +53,9 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
 
     private AdministrativeAreaId importSingleArea(AdministrativeLevel level, LandmarkMetadata metadata, AdministrativeAreaGeometry geometryData) {
         var administrativeArea = AdministrativeArea.builder().metadata(metadata).level(level).build();
-        administrativeArea = levelBinder.bindLevelId(level, administrativeArea);
+        if (level != null) {
+            administrativeArea = levelBinder.bindLevelData(level, administrativeArea);
+        }
         administrativeArea = bindDataFromGeometry(geometryData, administrativeArea);
         return areaRepository.importLandmark(administrativeArea);
     }

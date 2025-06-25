@@ -97,7 +97,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AdministrativeArea"
+                $ref: "#/components/schemas/AdministrativeAreaResponse"
     put:
       summary: update single administrative area
       operationId: updateAdministrativeArea
@@ -107,7 +107,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdministrativeArea"
+              $ref: "#/components/schemas/AdministrativeAreaRequest"
         required: true
       parameters:
         - in: path
@@ -123,7 +123,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AdministrativeArea"
+                $ref: "#/components/schemas/AdministrativeAreaResponse"
     delete:
       summary: delete single administrative area
       operationId: deleteAdministrativeArea
@@ -165,8 +165,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/AdministrativeArea"
-
+                  $ref: "#/components/schemas/AdministrativeAreaResponse"
   /administrative-areas/by-metadata:
     get:
       summary: Get administrative areas by metadata query
@@ -187,10 +186,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/AdministrativeArea"
+                  $ref: "#/components/schemas/AdministrativeAreaResponse"
   /administrative-areas/{id}/simple:
     get:
-      summary: display single administrative area (bez geometrii)
+      summary: display single administrative area (without geometry)
       operationId: loadAdministrativeAreaSimple
       tags:
         - administrativeAreaSimple
@@ -208,7 +207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AdministrativeArea"
+                $ref: "#/components/schemas/AdministrativeAreaResponse"
   /administrative-areas/by-level-country/simple:
     get:
       summary: Get administrative areas by level and country name (simple, without geometry)
@@ -234,7 +233,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/AdministrativeArea"
+                  $ref: "#/components/schemas/AdministrativeAreaResponse"
 
   /administrative-areas/by-metadata/simple:
     get:
@@ -256,7 +255,155 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/AdministrativeArea"
+                  $ref: "#/components/schemas/AdministrativeAreaResponse"
+  /administrative-levels:
+    post:
+      summary: Create level
+      operationId: createAdministrativeLevel
+      tags:
+        - administrativeLevel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdministrativeLevel"
+        required: true
+      responses:
+        "400":
+          description: Bad Request
+        "201":
+          description: Created
+  /administrative-levels/{AdministrativeLevelId}:
+    get:
+      summary: display single administrative level
+      operationId: loadAdministrativeLevel
+      tags:
+        - administrativeLevel
+      parameters:
+        - in: path
+          name: AdministrativeLevelId
+          required: true
+          schema:
+            type: AdministrativeLevelId
+      responses:
+        "400":
+          description: Bad Request
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdministrativeLevel"
+    put:
+      summary: update single administrative level
+      operationId: updateAdministrativeLevel
+      tags:
+        - administrativeLevel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdministrativeLevel"
+        required: true
+      parameters:
+        - in: path
+          name: AdministrativeLevelId
+          required: true
+          schema:
+            type: AdministrativeLevelId
+      responses:
+        "400":
+          description: Bad Request
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdministrativeLevel"
+    delete:
+      summary: delete single administrative level
+      operationId: deleteAdministrativeLevel
+      tags:
+        - administrativeLevel
+      parameters:
+        - in: path
+          name: AdministrativeLevelId
+          required: true
+          schema:
+            type: AdministrativeLevelId
+      responses:
+        "400":
+          description: Bad Request
+        "204":
+          description: OK
+  /countries:
+    get:
+      summary: fetch countries
+      operationId: getCountries
+      tags:
+        - country
+      responses:
+        '200':
+          description: list of countries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Country'
+    post:
+      summary: add country
+      operationId: createCountry
+      tags:
+        - country
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryRequest'
+      responses:
+        '201':
+          description: country created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+  /countries/{id}:
+    get:
+      summary: fetch country by ID
+      operationId: getCountryById
+      tags:
+        - country
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: country desccription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+        '404':
+          description: country not found
+    delete:
+      summary: delete country
+      operationId: deleteCountry
+      tags:
+        - country
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: country deleted
 components:
   schemas:
     AdministrativeAreasImportRequest:
@@ -265,14 +412,27 @@ components:
         - level
       properties:
         level:
-          $ref: "#/components/schemas/AdministrativeLevel"
+          $ref: "#/components/schemas/AdministrativeLevelBasic"
         metadata:
           $ref: "#/components/schemas/LandmarkMetadata"
-    AdministrativeArea:
+    AdministrativeAreaRequest:
       type: object
       required:
         - name
         - level
+      properties:
+        name:
+          type: LandmarkName
+        level:
+          $ref: "#/components/schemas/AdministrativeLevelBasic"
+        geometry:
+          type: string
+        metadata:
+          $ref: "#/components/schemas/LandmarkMetadata"
+    AdministrativeAreaResponse:
+      type: object
+      required:
+        - name
       properties:
         id:
           type: AdministrativeAreaId
@@ -292,6 +452,16 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/LandmarkMetadata"
+    AdministrativeLevelBasic:
+      type: object
+      required:
+        - country
+        - name
+      properties:
+        name:
+          type: LevelName
+        country:
+          type: CountryName
     AdministrativeLevel:
       type: object
       required:
