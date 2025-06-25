@@ -69,9 +69,7 @@ paths:
               type: object
               properties:
                 request:
-                  $ref: "#/components/schemas/AdministrativeAreasImportRequest"
-                geometry:
-                  type: object
+                  $ref: "#/components/schemas/AdministrativeAreaRequest"
       responses:
         "400":
           description: Bad Request

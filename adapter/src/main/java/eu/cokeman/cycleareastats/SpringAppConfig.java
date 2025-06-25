@@ -51,7 +51,7 @@ public class SpringAppConfig {
 
 
     @Bean
-    FetchAdministrativeAreaUseCase fetchLandmarkUseCase() {
+    FetchAdministrativeAreaUseCase fetchAreaUseCase() {
         return new FetchAdministrativeAreaService(administrativeAreaRepository);
     }
 
@@ -66,19 +66,24 @@ public class SpringAppConfig {
     }
 
     @Bean
-    ConvertAdministrativeAreaGeometryUseCase convertLandmarkGeometryUseCase() {
+    ConvertAdministrativeAreaGeometryUseCase convertAreaGeometryUseCase() {
         return new KmlConverter();
     }
 
 
     @Bean
-    ImportAdministrativeAreaUseCase importLandmarkUseCase() {
-        return new ImportAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertLandmarkGeometryUseCase());
+    ImportAdministrativeAreaUseCase importAreaUseCase() {
+        return new ImportAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertAreaGeometryUseCase());
     }
 
     @Bean
-    ExportAdministrativeAreaUseCase exportLandmarkUseCase() {
-        return new ExportAdministrativeAreaService(administrativeAreaRepository, convertLandmarkGeometryUseCase());
+    CreateAdministrativeAreaUseCase createAreaUseCase() {
+        return new CreateAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertAreaGeometryUseCase());
+    }
+
+    @Bean
+    ExportAdministrativeAreaUseCase exportAreaUseCase() {
+        return new ExportAdministrativeAreaService(administrativeAreaRepository, convertAreaGeometryUseCase());
     }
 
     @Bean

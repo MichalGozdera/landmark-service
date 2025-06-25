@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreasImportRequestDto;
+import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaRequestDto;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -24,11 +24,9 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CreateAdministrativeAreaRequestDto {
 
-  private AdministrativeAreasImportRequestDto request;
+  private AdministrativeAreaRequestDto request;
 
-  private com.fasterxml.jackson.databind.JsonNode geometry;
-
-  public CreateAdministrativeAreaRequestDto request(AdministrativeAreasImportRequestDto request) {
+  public CreateAdministrativeAreaRequestDto request(AdministrativeAreaRequestDto request) {
     this.request = request;
     return this;
   }
@@ -40,32 +38,12 @@ public class CreateAdministrativeAreaRequestDto {
   @Valid 
   @Schema(name = "request", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("request")
-  public AdministrativeAreasImportRequestDto getRequest() {
+  public AdministrativeAreaRequestDto getRequest() {
     return request;
   }
 
-  public void setRequest(AdministrativeAreasImportRequestDto request) {
+  public void setRequest(AdministrativeAreaRequestDto request) {
     this.request = request;
-  }
-
-  public CreateAdministrativeAreaRequestDto geometry(com.fasterxml.jackson.databind.JsonNode geometry) {
-    this.geometry = geometry;
-    return this;
-  }
-
-  /**
-   * Get geometry
-   * @return geometry
-  */
-  @Valid 
-  @Schema(name = "geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("geometry")
-  public com.fasterxml.jackson.databind.JsonNode getGeometry() {
-    return geometry;
-  }
-
-  public void setGeometry(com.fasterxml.jackson.databind.JsonNode geometry) {
-    this.geometry = geometry;
   }
 
   @Override
@@ -77,13 +55,12 @@ public class CreateAdministrativeAreaRequestDto {
       return false;
     }
     CreateAdministrativeAreaRequestDto createAdministrativeAreaRequest = (CreateAdministrativeAreaRequestDto) o;
-    return Objects.equals(this.request, createAdministrativeAreaRequest.request) &&
-        Objects.equals(this.geometry, createAdministrativeAreaRequest.geometry);
+    return Objects.equals(this.request, createAdministrativeAreaRequest.request);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(request, geometry);
+    return Objects.hash(request);
   }
 
   @Override
@@ -91,7 +68,6 @@ public class CreateAdministrativeAreaRequestDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateAdministrativeAreaRequestDto {\n");
     sb.append("    request: ").append(toIndentedString(request)).append("\n");
-    sb.append("    geometry: ").append(toIndentedString(geometry)).append("\n");
     sb.append("}");
     return sb.toString();
   }

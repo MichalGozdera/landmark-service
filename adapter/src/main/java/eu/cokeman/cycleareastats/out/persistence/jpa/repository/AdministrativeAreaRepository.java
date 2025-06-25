@@ -32,25 +32,25 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
 
     @Override
     public AdministrativeArea findByAdministrativeAreaId(AdministrativeAreaId administrativeAreaId) {
-        var jpaLandmark = springDataRepository.findById(administrativeAreaId.value());
-        AdministrativeArea administrativeArea = mapper.mapJpaToInternal(jpaLandmark.orElseThrow()).build();
+        var jpaArea = springDataRepository.findById(administrativeAreaId.value());
+        AdministrativeArea administrativeArea = mapper.mapJpaToInternal(jpaArea.orElseThrow()).build();
         return administrativeArea;
     }
 
     @Override
     public AdministrativeArea findSimpleByAdministrativeAreaId(AdministrativeAreaId administrativeAreaId) {
-        var jpaLandmark = springSimpleDataRepository.findById(administrativeAreaId.value());
-        AdministrativeArea administrativeArea = mapper.mapSimpleJpaToInternal(jpaLandmark.orElseThrow()).build();
+        var jpaArea = springSimpleDataRepository.findById(administrativeAreaId.value());
+        AdministrativeArea administrativeArea = mapper.mapSimpleJpaToInternal(jpaArea.orElseThrow()).build();
         return administrativeArea;
     }
 
 
     @Override
     public AdministrativeArea updateAdministrativeArea(AdministrativeAreaId areaId, AdministrativeArea administrativeArea) {
-        var jpaLandmark = springDataRepository.findById(areaId.value()).orElseThrow(EntityNotFoundException::new);
+        var jpaArea = springDataRepository.findById(areaId.value()).orElseThrow(EntityNotFoundException::new);
         AdministrativeAreaEntity newJpa = mapper.mapToJpa(administrativeArea);
-        BeanUtils.copyProperties(newJpa, jpaLandmark, BaseJpaEntity.getNullPropertyNames(newJpa));
-        var updatedJPA = springDataRepository.saveAndFlush(jpaLandmark);
+        BeanUtils.copyProperties(newJpa, jpaArea, BaseJpaEntity.getNullPropertyNames(newJpa));
+        var updatedJPA = springDataRepository.saveAndFlush(jpaArea);
         var result = mapper.mapJpaToInternal(updatedJPA).build();
         return result;
     }
@@ -62,11 +62,11 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
 
 
     @Override
-    public AdministrativeAreaId importLandmark(AdministrativeArea administrativeArea) {
+    public AdministrativeAreaId createArea(AdministrativeArea administrativeArea) {
 
-        var jpaLandmark = mapper.mapToJpa(administrativeArea);
+        var jpaArea = mapper.mapToJpa(administrativeArea);
 
-        var generatedEntity = springDataRepository.save(jpaLandmark);
+        var generatedEntity = springDataRepository.save(jpaArea);
 
         return new AdministrativeAreaId(generatedEntity.getId());
     }

@@ -1,31 +1,36 @@
 package eu.cokeman.cycleareastats.service.area;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
-import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
-import eu.cokeman.cycleareastats.exception.LevelNotFoundException;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ConvertAdministrativeAreaGeometryUseCase;
-import eu.cokeman.cycleareastats.port.in.administrativearea.ImportAdministrativeAreaUseCase;
+import eu.cokeman.cycleareastats.port.in.administrativearea.CreateAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
 import eu.cokeman.cycleareastats.port.out.publishing.AdministrativeAreaPublisher;
-import eu.cokeman.cycleareastats.valueObject.*;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaGeometry;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import eu.cokeman.cycleareastats.valueObject.AreaName;
 
-import java.io.Serializable;
-import java.util.List;
 
-
-public class ImportAdministrativeAreaService implements ImportAdministrativeAreaUseCase {
+public class CreateAdministrativeAreaService implements CreateAdministrativeAreaUseCase {
 
     private final AdministrativeAreaRepository areaRepository;
     private final AdministrativeAreaPublisher publisher;
     private final ConvertAdministrativeAreaGeometryUseCase converter;
     private final AreaLevelBinder levelBinder;
 
-    public ImportAdministrativeAreaService(AdministrativeAreaRepository areaRepository, AdministrativeLevelRepository levelRepository, AdministrativeAreaPublisher publisher, ConvertAdministrativeAreaGeometryUseCase converter) {
+    public CreateAdministrativeAreaService(AdministrativeAreaRepository areaRepository, AdministrativeLevelRepository levelRepository, AdministrativeAreaPublisher publisher, ConvertAdministrativeAreaGeometryUseCase converter) {
         this.areaRepository = areaRepository;
         this.publisher = publisher;
         this.converter = converter;
         this.levelBinder=new AreaLevelBinder(levelRepository);
+    }
+
+    @Override
+    public AdministrativeAreaId createAdministrativeArea(AdministrativeArea area) {
+        if(area.getLevel()!=null){
+            area = levelBinder.bindLevelData(area);
+        }
+        return areaRepository.createArea(area);
     }
 
     @Override
@@ -44,21 +49,9 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
 //        }
     }
 
-    @Override
-    public void importAdministrativeAreas(AdministrativeLevel level, LandmarkMetadata metadata, Object geometry) {
-        var geometriesConverted = converter.convertToLandmarksGeometries(geometry);
-        var ids = geometriesConverted.stream().map(administrativeAreaGeometry -> importSingleArea(level, metadata, administrativeAreaGeometry)).toList();
-        ids.stream().forEach(id -> publisher.publish(id));
-    }
 
-    private AdministrativeAreaId importSingleArea(AdministrativeLevel level, LandmarkMetadata metadata, AdministrativeAreaGeometry geometryData) {
-        var administrativeArea = AdministrativeArea.builder().metadata(metadata).level(level).build();
-        if (level != null) {
-            administrativeArea = levelBinder.bindLevelData(administrativeArea);
-        }
-        administrativeArea = bindDataFromGeometry(geometryData, administrativeArea);
-        return areaRepository.createArea(administrativeArea);
-    }
+
+
 
     private AdministrativeArea bindDataFromGeometry(AdministrativeAreaGeometry geometryData, AdministrativeArea administrativeArea) {
         var geometriesSimplified = converter.getGeometriesSimplified(geometryData);

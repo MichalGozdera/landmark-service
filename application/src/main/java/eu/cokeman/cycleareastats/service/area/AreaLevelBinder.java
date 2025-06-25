@@ -14,7 +14,8 @@ public class AreaLevelBinder {
     }
 
 
-    AdministrativeArea bindLevelData(AdministrativeLevel level, AdministrativeArea administrativeArea) {
+    AdministrativeArea bindLevelData(AdministrativeArea administrativeArea) {
+        var level = administrativeArea.getLevel();
         var matchingLevel= levelRepository.findByCountryAndName(level.getCountry(), level.getName())
                 .orElseThrow(() -> new LevelNotFoundException(
                         String.format("Level with name %s and country %s not found", level.getCountry().getName(), level.getName().name())));

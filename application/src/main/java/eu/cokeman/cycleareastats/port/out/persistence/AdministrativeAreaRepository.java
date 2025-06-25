@@ -18,7 +18,7 @@ public interface AdministrativeAreaRepository {
 
     void deleteAdministrativeArea(AdministrativeAreaId administrativeAreaId);
 
-    AdministrativeAreaId importLandmark(AdministrativeArea administrativeArea);
+    AdministrativeAreaId createArea(AdministrativeArea administrativeArea);
 
     List<AdministrativeArea> findByLevelAndCountry(String levelName, String countryName);
 

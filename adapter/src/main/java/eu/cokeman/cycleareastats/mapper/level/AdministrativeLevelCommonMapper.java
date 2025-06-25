@@ -29,6 +29,9 @@ public interface AdministrativeLevelCommonMapper {
     }
 
     default Integer mapLevelOrderToInteger(LevelOrder source) {
+        if(source==null){
+            return null;
+        }
         return source.order();
     }
 

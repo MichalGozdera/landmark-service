@@ -1,17 +1,19 @@
 package eu.cokeman.cycleareastats.in.rest;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
+import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.mapper.area.AdministrativeAreaExternalMapper;
 import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaRequestDto;
 import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaResponseDto;
-import eu.cokeman.cycleareastats.port.in.administrativearea.DeleteAdministrativeAreaUseCase;
-import eu.cokeman.cycleareastats.port.in.administrativearea.FetchAdministrativeAreaUseCase;
-import eu.cokeman.cycleareastats.port.in.administrativearea.FilterAdministrativeAreaUseCase;
-import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrativeAreaUseCase;
+import eu.cokeman.cycleareastats.openapi.model.CreateAdministrativeAreaRequestDto;
+import eu.cokeman.cycleareastats.port.in.administrativearea.*;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import eu.cokeman.cycleareastats.valueObject.LandmarkMetadata;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
+import java.net.URI;
 import java.util.List;
 
 
@@ -22,6 +24,7 @@ public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.
     private final UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase;
     private final DeleteAdministrativeAreaUseCase deleteAdministrativeAreaUseCase;
     private final FilterAdministrativeAreaUseCase filterAdministrativeAreaUseCase;
+    private final CreateAdministrativeAreaUseCase createAdministrativeAreaUseCase;
 
     AdministrativeAreaExternalMapper areaMapper = AdministrativeAreaExternalMapper.INSTANCE;
 
@@ -29,12 +32,12 @@ public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.
             FetchAdministrativeAreaUseCase fetchAdministrativeAreaUseCase,
             UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase,
             DeleteAdministrativeAreaUseCase deleteAdministrativeAreaUseCase,
-            FilterAdministrativeAreaUseCase filterAdministrativeAreaUseCase) {
+            FilterAdministrativeAreaUseCase filterAdministrativeAreaUseCase, CreateAdministrativeAreaUseCase createAdministrativeAreaUseCase) {
         this.fetchAdministrativeAreaUseCase = fetchAdministrativeAreaUseCase;
         this.updateAdministrativeAreaUseCase = updateAdministrativeAreaUseCase;
         this.deleteAdministrativeAreaUseCase = deleteAdministrativeAreaUseCase;
         this.filterAdministrativeAreaUseCase = filterAdministrativeAreaUseCase;
-
+        this.createAdministrativeAreaUseCase = createAdministrativeAreaUseCase;
     }
 
 
@@ -62,6 +65,13 @@ public class AdministrativeAreaApi implements eu.cokeman.cycleareastats.openapi.
         return ResponseEntity.ok().build();
     }
 
+
+    @Override
+    public ResponseEntity<Void> createAdministrativeArea(CreateAdministrativeAreaRequestDto createAdministrativeAreaRequestDto) {
+        AdministrativeArea area = areaMapper.mapToInternal(createAdministrativeAreaRequestDto.getRequest()).build();
+        AdministrativeAreaId id= createAdministrativeAreaUseCase.createAdministrativeArea(area);
+        return ResponseEntity.created(URI.create(String.valueOf(id.value()))).build();
+    }
 
     @Override
     public ResponseEntity<List<AdministrativeAreaResponseDto>> getAdministrativeAreasByLevelAndCountry(String levelName, String countryName) {
