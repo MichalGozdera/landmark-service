@@ -521,3 +521,36 @@ components:
           type: string
     LandmarkMetadata:
       type: object
+    AdministrativeAreaEvent:
+      type: object
+      properties:
+        area:
+          $ref: "#/components/schemas/AdministrativeAreaEventArea"
+        createdAt:
+          type: string
+          format: date-time
+        operationType:
+          type: string
+    AdministrativeAreaEventArea:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        level:
+          $ref: "#/components/schemas/AdministrativeLevel"
+        geometry:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+        parent:
+          type: integer
+        createTime:
+          type: string
+          format: date-time
+        updateTime:
+          type: string
+          format: date-time

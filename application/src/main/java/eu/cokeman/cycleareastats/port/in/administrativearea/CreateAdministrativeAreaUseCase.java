@@ -10,5 +10,4 @@ public interface CreateAdministrativeAreaUseCase {
 
     AdministrativeAreaId createAdministrativeArea(AdministrativeArea area);
 
-    void processSubunit(AdministrativeAreaId administrativeAreaId);
 }

@@ -1,4 +1,4 @@
 package eu.cokeman.cycleareastats.valueObject;
 
-public record LevelOrder(Integer order) {
+public record LevelOrder(Integer order)  {
 }

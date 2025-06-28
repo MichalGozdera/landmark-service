@@ -4,6 +4,7 @@ import com.axiomalaska.polylineencoder.PolylineEncoder;
 import com.axiomalaska.polylineencoder.UnsupportedGeometryTypeException;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ConvertAdministrativeAreaGeometryUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaGeometry;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaSimplifiedGeometry;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.kml.KMLReader;
@@ -26,6 +27,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -146,8 +148,8 @@ public class KmlConverter implements ConvertAdministrativeAreaGeometryUseCase {
         return sw.toString();
     }
 
-    public List<String> getGeometriesSimplified(Object geometry) {
-        Geometry geometryCasted = (Geometry) ((AdministrativeAreaGeometry) geometry).geometryData();
+    public AdministrativeAreaSimplifiedGeometry getGeometriesSimplified(Serializable geometry) {
+        Geometry geometryCasted = (Geometry) geometry;
         switch (geometryCasted.getGeometryType()) {
             case "MultiPolygon" -> {
                 return processMultiPolygon((MultiPolygon) geometryCasted);
@@ -156,7 +158,7 @@ public class KmlConverter implements ConvertAdministrativeAreaGeometryUseCase {
         }
     }
 
-    private List<String> processMultiPolygon(MultiPolygon geometryCasted) {
+    private AdministrativeAreaSimplifiedGeometry processMultiPolygon(MultiPolygon geometryCasted) {
         var parts = geometryCasted.getNumGeometries();
         List<String> result = new ArrayList<>();
         for (int i = 0; i < parts; i++) {
@@ -165,7 +167,7 @@ public class KmlConverter implements ConvertAdministrativeAreaGeometryUseCase {
             var newlines = processMultilineString(ms);
             result.addAll(newlines);
         }
-        return result;
+        return new AdministrativeAreaSimplifiedGeometry(result);
     }
 
     private MultiLineString polygonToMultiLineString(Polygon polygon, GeometryFactory geometryFactory) {

@@ -10,5 +10,4 @@ public interface ImportAdministrativeAreaUseCase {
 
     void importAdministrativeAreas(AdministrativeLevel level, LandmarkMetadata landmarkMetadata, Object geometry);
 
-    void processSubunit(AdministrativeAreaId administrativeAreaId);
 }

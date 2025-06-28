@@ -1,8 +1,8 @@
 package eu.cokeman.cycleareastats.port.out.publishing;
 
-import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import eu.cokeman.cycleareastats.events.AdministrativeAreaEvent;
 
 public interface AdministrativeAreaPublisher {
 
-    void publish(AdministrativeAreaId areaId);
+    void publish(AdministrativeAreaEvent event);
 }

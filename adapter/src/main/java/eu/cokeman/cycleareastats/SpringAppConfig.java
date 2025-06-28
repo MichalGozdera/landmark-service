@@ -14,6 +14,7 @@ import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaReposito
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
 import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
 import eu.cokeman.cycleareastats.port.out.publishing.AdministrativeAreaPublisher;
+import eu.cokeman.cycleareastats.service.AreaApplicationService;
 import eu.cokeman.cycleareastats.service.area.*;
 import eu.cokeman.cycleareastats.service.country.CreateCountryService;
 import eu.cokeman.cycleareastats.service.country.DeleteCountryService;
@@ -49,6 +50,10 @@ public class SpringAppConfig {
     @Autowired
     AdministrativeAreaPublisher publisher;
 
+    @Bean
+    AreaApplicationService areaApplicationService() {
+        return new AreaApplicationService(fetchAreaUseCase(), updateAdministrativeAreaUseCase(), deleteAdministrativeLevelUseCase(), filterAreaUseCase(), createAreaUseCase());
+    }
 
     @Bean
     FetchAdministrativeAreaUseCase fetchAreaUseCase() {
@@ -72,13 +77,18 @@ public class SpringAppConfig {
 
 
     @Bean
+    AdministrativeAreaDomainService administrativeAreaDomainService() {
+        return new AdministrativeAreaDomainService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertAreaGeometryUseCase());
+    }
+
+    @Bean
     ImportAdministrativeAreaUseCase importAreaUseCase() {
-        return new ImportAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertAreaGeometryUseCase());
+        return new ImportAdministrativeAreaService(convertAreaGeometryUseCase(), administrativeAreaDomainService());
     }
 
     @Bean
     CreateAdministrativeAreaUseCase createAreaUseCase() {
-        return new CreateAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertAreaGeometryUseCase());
+        return new CreateAdministrativeAreaService(administrativeAreaDomainService());
     }
 
     @Bean

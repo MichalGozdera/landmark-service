@@ -2,67 +2,46 @@ package eu.cokeman.cycleareastats.service.area;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
-import eu.cokeman.cycleareastats.exception.LevelNotFoundException;
+import eu.cokeman.cycleareastats.events.AdministrativeAreaEvent;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ConvertAdministrativeAreaGeometryUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ImportAdministrativeAreaUseCase;
-import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
-import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
-import eu.cokeman.cycleareastats.port.out.publishing.AdministrativeAreaPublisher;
 import eu.cokeman.cycleareastats.valueObject.*;
-
-import java.io.Serializable;
-import java.util.List;
 
 
 public class ImportAdministrativeAreaService implements ImportAdministrativeAreaUseCase {
 
-    private final AdministrativeAreaRepository areaRepository;
-    private final AdministrativeAreaPublisher publisher;
     private final ConvertAdministrativeAreaGeometryUseCase converter;
-    private final AreaLevelBinder levelBinder;
+    private final AdministrativeAreaDomainService domainService;
 
-    public ImportAdministrativeAreaService(AdministrativeAreaRepository areaRepository, AdministrativeLevelRepository levelRepository, AdministrativeAreaPublisher publisher, ConvertAdministrativeAreaGeometryUseCase converter) {
-        this.areaRepository = areaRepository;
-        this.publisher = publisher;
+    public ImportAdministrativeAreaService(ConvertAdministrativeAreaGeometryUseCase converter, AdministrativeAreaDomainService domainService) {
         this.converter = converter;
-        this.levelBinder=new AreaLevelBinder(levelRepository);
+        this.domainService = domainService;
     }
 
-    @Override
-    public void processSubunit(AdministrativeAreaId administrativeAreaId) {
-//        AdministrativeArea administrativeArea = areaRepository.findByAdministrativeAreaId(administrativeAreaId);
-//        AdministrativeAreaId parentID = areaRepository.findParent(administrativeAreaId);
-//        administrativeArea = administrativeArea.toBuilder().parent(parentID).build();
-//        areaRepository.updateAdministrativeArea(administrativeArea);
-//
-//        List<AdministrativeArea> children = areaRepository.findSubUnits(administrativeAreaId);
-//        if (children != null && !children.isEmpty()) {
-//            for (AdministrativeArea child : children) {
-//                child = administrativeArea.toBuilder().parent(administrativeAreaId).build();
-//                areaRepository.updateAdministrativeArea(child);
-//            }
-//        }
-    }
 
     @Override
     public void importAdministrativeAreas(AdministrativeLevel level, LandmarkMetadata metadata, Object geometry) {
         var geometriesConverted = converter.convertToLandmarksGeometries(geometry);
-        var ids = geometriesConverted.stream().map(administrativeAreaGeometry -> importSingleArea(level, metadata, administrativeAreaGeometry)).toList();
-        ids.stream().forEach(id -> publisher.publish(id));
+        var areas = geometriesConverted.stream().map(administrativeAreaGeometry -> importSingleArea(level, metadata, administrativeAreaGeometry)).toList();
+        areas.forEach(area -> {
+            area = area.toBuilder().geometry(domainService.getGeometriesSimplified(area)).build();
+            var event = new AdministrativeAreaEvent(area, "create");
+            domainService.publishEvent(event);
+        });
     }
 
-    private AdministrativeAreaId importSingleArea(AdministrativeLevel level, LandmarkMetadata metadata, AdministrativeAreaGeometry geometryData) {
+    private AdministrativeArea importSingleArea(AdministrativeLevel level, LandmarkMetadata metadata, AdministrativeAreaGeometry geometryData) {
         var administrativeArea = AdministrativeArea.builder().metadata(metadata).level(level).build();
-        if (level != null) {
-            administrativeArea = levelBinder.bindLevelData(administrativeArea);
-        }
+        administrativeArea = domainService.bindLevelIfPresent(administrativeArea);
         administrativeArea = bindDataFromGeometry(geometryData, administrativeArea);
-        return areaRepository.createArea(administrativeArea);
+        AdministrativeAreaId id = domainService.saveArea(administrativeArea);
+        administrativeArea=administrativeArea.toBuilder().id(id).build();
+        return administrativeArea;
     }
 
     private AdministrativeArea bindDataFromGeometry(AdministrativeAreaGeometry geometryData, AdministrativeArea administrativeArea) {
-        var geometriesSimplified = converter.getGeometriesSimplified(geometryData);
-        if (geometriesSimplified.size() > 1) {
+        var geometriesSimplified = converter.getGeometriesSimplified(geometryData.geometryData());
+        if (geometriesSimplified.encodedLines().size() > 1) {
             System.out.println(geometryData.name());
         }
         administrativeArea = administrativeArea.toBuilder()
