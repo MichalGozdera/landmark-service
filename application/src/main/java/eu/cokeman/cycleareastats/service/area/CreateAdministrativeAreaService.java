@@ -5,6 +5,7 @@ import eu.cokeman.cycleareastats.events.AdministrativeAreaEvent;
 import eu.cokeman.cycleareastats.port.in.administrativearea.CreateAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaSimplifiedGeometry;
+import eu.cokeman.cycleareastats.valueObject.EntityEventType;
 
 
 public class CreateAdministrativeAreaService implements CreateAdministrativeAreaUseCase {
@@ -23,7 +24,7 @@ public class CreateAdministrativeAreaService implements CreateAdministrativeArea
         AdministrativeAreaSimplifiedGeometry geometriesSimplified = domainService.getGeometriesSimplified(area);
         AdministrativeAreaId id = domainService.saveArea(area);
         area = area.toBuilder().id(id).geometry(geometriesSimplified).build();
-        AdministrativeAreaEvent event = new AdministrativeAreaEvent(area, "create");
+        AdministrativeAreaEvent event = new AdministrativeAreaEvent(area, EntityEventType.CREATED);
         domainService.publishEvent(event);
         return id;
     }

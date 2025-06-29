@@ -8,6 +8,7 @@ import eu.cokeman.cycleareastats.openapi.model.CreateAdministrativeAreaRequestDt
 import eu.cokeman.cycleareastats.port.in.administrativearea.*;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.util.List;
@@ -30,12 +31,14 @@ public class AreaApplicationService {
         this.createAdministrativeAreaUseCase = createAdministrativeAreaUseCase;
     }
 
+    @Transactional
     public AdministrativeAreaId createAdministrativeArea(CreateAdministrativeAreaRequestDto createAdministrativeAreaRequestDto) {
         AdministrativeArea area = areaMapper.mapToInternal(createAdministrativeAreaRequestDto.getRequest()).build();
         return createAdministrativeAreaUseCase.createAdministrativeArea(area);
 
     }
 
+    @Transactional
     public void deleteAdministrativeArea(Integer administrativeAreaId) {
         AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(administrativeAreaId);
         deleteAdministrativeAreaUseCase.deleteAdministrativeArea(areaInternalId);
@@ -47,6 +50,7 @@ public class AreaApplicationService {
         return areaMapper.mapToExternal(administrativeArea);
     }
 
+    @Transactional
     public AdministrativeAreaResponseDto updateAdministrativeArea(Integer administrativeAreaId, AdministrativeAreaRequestDto administrativeAreaDto) {
         AdministrativeAreaId areaInternalId = areaMapper.mapToAdmAreaId(administrativeAreaId);
         AdministrativeArea area = areaMapper.mapToInternal(administrativeAreaDto).build();

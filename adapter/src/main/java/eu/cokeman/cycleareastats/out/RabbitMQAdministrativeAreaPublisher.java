@@ -32,9 +32,21 @@ public class RabbitMQAdministrativeAreaPublisher implements AdministrativeAreaPu
         var messageDto = AdministrativeAreaExternalMapper.INSTANCE.toMessaging(event);
         try {
             String json = objectMapper.writeValueAsString(messageDto);
-            rabbitTemplate.convertAndSend(exchangeName, "landmark", json);
+            rabbitTemplate.convertAndSend(
+                exchangeName,
+                "landmark",
+                json,
+                message -> {
+                    message.getMessageProperties().setHeader("eventType", event.getOperationType());
+                    message.getMessageProperties().setHeader("eventClass", event.getClass().getSimpleName());
+                    message.getMessageProperties().setHeader("eventClassFull", event.getClass().getName());
+                    return message;
+                }
+            );
         } catch (Exception e) {
-            throw new RuntimeException("Błąd serializacji DTO do JSON", e);
+            org.slf4j.LoggerFactory.getLogger(RabbitMQAdministrativeAreaPublisher.class)
+                .error("Error serializing DTO to JSON or sending message to RabbitMQ", e);
+            throw new RuntimeException("Error serializing DTO to JSON or sending message to RabbitMQ", e);
         }
     }
 }

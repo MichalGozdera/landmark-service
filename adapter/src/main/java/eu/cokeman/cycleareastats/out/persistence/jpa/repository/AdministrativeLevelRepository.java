@@ -61,11 +61,6 @@ public class AdministrativeLevelRepository implements eu.cokeman.cycleareastats.
     }
 
     @Override
-    public List<AdministrativeLevel> filterAdministrativeLevels(String criteria) {
-        return List.of();
-    }
-
-    @Override
     public AdministrativeLevelId createLevel(AdministrativeLevel administrativeLevel) {
         var jpaLevel = mapper.mapToJpa(administrativeLevel);
         var newID = levelSpringDataRepository.save(jpaLevel).getId();

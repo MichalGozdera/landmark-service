@@ -2,6 +2,7 @@ package eu.cokeman.cycleareastats.events;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.event.DomainEvent;
+import eu.cokeman.cycleareastats.valueObject.EntityEventType;
 
 import java.time.Instant;
 
@@ -11,9 +12,9 @@ public class AdministrativeAreaEvent implements DomainEvent {
 
     private final AdministrativeArea area;
     private final Instant createdAt;
-    private final String operationType;
+    private final EntityEventType operationType;
 
-    public  AdministrativeAreaEvent(AdministrativeArea area, String type) {
+    public  AdministrativeAreaEvent(AdministrativeArea area, EntityEventType type) {
         this.area = area;
         this.operationType = type;
         this.createdAt = Instant.now();
@@ -27,7 +28,7 @@ public class AdministrativeAreaEvent implements DomainEvent {
         return createdAt;
     }
 
-    String getOperationType() {
+    public EntityEventType getOperationType() {
         return operationType;
     }
 
@@ -37,36 +38,20 @@ public class AdministrativeAreaEvent implements DomainEvent {
 
     public static class Builder {
         private AdministrativeArea area;
-        private Instant createdAt;
-        private String operationType;
+        private EntityEventType operationType;
 
         public Builder area(AdministrativeArea area) {
             this.area = area;
             return this;
         }
 
-        public Builder createdAt(Instant createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder operationType(String operationType) {
+        public Builder operationType(EntityEventType operationType) {
             this.operationType = operationType;
             return this;
         }
 
         public AdministrativeAreaEvent build() {
             AdministrativeAreaEvent event = new AdministrativeAreaEvent(area, operationType);
-            if (createdAt != null) {
-                // ustawienie pola createdAt przez refleksję, bo jest final
-                try {
-                    java.lang.reflect.Field field = AdministrativeAreaEvent.class.getDeclaredField("createdAt");
-                    field.setAccessible(true);
-                    field.set(event, createdAt);
-                } catch (Exception e) {
-                    throw new RuntimeException("Nie można ustawić createdAt", e);
-                }
-            }
             return event;
         }
     }

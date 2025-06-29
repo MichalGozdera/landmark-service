@@ -31,10 +31,6 @@ public class AdministrativeAreaDomainService {
         return area;
     }
 
-    public AdministrativeAreaId saveArea(AdministrativeArea area) {
-        return areaRepository.createArea(area);
-    }
-
 
     public void publishEvent(AdministrativeAreaEvent event) {
         publisher.publish(event);
@@ -60,5 +56,19 @@ public class AdministrativeAreaDomainService {
         return converter.getGeometriesSimplified(area.getGeometry());
     }
 
-    // Możesz dodać tu kolejne wspólne metody
+
+    public AdministrativeAreaId saveArea(AdministrativeArea area) {
+        return areaRepository.createArea(area);
+    }
+
+    public AdministrativeArea updateAdministrativeArea(AdministrativeAreaId areaId, AdministrativeArea administrativeArea) {
+        if(administrativeArea.getLevel()!=null){
+            administrativeArea = levelBinder.bindLevelData(administrativeArea);
+        }
+        return areaRepository.updateAdministrativeArea(areaId, administrativeArea);
+    }
+
+    public void deleteAdministrativeArea(AdministrativeAreaId administrativeAreaId) {
+        areaRepository.deleteAdministrativeArea(administrativeAreaId);
+    }
 }

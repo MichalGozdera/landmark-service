@@ -25,7 +25,7 @@ public class ImportAdministrativeAreaService implements ImportAdministrativeArea
         var areas = geometriesConverted.stream().map(administrativeAreaGeometry -> importSingleArea(level, metadata, administrativeAreaGeometry)).toList();
         areas.forEach(area -> {
             area = area.toBuilder().geometry(domainService.getGeometriesSimplified(area)).build();
-            var event = new AdministrativeAreaEvent(area, "create");
+            var event = new AdministrativeAreaEvent(area, EntityEventType.CREATED);
             domainService.publishEvent(event);
         });
     }

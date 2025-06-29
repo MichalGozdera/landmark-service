@@ -1,26 +1,22 @@
 package eu.cokeman.cycleareastats.service.area;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
+import eu.cokeman.cycleareastats.events.AdministrativeAreaEvent;
 import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrativeAreaUseCase;
-import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
-import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import eu.cokeman.cycleareastats.valueObject.EntityEventType;
 
 public class UpdateAdministrativeAreaService implements UpdateAdministrativeAreaUseCase {
-    private final AdministrativeAreaRepository administrativeAreaRepository;
-    private final AreaLevelBinder levelBinder;
+    private final AdministrativeAreaDomainService administrativeAreaDomainService;
 
-
-    public UpdateAdministrativeAreaService(AdministrativeAreaRepository administrativeAreaRepository, AdministrativeLevelRepository levelRepository) {
-        this.administrativeAreaRepository = administrativeAreaRepository;
-        this.levelBinder = new AreaLevelBinder(levelRepository);
+    public UpdateAdministrativeAreaService(AdministrativeAreaDomainService administrativeAreaDomainService) {
+        this.administrativeAreaDomainService = administrativeAreaDomainService;
     }
 
     @Override
     public AdministrativeArea updateAdministrativeArea(AdministrativeAreaId areaId, AdministrativeArea administrativeArea) {
-        if(administrativeArea.getLevel()!=null){
-            administrativeArea = levelBinder.bindLevelData(administrativeArea);
-        }
-        return administrativeAreaRepository.updateAdministrativeArea(areaId, administrativeArea);
+        AdministrativeArea updated = administrativeAreaDomainService.updateAdministrativeArea(areaId, administrativeArea);
+         administrativeAreaDomainService.publishEvent(new AdministrativeAreaEvent(updated, EntityEventType.UPDATED));
+        return updated;
     }
 }
