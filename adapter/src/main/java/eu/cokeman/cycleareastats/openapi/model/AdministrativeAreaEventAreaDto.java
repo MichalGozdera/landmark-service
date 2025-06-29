@@ -8,9 +8,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelDto;
 import java.time.OffsetDateTime;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -35,9 +32,6 @@ public class AdministrativeAreaEventAreaDto {
   private String name;
 
   private AdministrativeLevelDto level;
-
-  @Valid
-  private List<String> geometry;
 
   private com.fasterxml.jackson.databind.JsonNode metadata;
 
@@ -107,34 +101,6 @@ public class AdministrativeAreaEventAreaDto {
 
   public void setLevel(AdministrativeLevelDto level) {
     this.level = level;
-  }
-
-  public AdministrativeAreaEventAreaDto geometry(List<String> geometry) {
-    this.geometry = geometry;
-    return this;
-  }
-
-  public AdministrativeAreaEventAreaDto addGeometryItem(String geometryItem) {
-    if (this.geometry == null) {
-      this.geometry = new ArrayList<>();
-    }
-    this.geometry.add(geometryItem);
-    return this;
-  }
-
-  /**
-   * Get geometry
-   * @return geometry
-  */
-  
-  @Schema(name = "geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("geometry")
-  public List<String> getGeometry() {
-    return geometry;
-  }
-
-  public void setGeometry(List<String> geometry) {
-    this.geometry = geometry;
   }
 
   public AdministrativeAreaEventAreaDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
@@ -229,7 +195,6 @@ public class AdministrativeAreaEventAreaDto {
     return Objects.equals(this.id, administrativeAreaEventArea.id) &&
         Objects.equals(this.name, administrativeAreaEventArea.name) &&
         Objects.equals(this.level, administrativeAreaEventArea.level) &&
-        Objects.equals(this.geometry, administrativeAreaEventArea.geometry) &&
         Objects.equals(this.metadata, administrativeAreaEventArea.metadata) &&
         Objects.equals(this.parent, administrativeAreaEventArea.parent) &&
         Objects.equals(this.createTime, administrativeAreaEventArea.createTime) &&
@@ -238,7 +203,7 @@ public class AdministrativeAreaEventAreaDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, level, geometry, metadata, parent, createTime, updateTime);
+    return Objects.hash(id, name, level, metadata, parent, createTime, updateTime);
   }
 
   @Override
@@ -248,7 +213,6 @@ public class AdministrativeAreaEventAreaDto {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    level: ").append(toIndentedString(level)).append("\n");
-    sb.append("    geometry: ").append(toIndentedString(geometry)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    parent: ").append(toIndentedString(parent)).append("\n");
     sb.append("    createTime: ").append(toIndentedString(createTime)).append("\n");

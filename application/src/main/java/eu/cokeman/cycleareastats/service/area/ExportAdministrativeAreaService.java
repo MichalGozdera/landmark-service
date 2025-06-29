@@ -1,6 +1,6 @@
 package eu.cokeman.cycleareastats.service.area;
 
-import eu.cokeman.cycleareastats.port.in.administrativearea.ConvertAdministrativeAreaGeometryUseCase;
+import eu.cokeman.cycleareastats.port.in.administrativearea.AdministrativeAreaConverter;
 import eu.cokeman.cycleareastats.port.in.administrativearea.ExportAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaGeometry;
@@ -8,9 +8,9 @@ import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaGeometry;
 
 public class ExportAdministrativeAreaService implements ExportAdministrativeAreaUseCase {
     private final AdministrativeAreaRepository administrativeAreaRepository;
-    private final ConvertAdministrativeAreaGeometryUseCase converter;
+    private final AdministrativeAreaConverter converter;
 
-    public ExportAdministrativeAreaService(AdministrativeAreaRepository administrativeAreaRepository, ConvertAdministrativeAreaGeometryUseCase klmConverter) {
+    public ExportAdministrativeAreaService(AdministrativeAreaRepository administrativeAreaRepository, AdministrativeAreaConverter klmConverter) {
         this.administrativeAreaRepository = administrativeAreaRepository;
         this.converter = klmConverter;
     }

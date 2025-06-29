@@ -94,4 +94,18 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
         var entities = springSimpleDataRepository.findByMetadataContaining(metadataQuery);
         return entities.stream().map(e -> mapper.mapSimpleJpaToInternal(e).build()).toList();
     }
+
+    @Override
+    public AdministrativeAreaId findParent(AdministrativeAreaId child) {
+        var found = springDataRepository.findParentId(child.value());
+        return found.map(AdministrativeAreaId::new).orElse(null);
+    }
+
+    @Override
+    public List<AdministrativeArea> findChildren(AdministrativeAreaId parent) {
+        return springDataRepository.findChildren(parent.value())
+                .stream().map(e -> mapper.mapJpaToInternal(e).build()).toList();
+    }
+
+
 }

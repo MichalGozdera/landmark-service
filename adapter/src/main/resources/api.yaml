@@ -531,6 +531,10 @@ components:
           format: date-time
         operationType:
           type: string
+        simplifiedGeometry:
+          type: array
+          items:
+            type: string
     AdministrativeAreaEventArea:
       type: object
       properties:
@@ -540,10 +544,7 @@ components:
           type: string
         level:
           $ref: "#/components/schemas/AdministrativeLevel"
-        geometry:
-          type: array
-          items:
-            type: string
+
         metadata:
           type: object
         parent:

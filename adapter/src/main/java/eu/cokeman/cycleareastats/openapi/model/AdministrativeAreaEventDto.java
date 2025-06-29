@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaEventAreaDto;
 import java.time.OffsetDateTime;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -33,6 +36,9 @@ public class AdministrativeAreaEventDto {
   private Instant createdAt;
 
   private String operationType;
+
+  @Valid
+  private List<String> simplifiedGeometry;
 
   public AdministrativeAreaEventDto area(AdministrativeAreaEventAreaDto area) {
     this.area = area;
@@ -94,6 +100,34 @@ public class AdministrativeAreaEventDto {
     this.operationType = operationType;
   }
 
+  public AdministrativeAreaEventDto simplifiedGeometry(List<String> simplifiedGeometry) {
+    this.simplifiedGeometry = simplifiedGeometry;
+    return this;
+  }
+
+  public AdministrativeAreaEventDto addSimplifiedGeometryItem(String simplifiedGeometryItem) {
+    if (this.simplifiedGeometry == null) {
+      this.simplifiedGeometry = new ArrayList<>();
+    }
+    this.simplifiedGeometry.add(simplifiedGeometryItem);
+    return this;
+  }
+
+  /**
+   * Get simplifiedGeometry
+   * @return simplifiedGeometry
+  */
+  
+  @Schema(name = "simplifiedGeometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("simplifiedGeometry")
+  public List<String> getSimplifiedGeometry() {
+    return simplifiedGeometry;
+  }
+
+  public void setSimplifiedGeometry(List<String> simplifiedGeometry) {
+    this.simplifiedGeometry = simplifiedGeometry;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -105,12 +139,13 @@ public class AdministrativeAreaEventDto {
     AdministrativeAreaEventDto administrativeAreaEvent = (AdministrativeAreaEventDto) o;
     return Objects.equals(this.area, administrativeAreaEvent.area) &&
         Objects.equals(this.createdAt, administrativeAreaEvent.createdAt) &&
-        Objects.equals(this.operationType, administrativeAreaEvent.operationType);
+        Objects.equals(this.operationType, administrativeAreaEvent.operationType) &&
+        Objects.equals(this.simplifiedGeometry, administrativeAreaEvent.simplifiedGeometry);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(area, createdAt, operationType);
+    return Objects.hash(area, createdAt, operationType, simplifiedGeometry);
   }
 
   @Override
@@ -120,6 +155,7 @@ public class AdministrativeAreaEventDto {
     sb.append("    area: ").append(toIndentedString(area)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    operationType: ").append(toIndentedString(operationType)).append("\n");
+    sb.append("    simplifiedGeometry: ").append(toIndentedString(simplifiedGeometry)).append("\n");
     sb.append("}");
     return sb.toString();
   }

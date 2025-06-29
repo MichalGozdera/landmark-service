@@ -30,7 +30,7 @@ public class RabbitMQLandmarkListener {
             if (typeHeader != null) {
                 eventType = typeHeader.toString();
             }
-            Object classHeader = props.getHeaders().get("eventClass");
+            Object classHeader = props.getHeaders().get("eventClassFull");
             if (classHeader != null) {
                 eventClass = classHeader.toString();
             }
@@ -52,7 +52,7 @@ public class RabbitMQLandmarkListener {
         }
         log.info("Received {} event of class {}", entityEventType, eventClass);
         try {
-            Class<?> clazz = Class.forName("eu.cokeman.cycleareastats.events." + eventClass);
+            Class<?> clazz = Class.forName(eventClass);
             Object eventDto = objectMapper.readValue(body, clazz);
             System.out.println(eventDto);
         } catch (ClassNotFoundException e) {

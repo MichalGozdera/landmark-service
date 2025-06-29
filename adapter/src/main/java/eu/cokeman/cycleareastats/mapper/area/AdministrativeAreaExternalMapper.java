@@ -8,6 +8,7 @@ import eu.cokeman.cycleareastats.events.AdministrativeAreaEvent;
 import eu.cokeman.cycleareastats.mapper.level.AdministrativeLevelExternalMapper;
 import eu.cokeman.cycleareastats.openapi.model.*;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaSimplifiedGeometry;
+import eu.cokeman.cycleareastats.valueObject.EntityEventType;
 import eu.cokeman.cycleareastats.valueObject.LandmarkMetadata;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
@@ -27,6 +28,7 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
 
     public static AdministrativeAreaExternalMapper INSTANCE = Mappers.getMapper(AdministrativeAreaExternalMapper.class);
 
+    @Mapping(source = "geometry", target = "geometry", qualifiedByName = "toInternalGeometry")
     AdministrativeArea.Builder mapToInternal(AdministrativeAreaRequestDto areasDto);
 
     AdministrativeAreaResponseDto mapToExternal(AdministrativeArea administrativeArea);
@@ -56,8 +58,10 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
 
     AdministrativeAreaEventDto toMessaging(AdministrativeAreaEvent event);
 
+    @Mapping(source = "operationType", target = "operationType", qualifiedByName = "fromMessagingEventType")
     AdministrativeAreaEvent.Builder fromMessaging(AdministrativeAreaEventDto event);
 
+    @Named("toInternalGeometry")
     default Serializable toInternalGeometry(String external) {
         if (external == null) {
             return null;
@@ -78,12 +82,21 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
         return writer.write((Geometry) internal);
     }
 
-    default Serializable toInternalGeometry(List<String> external) {
+    default AdministrativeAreaSimplifiedGeometry fromMessagingGeometry(List<String> external) {
         return new AdministrativeAreaSimplifiedGeometry(external);
     }
 
-    default List<String> toMessagingGeometry(Serializable internal) {
-        return ((AdministrativeAreaSimplifiedGeometry) internal).encodedLines();
+    default List<String> toMessagingGeometry(AdministrativeAreaSimplifiedGeometry internal) {
+        return internal == null ? null : internal.encodedLines();
+    }
+
+    @Named("fromMessagingEventType")
+    default EntityEventType fromMessagingEventType(String eventType) {
+        return EntityEventType.valueOf(eventType);
+    }
+
+    default String toMessagingEventType(EntityEventType eventType) {
+        return eventType.name();
     }
 
     default LandmarkMetadata mapJsonToLandmarkMetadata(JsonNode source) {
@@ -101,4 +114,6 @@ public interface AdministrativeAreaExternalMapper extends AdministrativeAreaComm
         }
         return new ObjectMapper().convertValue(source, JsonNode.class);
     }
+
+
 }

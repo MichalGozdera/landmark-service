@@ -1,10 +1,8 @@
 package eu.cokeman.cycleareastats.service.area;
 
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
-import eu.cokeman.cycleareastats.events.AdministrativeAreaEvent;
 import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
-import eu.cokeman.cycleareastats.valueObject.EntityEventType;
 
 public class UpdateAdministrativeAreaService implements UpdateAdministrativeAreaUseCase {
     private final AdministrativeAreaDomainService administrativeAreaDomainService;
@@ -15,8 +13,6 @@ public class UpdateAdministrativeAreaService implements UpdateAdministrativeArea
 
     @Override
     public AdministrativeArea updateAdministrativeArea(AdministrativeAreaId areaId, AdministrativeArea administrativeArea) {
-        AdministrativeArea updated = administrativeAreaDomainService.updateAdministrativeArea(areaId, administrativeArea);
-         administrativeAreaDomainService.publishEvent(new AdministrativeAreaEvent(updated, EntityEventType.UPDATED));
-        return updated;
+        return  administrativeAreaDomainService.updateAdministrativeArea(areaId, administrativeArea);
     }
 }

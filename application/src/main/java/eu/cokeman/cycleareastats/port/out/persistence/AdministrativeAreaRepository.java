@@ -5,7 +5,9 @@ import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.entity.Country;
 
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 
+import java.io.Serializable;
 import java.util.List;
 
 public interface AdministrativeAreaRepository {
@@ -28,5 +30,7 @@ public interface AdministrativeAreaRepository {
 
     List<AdministrativeArea> findSimpleByMetadataContains(String metadataQuery);
 
+    AdministrativeAreaId findParent(AdministrativeAreaId child);
 
+    List<AdministrativeArea> findChildren(AdministrativeAreaId parent);
 }

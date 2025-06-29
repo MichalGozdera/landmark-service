@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 
-public interface ConvertAdministrativeAreaGeometryUseCase {
+public interface AdministrativeAreaConverter {
 
     Set<AdministrativeAreaGeometry> convertToLandmarksGeometries(Object geometry);
 
-    AdministrativeAreaSimplifiedGeometry getGeometriesSimplified(Serializable geometry);
 
     String convertToKml(List<AdministrativeAreaGeometry> geometries);
 }

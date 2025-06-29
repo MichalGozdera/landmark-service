@@ -1,6 +1,7 @@
 package eu.cokeman.cycleareastats;
 
 import eu.cokeman.cycleareastats.converters.kml.KmlConverter;
+import eu.cokeman.cycleareastats.converters.kml.PolylineEncoderImpl;
 import eu.cokeman.cycleareastats.port.in.administrativearea.*;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.CreateAdministrativeLevelUseCase;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.DeleteAdministrativeLevelUseCase;
@@ -62,23 +63,28 @@ public class SpringAppConfig {
 
     @Bean
     UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase() {
-        return new UpdateAdministrativeAreaService(administrativeAreaRepository, administrativeLevelRepository);
+        return new UpdateAdministrativeAreaService(administrativeAreaDomainService());
     }
 
     @Bean
     DeleteAdministrativeAreaUseCase deleteAdministrativeLevelUseCase() {
-        return new DeleteAdministrativeAreaService(administrativeAreaRepository);
+        return new DeleteAdministrativeAreaService(administrativeAreaDomainService());
     }
 
     @Bean
-    ConvertAdministrativeAreaGeometryUseCase convertAreaGeometryUseCase() {
+    AdministrativeAreaConverter convertAreaGeometryUseCase() {
         return new KmlConverter();
+    }
+
+    @Bean
+    PolylineEncoder polylineEncoder() {
+        return new PolylineEncoderImpl();
     }
 
 
     @Bean
     AdministrativeAreaDomainService administrativeAreaDomainService() {
-        return new AdministrativeAreaDomainService(administrativeAreaRepository, administrativeLevelRepository, publisher, convertAreaGeometryUseCase());
+        return new AdministrativeAreaDomainService(administrativeAreaRepository, administrativeLevelRepository, publisher, polylineEncoder());
     }
 
     @Bean

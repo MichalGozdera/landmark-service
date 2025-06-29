@@ -38,8 +38,7 @@ public class RabbitMQAdministrativeAreaPublisher implements AdministrativeAreaPu
                 json,
                 message -> {
                     message.getMessageProperties().setHeader("eventType", event.getOperationType());
-                    message.getMessageProperties().setHeader("eventClass", event.getClass().getSimpleName());
-                    message.getMessageProperties().setHeader("eventClassFull", event.getClass().getName());
+                    message.getMessageProperties().setHeader("eventClassFull", messageDto.getClass().getName());
                     return message;
                 }
             );
