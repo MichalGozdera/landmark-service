@@ -34,7 +34,7 @@ public interface JpaAdministrativeAreaRepositorySpringDataRepository extends Jpa
             "      )\n" +
             "  )\n" +
             "WHERE child.id = :childId\n" +
-            "  AND ST_Area(ST_Intersection(ST_MakeValid(parent.geometry), ST_MakeValid(child.geometry))) / ST_Area(ST_MakeValid(child.geometry)) > 0.99", nativeQuery = true)
+            "  AND ST_Area(ST_Intersection(ST_MakeValid(parent.geometry), ST_MakeValid(child.geometry))) / ST_Area(ST_MakeValid(child.geometry)) > 0.98", nativeQuery = true)
     Optional<Integer> findParentId(@Param("childId") Integer childId);
 
     @Query(value = "SELECT child.*\n" +
@@ -48,7 +48,7 @@ public interface JpaAdministrativeAreaRepositorySpringDataRepository extends Jpa
             "    )\n" +
             ")\n" +
             "WHERE parent.id = :parentId\n" +
-            "AND ST_Area(ST_Intersection(ST_MakeValid(child.geometry), ST_MakeValid(parent.geometry))) / ST_Area(ST_MakeValid(child.geometry)) > 0.99", nativeQuery = true)
+            "AND ST_Area(ST_Intersection(ST_MakeValid(child.geometry), ST_MakeValid(parent.geometry))) / ST_Area(ST_MakeValid(child.geometry)) > 0.98", nativeQuery = true)
     List<AdministrativeAreaEntity> findChildren(@Param("parentId") Integer parentId);
 
 }

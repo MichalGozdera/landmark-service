@@ -32,6 +32,8 @@ public class AdministrativeAreaRequestDto {
 
   private com.fasterxml.jackson.databind.JsonNode metadata;
 
+  private Integer parent = null;
+
   public AdministrativeAreaRequestDto name(String name) {
     this.name = name;
     return this;
@@ -112,6 +114,26 @@ public class AdministrativeAreaRequestDto {
     this.metadata = metadata;
   }
 
+  public AdministrativeAreaRequestDto parent(Integer parent) {
+    this.parent = parent;
+    return this;
+  }
+
+  /**
+   * Get parent
+   * @return parent
+  */
+  
+  @Schema(name = "parent", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("parent")
+  public Integer getParent() {
+    return parent;
+  }
+
+  public void setParent(Integer parent) {
+    this.parent = parent;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -124,12 +146,13 @@ public class AdministrativeAreaRequestDto {
     return Objects.equals(this.name, administrativeAreaRequest.name) &&
         Objects.equals(this.level, administrativeAreaRequest.level) &&
         Objects.equals(this.geometry, administrativeAreaRequest.geometry) &&
-        Objects.equals(this.metadata, administrativeAreaRequest.metadata);
+        Objects.equals(this.metadata, administrativeAreaRequest.metadata) &&
+        Objects.equals(this.parent, administrativeAreaRequest.parent);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, level, geometry, metadata);
+    return Objects.hash(name, level, geometry, metadata, parent);
   }
 
   @Override
@@ -140,6 +163,7 @@ public class AdministrativeAreaRequestDto {
     sb.append("    level: ").append(toIndentedString(level)).append("\n");
     sb.append("    geometry: ").append(toIndentedString(geometry)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
+    sb.append("    parent: ").append(toIndentedString(parent)).append("\n");
     sb.append("}");
     return sb.toString();
   }

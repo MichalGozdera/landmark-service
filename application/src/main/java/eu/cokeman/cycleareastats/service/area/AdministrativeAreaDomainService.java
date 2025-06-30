@@ -14,12 +14,17 @@ import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 import eu.cokeman.cycleareastats.valueObject.EntityEventType;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdministrativeAreaDomainService {
     private final AdministrativeAreaRepository areaRepository;
     private final AdministrativeAreaPublisher publisher;
     private final AdministrativeLevelRepository levelRepository;
     private final PolylineEncoder encoder;
+
+    private static final ExecutorService ASYNC_EXECUTOR = Executors.newFixedThreadPool(20);
 
     public AdministrativeAreaDomainService(AdministrativeAreaRepository areaRepository, AdministrativeLevelRepository levelRepository, AdministrativeAreaPublisher publisher, PolylineEncoder encoder) {
         this.areaRepository = areaRepository;
@@ -47,6 +52,9 @@ public class AdministrativeAreaDomainService {
         List<AdministrativeArea> children = areaRepository.findChildren(areaId);
         if (children != null && !children.isEmpty()) {
             for (AdministrativeArea child : children) {
+                if(child.getParent().equals(parentID)){
+                    continue;
+                }
                 child = child.toBuilder().parent(areaId).build();
                 persist(child, EntityEventType.UPDATED, child.getId());
             }
@@ -73,23 +81,31 @@ public class AdministrativeAreaDomainService {
         }
         area = area.toBuilder().id(idIfPresent).build();
 
-        AdministrativeAreaId parentId = findParentId(idIfPresent);
-        if (area.getParent() == null && parentId != null) {
-            area = area.toBuilder().parent(parentId).build();
-            areaRepository.updateAdministrativeArea(idIfPresent, area);
-        }
-        AdministrativeAreaSimplifiedGeometry geometriesSimplified = null;
-        if(area.getGeometry()!=null){
-            geometriesSimplified = getGeometriesSimplified(area);
+        AdministrativeArea result = area;
 
-        }
-        AdministrativeAreaEvent event = AdministrativeAreaEvent.builder()
-                .area(area)
+        AdministrativeArea areaForAsync = area;
+        AdministrativeAreaId finalIdIfPresent = idIfPresent;
+        CompletableFuture.runAsync(() -> {
+            AdministrativeAreaId parentId = findParentId(finalIdIfPresent);
+            AdministrativeArea asyncArea = areaForAsync;
+            if (asyncArea.getParent() == null && parentId != null) {
+                AdministrativeArea updated = asyncArea.toBuilder().parent(parentId).build();
+                areaRepository.updateAdministrativeArea(finalIdIfPresent, updated);
+                asyncArea = updated;
+            }
+            AdministrativeAreaSimplifiedGeometry geometriesSimplified = null;
+            if(asyncArea.getGeometry()!=null){
+                geometriesSimplified = getGeometriesSimplified(asyncArea);
+            }
+            AdministrativeAreaEvent event = AdministrativeAreaEvent.builder()
+                .area(asyncArea)
                 .simplifiedGeometry(geometriesSimplified)
                 .operationType(eventType)
                 .build();
-        publishEvent(event);
-        return area;
+            publishEvent(event);
+        }, ASYNC_EXECUTOR);
+
+        return result;
     }
 
     public AdministrativeAreaId createAdministrativeArea(AdministrativeArea area) {

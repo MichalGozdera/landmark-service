@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgis:15-3.4:///testdb?TC_INITSCRIPT=init-landmarks.sql
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    username: test
+    password: test
+  jpa:
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: true
+    change-log: classpath:liquibase-changelog.xml
+    contexts: test
+    drop-first: true

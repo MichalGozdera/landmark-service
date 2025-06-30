@@ -427,6 +427,8 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/LandmarkMetadata"
+        parent:
+          type: AdministrativeAreaId
     AdministrativeAreaResponse:
       type: object
       required:
