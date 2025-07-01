@@ -97,8 +97,13 @@ public class AdministrativeAreaRepository implements eu.cokeman.cycleareastats.p
 
     @Override
     public AdministrativeAreaId findParent(AdministrativeAreaId child) {
-        var found = springDataRepository.findParentId(child.value());
-        return found.map(AdministrativeAreaId::new).orElse(null);
+        try {
+            var found = springDataRepository.findParentId(child.value());
+            return found.map(AdministrativeAreaId::new).orElse(null);
+        } catch (Exception ex) {
+            log.error("Error while finding parent for child area id {}: {}. Returning null!", child.value(), ex.getMessage(), ex);
+            return null;
+        }
     }
 
     @Override

@@ -45,14 +45,17 @@ public interface AdministrativeAreaJpaMapper extends AdministrativeAreaCommonMap
             return null;
         }
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(metadata);
+        return mapper.writeValueAsString(metadata.metadata());
     }
 
     default LandmarkMetadata convertJpaToLandmarkMetadata(String source) throws JsonProcessingException {
         if (source == null) {
             return null;
         }
-        return new ObjectMapper().readValue(source, LandmarkMetadata.class);
+        ObjectMapper mapper = new ObjectMapper();
+        var parsed = mapper.readValue(source, new com.fasterxml.jackson.core.type.TypeReference<java.util.HashMap<String, Object>>() {
+        });
+        return new LandmarkMetadata(parsed);
     }
 
     default Geometry convertJpaToJtsMode(Serializable source) {

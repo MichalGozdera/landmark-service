@@ -1,0 +1,16 @@
+{
+  "name": "Child Area Outside",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [10.0, 10.0],
+        [10.0, 11.0],
+        [11.0, 11.0],
+        [11.0, 10.0],
+        [10.0, 10.0]
+      ]
+    ]
+  }
+}
+
