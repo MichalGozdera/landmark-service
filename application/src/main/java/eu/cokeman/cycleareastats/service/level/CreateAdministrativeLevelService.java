@@ -4,6 +4,8 @@ import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.port.in.administrativelevel.CreateAdministrativeLevelUseCase;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
 import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 
 
 public class CreateAdministrativeLevelService implements CreateAdministrativeLevelUseCase {
@@ -17,9 +19,10 @@ public class CreateAdministrativeLevelService implements CreateAdministrativeLev
     }
 
     @Override
-    public void createLevel(AdministrativeLevel administrativeLevel) {
+    public AdministrativeLevelId createLevel(AdministrativeLevel administrativeLevel) {
         administrativeLevel = countryBinder.bindCountryId(administrativeLevel);
-        this.levelRepository.createLevel(administrativeLevel);
+        var x = this.levelRepository.createLevel(administrativeLevel);
+        return x;
     }
 
 }

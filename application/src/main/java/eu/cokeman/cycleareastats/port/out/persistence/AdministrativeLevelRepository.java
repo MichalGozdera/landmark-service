@@ -19,7 +19,6 @@ public interface AdministrativeLevelRepository {
 
     Optional<AdministrativeLevel> findByCountryAndName(Country country, LevelName name);
 
-
     AdministrativeLevelId createLevel(AdministrativeLevel administrativeLevel);
 
 }

@@ -3,7 +3,6 @@ package eu.cokeman.cycleareastats.service.area;
 import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.port.in.administrativearea.FilterAdministrativeAreaUseCase;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
-import eu.cokeman.cycleareastats.entity.Country;
 
 import java.util.List;
 

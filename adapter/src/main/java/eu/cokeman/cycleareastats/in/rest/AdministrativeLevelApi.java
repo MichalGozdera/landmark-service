@@ -13,6 +13,8 @@ import org.geolatte.geom.V;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+
 
 @RestController
 public class AdministrativeLevelApi implements eu.cokeman.cycleareastats.openapi.api.AdministrativeLevelApi {
@@ -39,8 +41,8 @@ public class AdministrativeLevelApi implements eu.cokeman.cycleareastats.openapi
     @Override
     public ResponseEntity<Void> createAdministrativeLevel(AdministrativeLevelDto levelCreateRequestDto) {
         AdministrativeLevel level = mapper.mapToInternal(levelCreateRequestDto).build();
-        createAdministrativeLevelUseCase.createLevel(level);
-        return ResponseEntity.ok().build();
+        var id = createAdministrativeLevelUseCase.createLevel(level);
+        return ResponseEntity.created(URI.create("/administrative-levels/" + id.value())).build();
     }
 
 

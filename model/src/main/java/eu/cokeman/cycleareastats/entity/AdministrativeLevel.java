@@ -5,6 +5,7 @@ import eu.cokeman.cycleareastats.valueObject.LevelName;
 import eu.cokeman.cycleareastats.valueObject.LevelOrder;
 
 import java.time.Instant;
+import java.util.Objects;
 
 public class AdministrativeLevel extends BaseEntity<AdministrativeLevelId>{
     private Country country;
@@ -51,8 +52,7 @@ public class AdministrativeLevel extends BaseEntity<AdministrativeLevelId>{
         }
 
         public Builder country(Country val) {
-            country = val;
-            return this;
+            this.country = Objects.requireNonNull(val, "Country name cannot be null"); return this;
         }
 
         public Builder order(LevelOrder val) {
@@ -61,8 +61,7 @@ public class AdministrativeLevel extends BaseEntity<AdministrativeLevelId>{
         }
 
         public Builder name(LevelName val) {
-            name = val;
-            return this;
+            this.name = Objects.requireNonNull(val, "Level name cannot be null"); return this;
         }
         public Builder createTime(Instant val) {
             createTime = val;
@@ -91,3 +90,4 @@ public class AdministrativeLevel extends BaseEntity<AdministrativeLevelId>{
         return name;
     }
 }
+

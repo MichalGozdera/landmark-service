@@ -1,12 +1,11 @@
 package eu.cokeman.cycleareastats.port.in.administrativelevel;
 
-import eu.cokeman.cycleareastats.entity.AdministrativeArea;
 import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
-import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
+import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 
 
 public interface CreateAdministrativeLevelUseCase {
 
-    void createLevel(AdministrativeLevel administrativeLevel);
+    AdministrativeLevelId createLevel(AdministrativeLevel administrativeLevel);
 
 }

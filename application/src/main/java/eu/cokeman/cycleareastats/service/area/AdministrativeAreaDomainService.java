@@ -52,7 +52,7 @@ public class AdministrativeAreaDomainService {
         List<AdministrativeArea> children = areaRepository.findChildren(areaId);
         if (children != null && !children.isEmpty()) {
             for (AdministrativeArea child : children) {
-                if(child.getParent().equals(parentID)){
+                if(child.getParent()!=null && child.getParent().equals(parentID)){
                     continue;
                 }
                 child = child.toBuilder().parent(areaId).build();
