@@ -5,15 +5,14 @@ import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
 import eu.cokeman.cycleareastats.valueObject.CountryId;
 
 public class DeleteCountryService implements DeleteCountryUseCase {
-    private final CountryRepository countryRepository;
+  private final CountryRepository countryRepository;
 
-    public DeleteCountryService(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
-    }
+  public DeleteCountryService(CountryRepository countryRepository) {
+    this.countryRepository = countryRepository;
+  }
 
-    @Override
-    public void delete(CountryId id) {
-        countryRepository.delete(id);
-    }
+  @Override
+  public void delete(CountryId id) {
+    countryRepository.delete(id);
+  }
 }
-

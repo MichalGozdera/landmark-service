@@ -1,25 +1,15 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaRequestDto;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Objects;
 
-/**
- * CreateAdministrativeAreaRequestDto
- */
-
+/** CreateAdministrativeAreaRequestDto */
 @JsonTypeName("createAdministrativeArea_request")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CreateAdministrativeAreaRequestDto {
@@ -33,9 +23,10 @@ public class CreateAdministrativeAreaRequestDto {
 
   /**
    * Get request
+   *
    * @return request
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "request", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("request")
   public AdministrativeAreaRequestDto getRequest() {
@@ -54,7 +45,8 @@ public class CreateAdministrativeAreaRequestDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CreateAdministrativeAreaRequestDto createAdministrativeAreaRequest = (CreateAdministrativeAreaRequestDto) o;
+    CreateAdministrativeAreaRequestDto createAdministrativeAreaRequest =
+        (CreateAdministrativeAreaRequestDto) o;
     return Objects.equals(this.request, createAdministrativeAreaRequest.request);
   }
 
@@ -73,8 +65,7 @@ public class CreateAdministrativeAreaRequestDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -83,4 +74,3 @@ public class CreateAdministrativeAreaRequestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

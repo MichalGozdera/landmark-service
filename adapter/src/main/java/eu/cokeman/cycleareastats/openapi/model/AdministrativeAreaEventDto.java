@@ -1,31 +1,19 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeAreaEventAreaDto;
-import java.time.OffsetDateTime;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
+import java.time.Instant;
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * AdministrativeAreaEventDto
- */
-
+/** AdministrativeAreaEventDto */
 @JsonTypeName("AdministrativeAreaEvent")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdministrativeAreaEventDto {
@@ -37,8 +25,7 @@ public class AdministrativeAreaEventDto {
 
   private String operationType;
 
-  @Valid
-  private List<String> simplifiedGeometry;
+  @Valid private List<String> simplifiedGeometry;
 
   public AdministrativeAreaEventDto area(AdministrativeAreaEventAreaDto area) {
     this.area = area;
@@ -47,9 +34,10 @@ public class AdministrativeAreaEventDto {
 
   /**
    * Get area
+   *
    * @return area
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "area", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("area")
   public AdministrativeAreaEventAreaDto getArea() {
@@ -67,9 +55,10 @@ public class AdministrativeAreaEventDto {
 
   /**
    * Get createdAt
+   *
    * @return createdAt
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "createdAt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("createdAt")
   public Instant getCreatedAt() {
@@ -87,9 +76,9 @@ public class AdministrativeAreaEventDto {
 
   /**
    * Get operationType
+   *
    * @return operationType
-  */
-  
+   */
   @Schema(name = "operationType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("operationType")
   public String getOperationType() {
@@ -115,9 +104,9 @@ public class AdministrativeAreaEventDto {
 
   /**
    * Get simplifiedGeometry
+   *
    * @return simplifiedGeometry
-  */
-  
+   */
   @Schema(name = "simplifiedGeometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("simplifiedGeometry")
   public List<String> getSimplifiedGeometry() {
@@ -137,10 +126,10 @@ public class AdministrativeAreaEventDto {
       return false;
     }
     AdministrativeAreaEventDto administrativeAreaEvent = (AdministrativeAreaEventDto) o;
-    return Objects.equals(this.area, administrativeAreaEvent.area) &&
-        Objects.equals(this.createdAt, administrativeAreaEvent.createdAt) &&
-        Objects.equals(this.operationType, administrativeAreaEvent.operationType) &&
-        Objects.equals(this.simplifiedGeometry, administrativeAreaEvent.simplifiedGeometry);
+    return Objects.equals(this.area, administrativeAreaEvent.area)
+        && Objects.equals(this.createdAt, administrativeAreaEvent.createdAt)
+        && Objects.equals(this.operationType, administrativeAreaEvent.operationType)
+        && Objects.equals(this.simplifiedGeometry, administrativeAreaEvent.simplifiedGeometry);
   }
 
   @Override
@@ -161,8 +150,7 @@ public class AdministrativeAreaEventDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -171,4 +159,3 @@ public class AdministrativeAreaEventDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

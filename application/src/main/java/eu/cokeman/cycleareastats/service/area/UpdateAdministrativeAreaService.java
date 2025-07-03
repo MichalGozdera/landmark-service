@@ -5,14 +5,16 @@ import eu.cokeman.cycleareastats.port.in.administrativearea.UpdateAdministrative
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
 
 public class UpdateAdministrativeAreaService implements UpdateAdministrativeAreaUseCase {
-    private final AdministrativeAreaDomainService administrativeAreaDomainService;
+  private final AdministrativeAreaDomainService administrativeAreaDomainService;
 
-    public UpdateAdministrativeAreaService(AdministrativeAreaDomainService administrativeAreaDomainService) {
-        this.administrativeAreaDomainService = administrativeAreaDomainService;
-    }
+  public UpdateAdministrativeAreaService(
+      AdministrativeAreaDomainService administrativeAreaDomainService) {
+    this.administrativeAreaDomainService = administrativeAreaDomainService;
+  }
 
-    @Override
-    public AdministrativeArea updateAdministrativeArea(AdministrativeAreaId areaId, AdministrativeArea administrativeArea) {
-        return  administrativeAreaDomainService.updateAdministrativeArea(areaId, administrativeArea);
-    }
+  @Override
+  public AdministrativeArea updateAdministrativeArea(
+      AdministrativeAreaId areaId, AdministrativeArea administrativeArea) {
+    return administrativeAreaDomainService.updateAdministrativeArea(areaId, administrativeArea);
+  }
 }

@@ -6,15 +6,14 @@ import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
 import eu.cokeman.cycleareastats.valueObject.CountryId;
 
 public class CreateCountryService implements CreateCountryUseCase {
-    private final CountryRepository countryRepository;
+  private final CountryRepository countryRepository;
 
-    public CreateCountryService(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
-    }
+  public CreateCountryService(CountryRepository countryRepository) {
+    this.countryRepository = countryRepository;
+  }
 
-    @Override
-    public CountryId create(Country country) {
-        return countryRepository.create(country);
-    }
+  @Override
+  public CountryId create(Country country) {
+    return countryRepository.create(country);
+  }
 }
-

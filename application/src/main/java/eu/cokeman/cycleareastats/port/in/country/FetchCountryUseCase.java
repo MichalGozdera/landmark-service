@@ -5,7 +5,7 @@ import eu.cokeman.cycleareastats.valueObject.CountryId;
 import java.util.List;
 
 public interface FetchCountryUseCase {
-    Country findById(CountryId id);
-    List<Country> findAll();
-}
+  Country findById(CountryId id);
 
+  List<Country> findAll();
+}

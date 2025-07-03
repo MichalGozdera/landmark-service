@@ -1,24 +1,14 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import jakarta.validation.constraints.*;
+import java.util.*;
+import java.util.Objects;
 
-/**
- * AdministrativeLevelBasicDto
- */
-
+/** AdministrativeLevelBasicDto */
 @JsonTypeName("AdministrativeLevelBasic")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdministrativeLevelBasicDto {
@@ -34,9 +24,10 @@ public class AdministrativeLevelBasicDto {
 
   /**
    * Get name
+   *
    * @return name
-  */
-  @NotNull 
+   */
+  @NotNull
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -54,9 +45,10 @@ public class AdministrativeLevelBasicDto {
 
   /**
    * Get country
+   *
    * @return country
-  */
-  @NotNull 
+   */
+  @NotNull
   @Schema(name = "country", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("country")
   public String getCountry() {
@@ -76,8 +68,8 @@ public class AdministrativeLevelBasicDto {
       return false;
     }
     AdministrativeLevelBasicDto administrativeLevelBasic = (AdministrativeLevelBasicDto) o;
-    return Objects.equals(this.name, administrativeLevelBasic.name) &&
-        Objects.equals(this.country, administrativeLevelBasic.country);
+    return Objects.equals(this.name, administrativeLevelBasic.name)
+        && Objects.equals(this.country, administrativeLevelBasic.country);
   }
 
   @Override
@@ -96,8 +88,7 @@ public class AdministrativeLevelBasicDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -106,4 +97,3 @@ public class AdministrativeLevelBasicDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

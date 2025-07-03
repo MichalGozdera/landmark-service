@@ -3,60 +3,60 @@ package eu.cokeman.cycleareastats.out.persistence.jpa.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnTransformer;
 
-
 @MappedSuperclass
 public abstract class AdministrativeAreaBaseEntity extends BaseJpaEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @ColumnTransformer(write = "?::jsonb")
-    private String metadata;
-    private Integer parent;
+  private String name;
 
-    @JoinColumn(name = "level_id")
-    @OneToOne
-    private AdministrativeLevelEntity level;
+  @ColumnTransformer(write = "?::jsonb")
+  private String metadata;
 
-    public Integer getId() {
-        return id;
-    }
+  private Integer parent;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  @JoinColumn(name = "level_id")
+  @OneToOne
+  private AdministrativeLevelEntity level;
 
-    public String getName() {
-        return name;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getMetadata() {
-        return metadata;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setMetadata(String metadata) {
-        this.metadata = metadata;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Integer getParent() {
-        return parent;
-    }
+  public String getMetadata() {
+    return metadata;
+  }
 
-    public void setParent(Integer parent) {
-        this.parent = parent;
-    }
+  public void setMetadata(String metadata) {
+    this.metadata = metadata;
+  }
 
-    public AdministrativeLevelEntity getLevel() {
-        return level;
-    }
+  public Integer getParent() {
+    return parent;
+  }
 
-    public void setLevel(AdministrativeLevelEntity level) {
-        this.level = level;
-    }
+  public void setParent(Integer parent) {
+    this.parent = parent;
+  }
+
+  public AdministrativeLevelEntity getLevel() {
+    return level;
+  }
+
+  public void setLevel(AdministrativeLevelEntity level) {
+    this.level = level;
+  }
 }
-

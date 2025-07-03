@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FileConverter extends AbstractJackson2HttpMessageConverter {
-    protected FileConverter(ObjectMapper objectMapper) {
-        super(objectMapper, MediaType.APPLICATION_OCTET_STREAM);
-    }
+  protected FileConverter(ObjectMapper objectMapper) {
+    super(objectMapper, MediaType.APPLICATION_OCTET_STREAM);
+  }
 }

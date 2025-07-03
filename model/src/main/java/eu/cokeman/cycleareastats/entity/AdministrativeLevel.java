@@ -3,91 +3,95 @@ package eu.cokeman.cycleareastats.entity;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 import eu.cokeman.cycleareastats.valueObject.LevelName;
 import eu.cokeman.cycleareastats.valueObject.LevelOrder;
-
 import java.time.Instant;
 import java.util.Objects;
 
-public class AdministrativeLevel extends BaseEntity<AdministrativeLevelId>{
+public class AdministrativeLevel extends BaseEntity<AdministrativeLevelId> {
+  private Country country;
+  private LevelOrder order;
+  private LevelName name;
+
+  private AdministrativeLevel(Builder builder) {
+    super.setId(builder.id);
+    super.setCreateTime(builder.createTime);
+    super.setUpdateTime(builder.updateTime);
+    country = builder.country;
+    order = builder.order;
+    name = builder.name;
+  }
+
+  public Builder toBuilder() {
+    return Builder.builder()
+        .id(this.getId())
+        .createTime(this.getCreateTime())
+        .updateTime(this.getUpdateTime())
+        .country(this.country)
+        .order(this.order)
+        .name(this.name);
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+    private AdministrativeLevelId id;
     private Country country;
     private LevelOrder order;
     private LevelName name;
+    private Instant createTime;
+    private Instant updateTime;
 
-    private AdministrativeLevel(Builder builder) {
-        super.setId(builder.id);
-        super.setCreateTime(builder.createTime);
-        super.setUpdateTime(builder.updateTime);
-        country = builder.country;
-        order = builder.order;
-        name = builder.name;
+    public Builder() {}
+
+    private static Builder builder() {
+      return new Builder();
     }
 
-    public Builder toBuilder() {
-        return Builder.builder()
-                .id(this.getId())
-                .createTime(this.getCreateTime())
-                .updateTime(this.getUpdateTime())
-                .country(this.country)
-                .order(this.order)
-                .name(this.name);
+    public Builder id(AdministrativeLevelId val) {
+      id = val;
+      return this;
     }
 
-    public static final class Builder {
-        private AdministrativeLevelId id;
-        private Country country;
-        private LevelOrder order;
-        private LevelName name;
-        private Instant createTime;
-        private Instant updateTime;
-
-        public Builder() {
-        }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public Builder id(AdministrativeLevelId val) {
-            id = val;
-            return this;
-        }
-
-        public Builder country(Country val) {
-            this.country = Objects.requireNonNull(val, "Country name cannot be null"); return this;
-        }
-
-        public Builder order(LevelOrder val) {
-            order = val;
-            return this;
-        }
-
-        public Builder name(LevelName val) {
-            this.name = Objects.requireNonNull(val, "Level name cannot be null"); return this;
-        }
-        public Builder createTime(Instant val) {
-            createTime = val;
-            return this;
-        }
-
-        public Builder updateTime(Instant val) {
-            updateTime = val;
-            return this;
-        }
-
-        public AdministrativeLevel build() {
-            return new AdministrativeLevel(this);
-        }
+    public Builder country(Country val) {
+      this.country = Objects.requireNonNull(val, "Country name cannot be null");
+      return this;
     }
 
-    public Country getCountry() {
-        return country;
+    public Builder order(LevelOrder val) {
+      order = val;
+      return this;
     }
 
-    public LevelOrder getOrder() {
-        return order;
+    public Builder name(LevelName val) {
+      this.name = Objects.requireNonNull(val, "Level name cannot be null");
+      return this;
     }
 
-    public LevelName getName() {
-        return name;
+    public Builder createTime(Instant val) {
+      createTime = val;
+      return this;
     }
+
+    public Builder updateTime(Instant val) {
+      updateTime = val;
+      return this;
+    }
+
+    public AdministrativeLevel build() {
+      return new AdministrativeLevel(this);
+    }
+  }
+
+  public Country getCountry() {
+    return country;
+  }
+
+  public LevelOrder getOrder() {
+    return order;
+  }
+
+  public LevelName getName() {
+    return name;
+  }
 }
-

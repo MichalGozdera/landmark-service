@@ -1,28 +1,17 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelDto;
-import java.time.OffsetDateTime;
-import java.time.Instant;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
+import java.time.Instant;
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * AdministrativeAreaResponseDto
- */
-
+/** AdministrativeAreaResponseDto */
 @JsonTypeName("AdministrativeAreaResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdministrativeAreaResponseDto {
@@ -52,9 +41,9 @@ public class AdministrativeAreaResponseDto {
 
   /**
    * Get id
+   *
    * @return id
-  */
-  
+   */
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Integer getId() {
@@ -72,9 +61,10 @@ public class AdministrativeAreaResponseDto {
 
   /**
    * Get name
+   *
    * @return name
-  */
-  @NotNull 
+   */
+  @NotNull
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -92,9 +82,10 @@ public class AdministrativeAreaResponseDto {
 
   /**
    * Get createTime
+   *
    * @return createTime
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "createTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("createTime")
   public Instant getCreateTime() {
@@ -112,9 +103,10 @@ public class AdministrativeAreaResponseDto {
 
   /**
    * Get updateTime
+   *
    * @return updateTime
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "updateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("updateTime")
   public Instant getUpdateTime() {
@@ -132,9 +124,10 @@ public class AdministrativeAreaResponseDto {
 
   /**
    * Get level
+   *
    * @return level
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "level", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("level")
   public AdministrativeLevelDto getLevel() {
@@ -152,9 +145,9 @@ public class AdministrativeAreaResponseDto {
 
   /**
    * Get parent
+   *
    * @return parent
-  */
-  
+   */
   @Schema(name = "parent", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parent")
   public Integer getParent() {
@@ -172,9 +165,9 @@ public class AdministrativeAreaResponseDto {
 
   /**
    * Get geometry
+   *
    * @return geometry
-  */
-  
+   */
   @Schema(name = "geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("geometry")
   public String getGeometry() {
@@ -192,9 +185,10 @@ public class AdministrativeAreaResponseDto {
 
   /**
    * Get metadata
+   *
    * @return metadata
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "metadata", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("metadata")
   public com.fasterxml.jackson.databind.JsonNode getMetadata() {
@@ -214,14 +208,14 @@ public class AdministrativeAreaResponseDto {
       return false;
     }
     AdministrativeAreaResponseDto administrativeAreaResponse = (AdministrativeAreaResponseDto) o;
-    return Objects.equals(this.id, administrativeAreaResponse.id) &&
-        Objects.equals(this.name, administrativeAreaResponse.name) &&
-        Objects.equals(this.createTime, administrativeAreaResponse.createTime) &&
-        Objects.equals(this.updateTime, administrativeAreaResponse.updateTime) &&
-        Objects.equals(this.level, administrativeAreaResponse.level) &&
-        Objects.equals(this.parent, administrativeAreaResponse.parent) &&
-        Objects.equals(this.geometry, administrativeAreaResponse.geometry) &&
-        Objects.equals(this.metadata, administrativeAreaResponse.metadata);
+    return Objects.equals(this.id, administrativeAreaResponse.id)
+        && Objects.equals(this.name, administrativeAreaResponse.name)
+        && Objects.equals(this.createTime, administrativeAreaResponse.createTime)
+        && Objects.equals(this.updateTime, administrativeAreaResponse.updateTime)
+        && Objects.equals(this.level, administrativeAreaResponse.level)
+        && Objects.equals(this.parent, administrativeAreaResponse.parent)
+        && Objects.equals(this.geometry, administrativeAreaResponse.geometry)
+        && Objects.equals(this.metadata, administrativeAreaResponse.metadata);
   }
 
   @Override
@@ -246,8 +240,7 @@ public class AdministrativeAreaResponseDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -256,4 +249,3 @@ public class AdministrativeAreaResponseDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

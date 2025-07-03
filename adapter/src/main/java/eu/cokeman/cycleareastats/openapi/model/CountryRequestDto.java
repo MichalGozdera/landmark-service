@@ -1,24 +1,14 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import jakarta.validation.constraints.*;
+import java.util.*;
+import java.util.Objects;
 
-/**
- * CountryRequestDto
- */
-
+/** CountryRequestDto */
 @JsonTypeName("CountryRequest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CountryRequestDto {
@@ -32,9 +22,10 @@ public class CountryRequestDto {
 
   /**
    * Get name
+   *
    * @return name
-  */
-  @NotNull 
+   */
+  @NotNull
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -72,8 +63,7 @@ public class CountryRequestDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -82,4 +72,3 @@ public class CountryRequestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

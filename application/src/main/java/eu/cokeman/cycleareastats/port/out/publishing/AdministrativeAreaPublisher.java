@@ -4,5 +4,5 @@ import eu.cokeman.cycleareastats.events.AdministrativeAreaEvent;
 
 public interface AdministrativeAreaPublisher {
 
-    void publish(AdministrativeAreaEvent event);
+  void publish(AdministrativeAreaEvent event);
 }

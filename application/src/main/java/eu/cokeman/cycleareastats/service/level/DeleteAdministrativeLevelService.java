@@ -5,14 +5,14 @@ import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelReposit
 import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 
 public class DeleteAdministrativeLevelService implements DeleteAdministrativeLevelUseCase {
-    private final AdministrativeLevelRepository levelRepository;
+  private final AdministrativeLevelRepository levelRepository;
 
-    public DeleteAdministrativeLevelService(AdministrativeLevelRepository levelRepository) {
-        this.levelRepository = levelRepository;
-    }
+  public DeleteAdministrativeLevelService(AdministrativeLevelRepository levelRepository) {
+    this.levelRepository = levelRepository;
+  }
 
-    @Override
-    public void deleteAdministrativeLevel(AdministrativeLevelId levelId) {
-        levelRepository.deleteLevel(levelId);
-    }
+  @Override
+  public void deleteAdministrativeLevel(AdministrativeLevelId levelId) {
+    levelRepository.deleteLevel(levelId);
+  }
 }

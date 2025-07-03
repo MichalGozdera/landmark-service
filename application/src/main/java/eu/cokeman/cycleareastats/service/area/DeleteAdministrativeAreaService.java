@@ -4,14 +4,15 @@ import eu.cokeman.cycleareastats.port.in.administrativearea.DeleteAdministrative
 import eu.cokeman.cycleareastats.valueObject.AdministrativeAreaId;
 
 public class DeleteAdministrativeAreaService implements DeleteAdministrativeAreaUseCase {
-    private final AdministrativeAreaDomainService administrativeAreaDomainService;
+  private final AdministrativeAreaDomainService administrativeAreaDomainService;
 
-    public DeleteAdministrativeAreaService(AdministrativeAreaDomainService administrativeAreaDomainService) {
-        this.administrativeAreaDomainService = administrativeAreaDomainService;
-    }
+  public DeleteAdministrativeAreaService(
+      AdministrativeAreaDomainService administrativeAreaDomainService) {
+    this.administrativeAreaDomainService = administrativeAreaDomainService;
+  }
 
-    @Override
-    public void deleteAdministrativeArea(AdministrativeAreaId administrativeAreaId) {
-        administrativeAreaDomainService.deleteAdministrativeArea(administrativeAreaId);
-    }
+  @Override
+  public void deleteAdministrativeArea(AdministrativeAreaId administrativeAreaId) {
+    administrativeAreaDomainService.deleteAdministrativeArea(administrativeAreaId);
+  }
 }

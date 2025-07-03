@@ -1,27 +1,17 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.time.OffsetDateTime;
-import java.time.Instant;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
+import java.time.Instant;
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * AdministrativeLevelDto
- */
-
+/** AdministrativeLevelDto */
 @JsonTypeName("AdministrativeLevel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdministrativeLevelDto {
@@ -47,9 +37,9 @@ public class AdministrativeLevelDto {
 
   /**
    * Get id
+   *
    * @return id
-  */
-  
+   */
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Integer getId() {
@@ -67,9 +57,10 @@ public class AdministrativeLevelDto {
 
   /**
    * Get name
+   *
    * @return name
-  */
-  @NotNull 
+   */
+  @NotNull
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -87,9 +78,10 @@ public class AdministrativeLevelDto {
 
   /**
    * Get createTime
+   *
    * @return createTime
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "createTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("createTime")
   public Instant getCreateTime() {
@@ -107,9 +99,10 @@ public class AdministrativeLevelDto {
 
   /**
    * Get updateTime
+   *
    * @return updateTime
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "updateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("updateTime")
   public Instant getUpdateTime() {
@@ -127,9 +120,10 @@ public class AdministrativeLevelDto {
 
   /**
    * Get country
+   *
    * @return country
-  */
-  @NotNull 
+   */
+  @NotNull
   @Schema(name = "country", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("country")
   public String getCountry() {
@@ -147,9 +141,10 @@ public class AdministrativeLevelDto {
 
   /**
    * Get order
+   *
    * @return order
-  */
-  @NotNull 
+   */
+  @NotNull
   @Schema(name = "order", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("order")
   public Integer getOrder() {
@@ -169,12 +164,12 @@ public class AdministrativeLevelDto {
       return false;
     }
     AdministrativeLevelDto administrativeLevel = (AdministrativeLevelDto) o;
-    return Objects.equals(this.id, administrativeLevel.id) &&
-        Objects.equals(this.name, administrativeLevel.name) &&
-        Objects.equals(this.createTime, administrativeLevel.createTime) &&
-        Objects.equals(this.updateTime, administrativeLevel.updateTime) &&
-        Objects.equals(this.country, administrativeLevel.country) &&
-        Objects.equals(this.order, administrativeLevel.order);
+    return Objects.equals(this.id, administrativeLevel.id)
+        && Objects.equals(this.name, administrativeLevel.name)
+        && Objects.equals(this.createTime, administrativeLevel.createTime)
+        && Objects.equals(this.updateTime, administrativeLevel.updateTime)
+        && Objects.equals(this.country, administrativeLevel.country)
+        && Objects.equals(this.order, administrativeLevel.order);
   }
 
   @Override
@@ -197,8 +192,7 @@ public class AdministrativeLevelDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -207,4 +201,3 @@ public class AdministrativeLevelDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -4,5 +4,5 @@ import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 
 public interface DeleteAdministrativeLevelUseCase {
 
-    void deleteAdministrativeLevel(AdministrativeLevelId levelId);
+  void deleteAdministrativeLevel(AdministrativeLevelId levelId);
 }

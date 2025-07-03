@@ -1,6 +1,5 @@
 package eu.cokeman.cycleareastats;
 
-
 import org.springframework.boot.SpringApplication;
 
 public class Launcher {

@@ -11,7 +11,6 @@ import eu.cokeman.cycleareastats.port.in.country.CreateCountryUseCase;
 import eu.cokeman.cycleareastats.port.in.country.DeleteCountryUseCase;
 import eu.cokeman.cycleareastats.port.in.country.FetchCountryUseCase;
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeAreaRepository;
-
 import eu.cokeman.cycleareastats.port.out.persistence.AdministrativeLevelRepository;
 import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
 import eu.cokeman.cycleareastats.port.out.publishing.AdministrativeAreaPublisher;
@@ -35,112 +34,111 @@ import org.springframework.context.annotation.Bean;
  * @author Sven Woltmann
  */
 @SpringBootApplication
-
 public class SpringAppConfig {
 
+  @Autowired AdministrativeAreaRepository administrativeAreaRepository;
 
-    @Autowired
-    AdministrativeAreaRepository administrativeAreaRepository;
+  @Autowired AdministrativeLevelRepository administrativeLevelRepository;
 
-    @Autowired
-    AdministrativeLevelRepository administrativeLevelRepository;
+  @Autowired CountryRepository countryRepository;
 
-    @Autowired
-    CountryRepository countryRepository;
+  @Autowired AdministrativeAreaPublisher publisher;
 
-    @Autowired
-    AdministrativeAreaPublisher publisher;
+  @Bean
+  AreaApplicationService areaApplicationService() {
+    return new AreaApplicationService(
+        fetchAreaUseCase(),
+        updateAdministrativeAreaUseCase(),
+        deleteAdministrativeLevelUseCase(),
+        filterAreaUseCase(),
+        createAreaUseCase());
+  }
 
-    @Bean
-    AreaApplicationService areaApplicationService() {
-        return new AreaApplicationService(fetchAreaUseCase(), updateAdministrativeAreaUseCase(), deleteAdministrativeLevelUseCase(), filterAreaUseCase(), createAreaUseCase());
-    }
+  @Bean
+  FetchAdministrativeAreaUseCase fetchAreaUseCase() {
+    return new FetchAdministrativeAreaService(administrativeAreaRepository);
+  }
 
-    @Bean
-    FetchAdministrativeAreaUseCase fetchAreaUseCase() {
-        return new FetchAdministrativeAreaService(administrativeAreaRepository);
-    }
+  @Bean
+  UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase() {
+    return new UpdateAdministrativeAreaService(administrativeAreaDomainService());
+  }
 
-    @Bean
-    UpdateAdministrativeAreaUseCase updateAdministrativeAreaUseCase() {
-        return new UpdateAdministrativeAreaService(administrativeAreaDomainService());
-    }
+  @Bean
+  DeleteAdministrativeAreaUseCase deleteAdministrativeLevelUseCase() {
+    return new DeleteAdministrativeAreaService(administrativeAreaDomainService());
+  }
 
-    @Bean
-    DeleteAdministrativeAreaUseCase deleteAdministrativeLevelUseCase() {
-        return new DeleteAdministrativeAreaService(administrativeAreaDomainService());
-    }
+  @Bean
+  AdministrativeAreaConverter convertAreaGeometryUseCase() {
+    return new KmlConverter();
+  }
 
-    @Bean
-    AdministrativeAreaConverter convertAreaGeometryUseCase() {
-        return new KmlConverter();
-    }
+  @Bean
+  PolylineEncoder polylineEncoder() {
+    return new PolylineEncoderImpl();
+  }
 
-    @Bean
-    PolylineEncoder polylineEncoder() {
-        return new PolylineEncoderImpl();
-    }
+  @Bean
+  AdministrativeAreaDomainService administrativeAreaDomainService() {
+    return new AdministrativeAreaDomainService(
+        administrativeAreaRepository, administrativeLevelRepository, publisher, polylineEncoder());
+  }
 
+  @Bean
+  ImportAdministrativeAreaUseCase importAreaUseCase() {
+    return new ImportAdministrativeAreaService(
+        convertAreaGeometryUseCase(), administrativeAreaDomainService());
+  }
 
-    @Bean
-    AdministrativeAreaDomainService administrativeAreaDomainService() {
-        return new AdministrativeAreaDomainService(administrativeAreaRepository, administrativeLevelRepository, publisher, polylineEncoder());
-    }
+  @Bean
+  CreateAdministrativeAreaUseCase createAreaUseCase() {
+    return new CreateAdministrativeAreaService(administrativeAreaDomainService());
+  }
 
-    @Bean
-    ImportAdministrativeAreaUseCase importAreaUseCase() {
-        return new ImportAdministrativeAreaService(convertAreaGeometryUseCase(), administrativeAreaDomainService());
-    }
+  @Bean
+  ExportAdministrativeAreaUseCase exportAreaUseCase() {
+    return new ExportAdministrativeAreaService(
+        administrativeAreaRepository, convertAreaGeometryUseCase());
+  }
 
-    @Bean
-    CreateAdministrativeAreaUseCase createAreaUseCase() {
-        return new CreateAdministrativeAreaService(administrativeAreaDomainService());
-    }
+  @Bean
+  FilterAdministrativeAreaUseCase filterAreaUseCase() {
+    return new FilterAdministrativeAreaService(administrativeAreaRepository);
+  }
 
-    @Bean
-    ExportAdministrativeAreaUseCase exportAreaUseCase() {
-        return new ExportAdministrativeAreaService(administrativeAreaRepository, convertAreaGeometryUseCase());
-    }
+  @Bean
+  CreateAdministrativeLevelUseCase createAdministrativeLevelUseCase() {
+    return new CreateAdministrativeLevelService(administrativeLevelRepository, countryRepository);
+  }
 
-    @Bean
-    FilterAdministrativeAreaUseCase filterAreaUseCase() {
-        return new FilterAdministrativeAreaService(administrativeAreaRepository);
-    }
+  @Bean
+  FetchAdministrativeLevelUseCase fetchLevelUseCase() {
+    return new FetchAdministrativeLevelService(administrativeLevelRepository);
+  }
 
-    @Bean
-    CreateAdministrativeLevelUseCase createAdministrativeLevelUseCase() {
-        return new CreateAdministrativeLevelService(administrativeLevelRepository, countryRepository);
-    }
+  @Bean
+  UpdateAdministrativeLevelUseCase updateLevelUseCase() {
+    return new UpdateAdministrativeLevelService(administrativeLevelRepository, countryRepository);
+  }
 
-    @Bean
-    FetchAdministrativeLevelUseCase fetchLevelUseCase() {
-        return new FetchAdministrativeLevelService(administrativeLevelRepository);
-    }
+  @Bean
+  DeleteAdministrativeLevelUseCase deleteLevelUseCase() {
+    return new DeleteAdministrativeLevelService(administrativeLevelRepository);
+  }
 
-    @Bean
-    UpdateAdministrativeLevelUseCase updateLevelUseCase() {
-        return new UpdateAdministrativeLevelService(administrativeLevelRepository, countryRepository);
-    }
+  @Bean
+  CreateCountryUseCase createCountryUseCase() {
+    return new CreateCountryService(countryRepository);
+  }
 
-    @Bean
-    DeleteAdministrativeLevelUseCase deleteLevelUseCase() {
-        return new DeleteAdministrativeLevelService(administrativeLevelRepository);
-    }
+  @Bean
+  FetchCountryUseCase fetchCountryUseCase() {
+    return new FetchCountryService(countryRepository);
+  }
 
-
-    @Bean
-    CreateCountryUseCase createCountryUseCase() {
-        return new CreateCountryService(countryRepository);
-    }
-
-    @Bean
-    FetchCountryUseCase fetchCountryUseCase() {
-        return new FetchCountryService(countryRepository);
-    }
-
-    @Bean
-    DeleteCountryUseCase deleteCountryUseCase() {
-        return new DeleteCountryService(countryRepository);
-    }
-
+  @Bean
+  DeleteCountryUseCase deleteCountryUseCase() {
+    return new DeleteCountryService(countryRepository);
+  }
 }

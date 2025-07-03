@@ -1,28 +1,17 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelDto;
-import java.time.OffsetDateTime;
-import java.time.Instant;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
+import java.time.Instant;
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * AdministrativeAreaEventAreaDto
- */
-
+/** AdministrativeAreaEventAreaDto */
 @JsonTypeName("AdministrativeAreaEventArea")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdministrativeAreaEventAreaDto {
@@ -50,9 +39,9 @@ public class AdministrativeAreaEventAreaDto {
 
   /**
    * Get id
+   *
    * @return id
-  */
-  
+   */
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Integer getId() {
@@ -70,9 +59,9 @@ public class AdministrativeAreaEventAreaDto {
 
   /**
    * Get name
+   *
    * @return name
-  */
-  
+   */
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -90,9 +79,10 @@ public class AdministrativeAreaEventAreaDto {
 
   /**
    * Get level
+   *
    * @return level
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "level", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("level")
   public AdministrativeLevelDto getLevel() {
@@ -110,9 +100,10 @@ public class AdministrativeAreaEventAreaDto {
 
   /**
    * Get metadata
+   *
    * @return metadata
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "metadata", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("metadata")
   public com.fasterxml.jackson.databind.JsonNode getMetadata() {
@@ -130,9 +121,9 @@ public class AdministrativeAreaEventAreaDto {
 
   /**
    * Get parent
+   *
    * @return parent
-  */
-  
+   */
   @Schema(name = "parent", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parent")
   public Integer getParent() {
@@ -150,9 +141,10 @@ public class AdministrativeAreaEventAreaDto {
 
   /**
    * Get createTime
+   *
    * @return createTime
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "createTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("createTime")
   public Instant getCreateTime() {
@@ -170,9 +162,10 @@ public class AdministrativeAreaEventAreaDto {
 
   /**
    * Get updateTime
+   *
    * @return updateTime
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "updateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("updateTime")
   public Instant getUpdateTime() {
@@ -192,13 +185,13 @@ public class AdministrativeAreaEventAreaDto {
       return false;
     }
     AdministrativeAreaEventAreaDto administrativeAreaEventArea = (AdministrativeAreaEventAreaDto) o;
-    return Objects.equals(this.id, administrativeAreaEventArea.id) &&
-        Objects.equals(this.name, administrativeAreaEventArea.name) &&
-        Objects.equals(this.level, administrativeAreaEventArea.level) &&
-        Objects.equals(this.metadata, administrativeAreaEventArea.metadata) &&
-        Objects.equals(this.parent, administrativeAreaEventArea.parent) &&
-        Objects.equals(this.createTime, administrativeAreaEventArea.createTime) &&
-        Objects.equals(this.updateTime, administrativeAreaEventArea.updateTime);
+    return Objects.equals(this.id, administrativeAreaEventArea.id)
+        && Objects.equals(this.name, administrativeAreaEventArea.name)
+        && Objects.equals(this.level, administrativeAreaEventArea.level)
+        && Objects.equals(this.metadata, administrativeAreaEventArea.metadata)
+        && Objects.equals(this.parent, administrativeAreaEventArea.parent)
+        && Objects.equals(this.createTime, administrativeAreaEventArea.createTime)
+        && Objects.equals(this.updateTime, administrativeAreaEventArea.updateTime);
   }
 
   @Override
@@ -222,8 +215,7 @@ public class AdministrativeAreaEventAreaDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -232,4 +224,3 @@ public class AdministrativeAreaEventAreaDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -1,58 +1,53 @@
 package eu.cokeman.cycleareastats.out.persistence.jpa.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnTransformer;
-import org.hibernate.annotations.Generated;
-import org.locationtech.jts.geom.Geometry;
-
-import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "administrative_level", schema = "landmarks")
 public class AdministrativeLevelEntity extends BaseJpaEntity {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "country", referencedColumnName = "id")
-    private CountryEntity country;
-    @Column(name = "level_order")
-    private Integer order;
+  private String name;
 
-    public Integer getId() {
-        return id;
-    }
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "country", referencedColumnName = "id")
+  private CountryEntity country;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  @Column(name = "level_order")
+  private Integer order;
 
-    public String getName() {
-        return name;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public CountryEntity getCountry() {
-        return country;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setCountry(CountryEntity country) {
-        this.country = country;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Integer getOrder() {
-        return order;
-    }
+  public CountryEntity getCountry() {
+    return country;
+  }
 
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
+  public void setCountry(CountryEntity country) {
+    this.country = country;
+  }
+
+  public Integer getOrder() {
+    return order;
+  }
+
+  public void setOrder(Integer order) {
+    this.order = order;
+  }
 }
-

@@ -1,27 +1,17 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.time.OffsetDateTime;
-import java.time.Instant;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
+import java.time.Instant;
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * CountryDto
- */
-
+/** CountryDto */
 @JsonTypeName("Country")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CountryDto {
@@ -43,9 +33,9 @@ public class CountryDto {
 
   /**
    * Get id
+   *
    * @return id
-  */
-  
+   */
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Integer getId() {
@@ -63,9 +53,9 @@ public class CountryDto {
 
   /**
    * Get name
+   *
    * @return name
-  */
-  
+   */
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -83,9 +73,10 @@ public class CountryDto {
 
   /**
    * Get createTime
+   *
    * @return createTime
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "createTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("createTime")
   public Instant getCreateTime() {
@@ -103,9 +94,10 @@ public class CountryDto {
 
   /**
    * Get updateTime
+   *
    * @return updateTime
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "updateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("updateTime")
   public Instant getUpdateTime() {
@@ -125,10 +117,10 @@ public class CountryDto {
       return false;
     }
     CountryDto country = (CountryDto) o;
-    return Objects.equals(this.id, country.id) &&
-        Objects.equals(this.name, country.name) &&
-        Objects.equals(this.createTime, country.createTime) &&
-        Objects.equals(this.updateTime, country.updateTime);
+    return Objects.equals(this.id, country.id)
+        && Objects.equals(this.name, country.name)
+        && Objects.equals(this.createTime, country.createTime)
+        && Objects.equals(this.updateTime, country.updateTime);
   }
 
   @Override
@@ -149,8 +141,7 @@ public class CountryDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -159,4 +150,3 @@ public class CountryDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -7,18 +7,19 @@ import eu.cokeman.cycleareastats.port.out.persistence.CountryRepository;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 
 public class UpdateAdministrativeLevelService implements UpdateAdministrativeLevelUseCase {
-    private final AdministrativeLevelRepository levelRepository;
-    private final LevelCountryBinder countryBinder;
+  private final AdministrativeLevelRepository levelRepository;
+  private final LevelCountryBinder countryBinder;
 
+  public UpdateAdministrativeLevelService(
+      AdministrativeLevelRepository levelRepository, CountryRepository countryRepository) {
+    this.levelRepository = levelRepository;
+    this.countryBinder = new LevelCountryBinder(countryRepository);
+  }
 
-    public UpdateAdministrativeLevelService(AdministrativeLevelRepository levelRepository, CountryRepository countryRepository) {
-        this.levelRepository = levelRepository;
-        this.countryBinder = new LevelCountryBinder(countryRepository);
-    }
-
-    @Override
-    public AdministrativeLevel updateAdministrativeLevel(AdministrativeLevelId levelId, AdministrativeLevel level) {
-        level = this.countryBinder.bindCountryId(level);
-        return levelRepository.updateLevel(levelId, level);
-    }
+  @Override
+  public AdministrativeLevel updateAdministrativeLevel(
+      AdministrativeLevelId levelId, AdministrativeLevel level) {
+    level = this.countryBinder.bindCountryId(level);
+    return levelRepository.updateLevel(levelId, level);
+  }
 }

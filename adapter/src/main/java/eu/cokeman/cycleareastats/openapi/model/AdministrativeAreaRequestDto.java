@@ -1,25 +1,15 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelBasicDto;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Objects;
 
-/**
- * AdministrativeAreaRequestDto
- */
-
+/** AdministrativeAreaRequestDto */
 @JsonTypeName("AdministrativeAreaRequest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdministrativeAreaRequestDto {
@@ -41,9 +31,10 @@ public class AdministrativeAreaRequestDto {
 
   /**
    * Get name
+   *
    * @return name
-  */
-  @NotNull 
+   */
+  @NotNull
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -61,9 +52,11 @@ public class AdministrativeAreaRequestDto {
 
   /**
    * Get level
+   *
    * @return level
-  */
-  @NotNull @Valid 
+   */
+  @NotNull
+  @Valid
   @Schema(name = "level", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("level")
   public AdministrativeLevelBasicDto getLevel() {
@@ -81,9 +74,9 @@ public class AdministrativeAreaRequestDto {
 
   /**
    * Get geometry
+   *
    * @return geometry
-  */
-  
+   */
   @Schema(name = "geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("geometry")
   public String getGeometry() {
@@ -101,9 +94,10 @@ public class AdministrativeAreaRequestDto {
 
   /**
    * Get metadata
+   *
    * @return metadata
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "metadata", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("metadata")
   public com.fasterxml.jackson.databind.JsonNode getMetadata() {
@@ -121,9 +115,9 @@ public class AdministrativeAreaRequestDto {
 
   /**
    * Get parent
+   *
    * @return parent
-  */
-  
+   */
   @Schema(name = "parent", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parent")
   public Integer getParent() {
@@ -143,11 +137,11 @@ public class AdministrativeAreaRequestDto {
       return false;
     }
     AdministrativeAreaRequestDto administrativeAreaRequest = (AdministrativeAreaRequestDto) o;
-    return Objects.equals(this.name, administrativeAreaRequest.name) &&
-        Objects.equals(this.level, administrativeAreaRequest.level) &&
-        Objects.equals(this.geometry, administrativeAreaRequest.geometry) &&
-        Objects.equals(this.metadata, administrativeAreaRequest.metadata) &&
-        Objects.equals(this.parent, administrativeAreaRequest.parent);
+    return Objects.equals(this.name, administrativeAreaRequest.name)
+        && Objects.equals(this.level, administrativeAreaRequest.level)
+        && Objects.equals(this.geometry, administrativeAreaRequest.geometry)
+        && Objects.equals(this.metadata, administrativeAreaRequest.metadata)
+        && Objects.equals(this.parent, administrativeAreaRequest.parent);
   }
 
   @Override
@@ -169,8 +163,7 @@ public class AdministrativeAreaRequestDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -179,4 +172,3 @@ public class AdministrativeAreaRequestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

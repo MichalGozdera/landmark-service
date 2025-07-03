@@ -4,6 +4,5 @@ import eu.cokeman.cycleareastats.entity.Country;
 import eu.cokeman.cycleareastats.valueObject.CountryId;
 
 public interface CreateCountryUseCase {
-    CountryId create(Country country);
+  CountryId create(Country country);
 }
-

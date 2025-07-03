@@ -1,25 +1,15 @@
 package eu.cokeman.cycleareastats.openapi.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import eu.cokeman.cycleareastats.openapi.model.AdministrativeLevelBasicDto;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Objects;
 
-/**
- * AdministrativeAreasImportRequestDto
- */
-
+/** AdministrativeAreasImportRequestDto */
 @JsonTypeName("AdministrativeAreasImportRequest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdministrativeAreasImportRequestDto {
@@ -35,9 +25,11 @@ public class AdministrativeAreasImportRequestDto {
 
   /**
    * Get level
+   *
    * @return level
-  */
-  @NotNull @Valid 
+   */
+  @NotNull
+  @Valid
   @Schema(name = "level", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("level")
   public AdministrativeLevelBasicDto getLevel() {
@@ -48,16 +40,18 @@ public class AdministrativeAreasImportRequestDto {
     this.level = level;
   }
 
-  public AdministrativeAreasImportRequestDto metadata(com.fasterxml.jackson.databind.JsonNode metadata) {
+  public AdministrativeAreasImportRequestDto metadata(
+      com.fasterxml.jackson.databind.JsonNode metadata) {
     this.metadata = metadata;
     return this;
   }
 
   /**
    * Get metadata
+   *
    * @return metadata
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "metadata", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("metadata")
   public com.fasterxml.jackson.databind.JsonNode getMetadata() {
@@ -76,9 +70,10 @@ public class AdministrativeAreasImportRequestDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdministrativeAreasImportRequestDto administrativeAreasImportRequest = (AdministrativeAreasImportRequestDto) o;
-    return Objects.equals(this.level, administrativeAreasImportRequest.level) &&
-        Objects.equals(this.metadata, administrativeAreasImportRequest.metadata);
+    AdministrativeAreasImportRequestDto administrativeAreasImportRequest =
+        (AdministrativeAreasImportRequestDto) o;
+    return Objects.equals(this.level, administrativeAreasImportRequest.level)
+        && Objects.equals(this.metadata, administrativeAreasImportRequest.metadata);
   }
 
   @Override
@@ -97,8 +92,7 @@ public class AdministrativeAreasImportRequestDto {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(Object o) {
     if (o == null) {
@@ -107,4 +101,3 @@ public class AdministrativeAreasImportRequestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

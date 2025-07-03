@@ -4,5 +4,6 @@ import eu.cokeman.cycleareastats.entity.AdministrativeLevel;
 import eu.cokeman.cycleareastats.valueObject.AdministrativeLevelId;
 
 public interface UpdateAdministrativeLevelUseCase {
-    AdministrativeLevel updateAdministrativeLevel(AdministrativeLevelId levelId, AdministrativeLevel administrativeLevel);
+  AdministrativeLevel updateAdministrativeLevel(
+      AdministrativeLevelId levelId, AdministrativeLevel administrativeLevel);
 }
