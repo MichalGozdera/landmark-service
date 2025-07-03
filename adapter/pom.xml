@@ -133,7 +133,6 @@
             <artifactId>hibernate-spatial</artifactId>
             <version>${hibernate.spatial.version}</version>
         </dependency>
-        <!-- Testcontainers for PostgreSQL/PostGIS integration tests -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>

@@ -13,10 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 class AdministrativeAreaApiTest {
   @Mock private AreaApplicationService areaApplicationService;
   @InjectMocks private AdministrativeAreaApi administrativeAreaApi;

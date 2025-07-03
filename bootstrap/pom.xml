@@ -12,7 +12,8 @@
     <artifactId>bootstrap</artifactId>
 
     <properties>
-
+        <testcontainers.version>1.19.8</testcontainers.version>
+        <springboot.version>3.5.3</springboot.version>
     </properties>
     <dependencies>
         <dependency>
@@ -20,7 +21,6 @@
             <artifactId>adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
-
     </dependencies>
 
 </project>
